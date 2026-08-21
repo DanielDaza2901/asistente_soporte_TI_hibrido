@@ -2,7 +2,7 @@
 
 Sistema inteligente de soporte técnico diseñado para automatizar la clasificación de consultas, recuperar conocimiento técnico, aplicar reglas de negocio y priorizar incidentes garantizando trazabilidad completa.
 
-## 🏗️ Arquitectura del Sistema
+##  Arquitectura del Sistema
 
 El proyecto combina un enfoque modular y híbrido adaptado a las necesidades de soporte de software de PC corporativo:
 - **Clasificador Taxonómico (Semana 03):** Categoriza automáticamente las incidencias corporativas en 7 áreas clave (PLN, Aprendizaje Predictivo, Optimización de PC, Sistemas Expertos, Automatización, Seguridad/Logs y Diagnóstico) considerando el impacto por departamento (Contabilidad, Recursos Humanos, Ventas, Logística, Gerencia, etc.).
@@ -16,14 +16,14 @@ El proyecto combina un enfoque modular y híbrido adaptado a las necesidades de 
 - **Pandas / NumPy** - Procesamiento y manejo de datos estructurados.
 - **Pydantic** - Validación estricta de esquemas y tickets.
 
-## 📥 Instalación y Configuración
+##  Instalación y Configuración
 
 1. **Clonar el repositorio:**
    ```bash
    git clone [https://github.com/DanielDaza2901/asistente_soporte_ti.git](https://github.com/DanielDaza2901/asistente_soporte_ti.git)
    cd asistente_soporte_ti
 
-## 📁 Estructura del Proyecto
+##  Estructura del Proyecto
 
 ```text
 asistente_soporte_ti/
