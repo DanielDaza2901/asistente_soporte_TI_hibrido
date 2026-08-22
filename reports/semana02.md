@@ -1,36 +1,30 @@
-Documentación de la Práctica - Semana 02: Arquitectura Base, Auditoría y Motor de Reglas
-1. Resumen del Módulo
-Durante la Semana 02, se estableció la arquitectura fundamental del Asistente de Soporte TI Híbrido. El objetivo principal fue construir los cimientos del proyecto orientados a la gestión de incidentes de software de PC en entornos empresariales, incorporando mecanismos estrictos de trazabilidad, logging y reglas de negocio deterministas para la priorización de tickets.
+# Documentación de la Práctica - Semana 02: Arquitectura Base, Auditoría y Motor de Reglas
 
-2. Componentes y Estructura Desarrollada
-Sistema de Auditoría y Trazabilidad (src/audit/logger_audit.py):
+## 👥 Integrantes del Proyecto
+* **Marco Molina Molina**
+* **Daniel Eduardo Daza Cuello**
+* **Institución / Curso:** ETITC - 10º Semestre
 
-Implementa un sistema de registro basado en la librería estándar logging de Python.
+## 🔗 Enlace al Repositorio
+[https://github.com/DanielDaza2901/asistente_soporte_TI_hibrido](https://github.com/DanielDaza2901/asistente_soporte_TI_hibrido)
 
-Configurado para generar y almacenar trazas persistentes en el archivo artifacts/audit.log.
+---
 
-Registra de forma estandarizada el identificador del ticket (TICKET_ID), la acción ejecutada (ACCIÓN) y los detalles del evento con marcas de tiempo precisas (YYYY-MM-DD HH:MM:SS).
+## 1. Resumen del Módulo
+Durante la **Semana 02**, se estableció la arquitectura fundamental del **Asistente de Soporte TI Híbrido**. El objetivo principal fue construir los cimientos del proyecto orientados a la gestión de incidentes de software de PC en entornos empresariales, incorporando mecanismos estrictos de trazabilidad, logging y reglas de negocio deterministas para la priorización de tickets.
 
-Motor de Reglas y Priorización (src/rules/prioritizer.py):
+## 2. Componentes y Estructura Desarrollada
+* **Sistema de Auditoría y Trazabilidad (`src/audit/logger_audit.py`)**: Implementa un sistema de registro basado en la librería estándar `logging` de Python, configurado para generar trazas persistentes en `artifacts/audit.log` con marcas de tiempo precisas.
+* **Motor de Reglas y Priorización (`src/rules/prioritizer.py`)**: Desarrollado bajo un enfoque de sistemas expertos, evalúa el Impacto y la Urgencia para determinar de manera automatizada la Prioridad de atención.
+* **Validación del Modelo (Matriz de Confusión)**: Se integró un módulo de validación con el dataset *Iris* para evaluar la robustez del clasificador. El sistema alcanzó un **Accuracy de 0.921**, permitiendo visualizar mediante la matriz de confusión la precisión del modelo en la clasificación multiclase.
 
-Desarrollado bajo un enfoque de sistemas expertos basados en reglas lógicas.
+## 3. Flujo Principal del Sistema (`src/main.py`)
+El flujo actual orquesta la ejecución del sistema:
+1. **Validación:** Ejecución de la matriz de confusión y métricas de rendimiento.
+2. **Recepción:** Captura inicial de la descripción del problema reportado.
+3. **Taxonomía:** Clasificación del incidente mediante IA (Semana 03).
+4. **Priorización:** Ejecución del motor de reglas para asignar la criticidad del ticket.
+5. **Trazabilidad:** Almacenamiento automático de toda la secuencia en `artifacts/`.
 
-Evalúa variables clave del incidente como el Impacto (Alto, Medio, Bajo) y la Urgencia para determinar de manera automatizada la Prioridad de atención que requiere el soporte técnico.
-
-Flujo Principal del Sistema (src/main.py):
-
-Orquesta la ejecución inicial simulando la recepción de un ticket de soporte corporativo.
-
-Conecta la entrada del problema con el módulo de auditoría para asegurar que cada paso quede documentado en los registros del sistema.
-
-3. Integración y Trazabilidad de Eventos
-El flujo implementado en esta semana garantiza que cualquier interacción o procesamiento dentro del asistente sea transparente y auditable. Los eventos clave registrados en los artefactos de la aplicación incluyen:
-
-Recepción del Ticket: Captura inicial de la descripción del problema reportado por el usuario.
-
-Aplicación de Reglas: Ejecución del motor de priorización para clasificar el nivel de atención.
-
-Persistencia de Logs: Almacenamiento automático en la carpeta artifacts/ para su posterior revisión y auditoría técnica.
-
-4. Conclusión y Resultados
-La arquitectura base construida en la Semana 02 permitió estructurar modularmente el proyecto, facilitando la incorporación posterior de clasificadores inteligentes basados en taxonomías y aprendizaje automático durante la Semana 03.
+## 4. Conclusión y Resultados
+La arquitectura base construida permitió estructurar modularmente el proyecto, garantizando transparencia técnica y trazabilidad auditable. La integración de la validación matemática mediante la matriz de confusión asegura que el sistema sea capaz de clasificar problemas con una alta precisión, cumpliendo con los estándares de ingeniería requeridos.

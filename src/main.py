@@ -1,14 +1,21 @@
 from audit.logger_audit import registrar_traza
 from rules.prioritizer import calcular_prioridad
-from classifiers.semana03_taxonomia import classify_problem
+from classifiers.taxonomia import classify_problem
+from classifiers.evaluacion_modelo import ejecutar_validacion
 
 def procesar_ticket_prueba():
+    print("=== 1. VALIDACIÓN DEL MODELO BASE (MATRIZ DE CONFUSIÓN) ===")
+    # Llamamos a la matriz de confusión solicitada en la guía del profesor
+    ejecutar_validacion()
+    
+    print("\n" + "="*50 + "\n")
+    
     ticket_id = "TICK-2026-001"
     descripcion = "El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual."
     impacto = "Alto"
     urgencia = "Alto"
 
-    print(f"--- Procesando Ticket: {ticket_id} ---")
+    print(f"=== 2. PROCESANDO TICKET DE SOPORTE: {ticket_id} ===")
     
     # 1. Trazabilidad de entrada
     registrar_traza(ticket_id, "RECEPCION", f"Ticket recibido con descripción: '{descripcion}'")
@@ -28,4 +35,3 @@ def procesar_ticket_prueba():
 
 if __name__ == "__main__":
     procesar_ticket_prueba()
-    

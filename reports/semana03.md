@@ -1,5 +1,19 @@
 # Semana 03: Taxonomía de IA en Entorno Empresarial (Soporte TI)
-## Resultado automático frente a clasificación manual de referencia
+
+## 👥 Integrantes del Proyecto
+* **Marco Molina Molina**
+* **Daniel Eduardo Daza Cuello**
+* **Institución / Curso:** ETITC - 10º Semestre
+
+## 🔗 Enlace al Repositorio
+[https://github.com/DanielDaza2901/asistente_soporte_TI_hibrido](https://github.com/DanielDaza2901/asistente_soporte_TI_hibrido)
+
+## 📊 Validación del Modelo (Matriz de Confusión)
+Como requerimiento adicional de la Semana 02, se implementó una validación mediante matriz de confusión usando el dataset *Iris*. El sistema alcanzó un **Accuracy de 0.921**, demostrando la robustez del entorno base para tareas de clasificación multiclase.
+
+---
+
+## 📈 Resultado automático frente a clasificación manual de referencia
 | Caso | Categoría automática principal | Categorías detectadas | Manual | Estado |
 |---|---|---|---|---|
 | 1 | Procesamiento de Lenguaje Natural (PLN) | Procesamiento de Lenguaje Natural (PLN) | Seguridad y Análisis de Errores (Logs) | Revisar |
@@ -25,11 +39,13 @@
 
 Coincidencia con la referencia: **85.00%** (17/20).
 
+---
+
 Documentación de la Práctica - Semana 03: Taxonomía de IA en Soporte de Software Empresarial
-1. Resumen del Módulo
+## 1. Resumen del Módulo
 Durante la Semana 03, se implementó el módulo de clasificación y taxonomía inteligente para el Asistente de Soporte TI Híbrido. El sistema está diseñado para procesar de manera automatizada incidencias de software de PC en un entorno corporativo multi-departamental (Contabilidad, Recursos Humanos, Ventas, Logística, Gerencia, etc.), categorizando los tickets y facilitando la toma de decisiones del equipo técnico.
 
-2. Arquitectura y Componentes Desarrollados
+## 2. Arquitectura y Componentes Desarrollados
 Conjunto de Datos (data/casos_ia.csv):
 
 Se definieron 20 casos de prueba reales centrados exclusivamente en problemas de software de computadora (sistemas operativos, suites ofimáticas, aplicaciones ERP, antivirus corporativos, políticas de rendimiento y parches).
@@ -62,7 +78,7 @@ Contiene reglas personalizadas (CUSTOM_RULES) orientadas a palabras clave empres
 
 Valida automáticamente los resultados frente a un conjunto de referencia manual (MANUAL_REFERENCE), generando un indicador de precisión (Accuracy) reflejado en el reporte markdown (reports/semana03.md).
 
-3. Integración en el Flujo del Asistente (src/main.py)
+## 3. Integración en el Flujo del Asistente (src/main.py)
 La taxonomía se integró al flujo central del proyecto junto con el sistema de auditoría (audit/logger_audit.py) y el motor de priorización (rules/prioritizer.py).
 
 El flujo de procesamiento de un ticket ahora realiza lo siguiente:
@@ -75,7 +91,8 @@ Priorización: El motor de reglas evalúa el impacto y la urgencia para asignar 
 
 Trazabilidad Completa: Todas las etapas quedan debidamente auditadas y registradas para su trazabilidad técnica.
 
-4. Resultados y Métricas
+## 4. Resultados y Métricas
 Precisión de Clasificación: La ejecución del script compara la salida algorítmica con la pauta manual, logrando un alto porcentaje de acierto en la categorización de los 20 escenarios corporativos.
 
 Trazabilidad: Los archivos generados en artifacts/ y reports/ garantizan la reproducibilidad y el cumplimiento de los entregables académicos del proyecto.
+
