@@ -17,6 +17,7 @@ Durante la **Semana 02**, se estableció la arquitectura fundamental del **Asist
 * **Sistema de Auditoría y Trazabilidad (`src/audit/logger_audit.py`)**: Implementa un sistema de registro basado en la librería estándar `logging` de Python, configurado para generar trazas persistentes en `artifacts/audit.log` con marcas de tiempo precisas.
 * **Motor de Reglas y Priorización (`src/rules/prioritizer.py`)**: Desarrollado bajo un enfoque de sistemas expertos, evalúa el Impacto y la Urgencia para determinar de manera automatizada la Prioridad de atención.
 * **Validación del Modelo (Matriz de Confusión)**: Se integró un módulo de validación con el dataset *Iris* para evaluar la robustez del clasificador. El sistema alcanzó un **Accuracy de 0.921**, permitiendo visualizar mediante la matriz de confusión la precisión del modelo en la clasificación multiclase.
+* **Validación del Modelo con TF-IDF (Soporte TI):** Se implementó un módulo de evaluación cuantitativa basado en Machine Learning utilizando técnicas de vectorización de texto **TF-IDF** (Term Frequency-Inverse Document Frequency) y Regresión Logística. En lugar de datasets genéricos, el modelo entrena y predice directamente sobre los **tickets y descripciones de problemas de soporte de software empresarial** (`data/casos_ia.csv`), generando una matriz de confusión multiclase robusta y evaluando el rendimiento (*Accuracy*) sobre el dominio real del proyecto.
 
 ## 3. Flujo Principal del Sistema (`src/main.py`)
 El flujo actual orquesta la ejecución del sistema:
