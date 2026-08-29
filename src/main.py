@@ -2,10 +2,11 @@ from audit.logger_audit import registrar_traza
 from rules.prioritizer import calcular_prioridad
 from classifiers.taxonomia import classify_problem
 from classifiers.evaluacion_modelo import ejecutar_validacion
+from classifiers.astar import astar_soporte_ti, START_STATE, GOAL_STATE
+from classifiers.minimax import best_move, board as minimax_board
 
-def procesar_ticket_prueba():
+def main():
     print("=== 1. VALIDACIÓN DEL MODELO BASE (MATRIZ DE CONFUSIÓN) ===")
-    # Llamamos a la matriz de confusión solicitada en la guía del profesor
     ejecutar_validacion()
     
     print("\n" + "="*50 + "\n")
@@ -33,5 +34,24 @@ def procesar_ticket_prueba():
     print(f"- Prioridad asignada: **{prioridad}**")
     print(f"- Traza guardada correctamente en artifacts/audit.log.")
 
+    print("\n" + "="*50 + "\n")
+    print("=== 3. PLANIFICADOR DE SOPORTE TI CON A* (SEMANA 4) ===")
+    print(f"Estado Inicial: {START_STATE} -> Estado Meta: {GOAL_STATE}")
+    ruta, costo_total = astar_soporte_ti(START_STATE, GOAL_STATE)
+    print(f"Costo acumulado mínimo de resolución: {costo_total}")
+    print("Secuencia óptima de acciones técnicas:")
+    if ruta:
+        for idx, (orig, dest, desc, c) in enumerate(ruta, 1):
+            print(f"  {idx}. [{desc}] (Costo: {c}) | Transición: {orig} -> {dest}")
+    else:
+        print("No se encontró una ruta válida.")
+
+    print("\n" + "="*50 + "\n")
+    print("=== 4. DECISIÓN ADVERSARIAL CON MINIMAX (SEMANA 4) ===")
+    print(f"Tablero actual de recursos/jugada: {minimax_board}")
+    mejor_pos = best_move(minimax_board)
+    print(f"Mejor posición estratégica seleccionada por Minimax: {mejor_pos}")
+    print("==================================================")
+
 if __name__ == "__main__":
-    procesar_ticket_prueba()
+    main()

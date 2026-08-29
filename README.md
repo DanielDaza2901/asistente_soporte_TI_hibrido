@@ -5,6 +5,8 @@ Sistema inteligente de soporte técnico diseñado para automatizar la clasificac
 ##  Arquitectura del Sistema
 
 El proyecto combina un enfoque modular y híbrido adaptado a las necesidades de soporte de software de PC corporativo:
+- **Marco Tecnológico y Búsqueda Inteligente (Semana 04):** Incorpora algoritmos de búsqueda y optimización avanzada, incluyendo el planificador **$A^*$** para secuencias óptimas de diagnóstico de soporte y **Minimax** para la toma de decisiones en entornos de recursos limitados.
+- **Recuperador (RAG / Base de Conocimiento):** Busca soluciones y documentación técnica previa asociada a los errores reportados.
 - **Clasificador Taxonómico (Semana 03):** Categoriza automáticamente las incidencias corporativas en 7 áreas clave (PLN, Aprendizaje Predictivo, Optimización de PC, Sistemas Expertos, Automatización, Seguridad/Logs y Diagnóstico) considerando el impacto por departamento (Contabilidad, Recursos Humanos, Ventas, Logística, Gerencia, etc.).
 - **Recuperador (RAG / Base de Conocimiento):** Busca soluciones y documentación técnica previa asociada a los errores reportados.
 - **Motor de Reglas y Priorización (Semana 02):** Aplica políticas empresariales combinando Urgencia e Impacto para definir prioridades de atención.
