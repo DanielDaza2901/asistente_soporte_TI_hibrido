@@ -1,0 +1,30 @@
+1. Equipo caliente -> revisar ventilación y limpiar ventilador; verificar piezas visibles; ajustar tornillería; aplicar lubricante a partes móviles
+2. Internet cae -> revisar DNS y enlace de red; comprobar configuración del router; reiniciar modem; verificar cableado
+3. App lenta -> revisar CPU, memoria y disco; cerrar procesos innecesarios; optimizar inicio automático
+4. Cuenta bloqueada -> revisar permisos de usuario; restablecer credenciales; verificar políticas de seguridad
+5. Error de impresora -> revisar conexión USB; reinstalar drivers; comprobar nivel de tinta o tóner
+6. Sistema no arranca -> revisar disco duro y BIOS; comprobar fuente de poder; verificar cables internos
+7. Pantalla azul -> revisar drivers y actualizaciones; ejecutar diagnóstico de memoria RAM; comprobar hardware defectuoso
+8. Red lenta -> revisar router y cableado; optimizar configuración Wi-Fi; comprobar interferencias
+9. Aplicación no responde -> reiniciar proceso; reinstalar aplicación; verificar compatibilidad con sistema operativo
+10. Virus detectado -> ejecutar antivirus; aislar archivos infectados; actualizar definiciones de seguridad
+11. Actualización fallida -> reinstalar sistema o aplicar rollback; verificar espacio en disco; comprobar integridad de archivos
+12. Disco lleno -> liberar espacio; eliminar archivos temporales; ampliar almacenamiento con disco externo
+13. Ventilador ruidoso -> limpiar ventilador; revisar rodamientos; reemplazar si es necesario
+14. Batería no carga -> revisar adaptador; probar otro cargador; reemplazar batería
+15. Disco duro con sectores dañados -> ejecutar diagnóstico; clonar disco; reemplazar unidad
+16. Teclado no responde -> revisar conexión; limpiar teclas; reinstalar drivers
+17. Monitor sin señal -> revisar cable HDMI/VGA; probar otro monitor; verificar tarjeta gráfica
+18. WiFi no conecta -> revisar contraseña; reiniciar router; olvidar/redetectar red
+19. Ethernet sin conexión -> revisar cable; probar otro puerto; verificar configuración IP
+20. VPN no funciona -> revisar credenciales; comprobar firewall; reinstalar cliente VPN
+21. Servidor no responde -> verificar ping; revisar servicios activos; comprobar logs
+22. Contraseña olvidada -> restablecer mediante recuperación; verificar políticas de seguridad
+23. Malware sospechoso -> ejecutar escaneo completo; aislar procesos; reinstalar sistema si es necesario
+24. Phishing detectado -> bloquear remitente; reportar incidente; educar usuario
+25. Firewall bloquea aplicación -> revisar reglas; permitir aplicación segura; actualizar configuración
+26. Sistema lento al iniciar -> revisar programas de arranque; desactivar servicios innecesarios
+27. Alto consumo de memoria -> identificar procesos; optimizar aplicaciones; ampliar RAM
+28. Navegador con muchas pestañas -> cerrar pestañas; limpiar caché; reinstalar navegador
+29. Juegos con bajo rendimiento -> actualizar drivers gráficos; optimizar configuración; verificar hardware
+30. Impresora no imprime -> revisar cola de impresión; reiniciar servicio de spooler; reinstalar puerto
