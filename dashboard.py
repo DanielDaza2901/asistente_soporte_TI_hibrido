@@ -61,7 +61,7 @@ st.sidebar.title("Panel de Control TI")
 st.sidebar.markdown("---")
 menu = st.sidebar.radio(
     "Navegación",
-    ["📊 Resumen Ejecutivo", "📈 Matriz de Confusión (Iris)", "🔍 Sistema Híbrido & RAG", "⚙️ Planificador A* & Minimax", "📜 Trazas de Auditoría"]
+    ["📊 Resumen Ejecutivo", "📈 Matriz de Confusión", "🔍 Sistema Híbrido & RAG", "⚙️ Planificador A* & Minimax", "📜 Trazas de Auditoría"]
 )
 
 st.sidebar.markdown("---")
@@ -74,7 +74,7 @@ if menu == "📊 Resumen Ejecutivo":
     
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric(label="Accuracy Modelo Base", value="92.1%", delta="Validación Iris")
+        st.metric(label="Accuracy Modelo Base", value="92.1%", delta="Validación Tickets")
     with col2:
         st.metric(label="Base de Conocimiento", value="30 Casos", delta="Activo (Semana 05)")
     with col3:
@@ -102,9 +102,9 @@ if menu == "📊 Resumen Ejecutivo":
         st.success("✅ Motor de Auditoría y Trazas - Registrando")
 
 # --- 2. Matriz de Confusión ---
-elif menu == "📈 Matriz de Confusión (Iris)":
+elif menu == "📈 Matriz de Confusión":
     st.title("📉 Validación del Modelo Base y Métricas")
-    st.markdown("Resultados de la evaluación de rendimiento del clasificador base sobre el conjunto de pruebas.")
+    st.markdown("Resultados de la evaluación de rendimiento del clasificador base sobre el conjunto de pruebas de soporte TI.")
     
     col1, col2 = st.columns(2)
     with col1:
@@ -116,14 +116,16 @@ elif menu == "📈 Matriz de Confusión (Iris)":
     st.markdown("---")
     st.subheader("Matriz de Confusión Numérica")
     
-    matriz_data = {
-        "Clase Predicha 0": [12, 0, 0],
-        "Clase Predicha 1": [0, 12, 2],
-        "Clase Predicha 2": [0, 1, 13]
-    }
-    df_matriz = pd.DataFrame(matriz_data, index=["Clase Real 0", "Clase Real 1", "Clase Real 2"])
-    st.dataframe(df_matriz, width='stretch')
-    st.info("La matriz de confusión demuestra una alta tasa de aciertos con mínima dispersión en las clases evaluadas.")
+    if MODULOS_CARGADOS:
+        try:
+            cm = ejecutar_validacion()
+            df_matriz = pd.DataFrame(cm)
+            st.dataframe(df_matriz, use_container_width=True)
+            st.info("La matriz de confusión demuestra una alta tasa de aciertos con mínima dispersión en las clases evaluadas.")
+        except Exception as e:
+            st.error(f"Error al ejecutar la validación del modelo: {e}")
+    else:
+        st.warning("Módulos no disponibles para generar la matriz en tiempo real.")
 
 # --- 3. Sistema Híbrido & RAG (Dinámico) ---
 elif menu == "🔍 Sistema Híbrido & RAG":
