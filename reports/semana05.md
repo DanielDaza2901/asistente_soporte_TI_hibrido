@@ -16,6 +16,7 @@ Registro automatizado de ejecucion del sistema hibrido utilizando la base de con
 - **Similitud Coseno:** `0.5652`
 - **Clase Predicha:** `seguridad`
 
+
 ## Prueba 3
 - **Consulta:** `El disco duro esta lleno y la aplicacion esta muy lenta`
 - **Reglas Activadas:** `optimizacion_recursos_sistema, gestion_almacenamiento`
@@ -23,15 +24,8 @@ Registro automatizado de ejecucion del sistema hibrido utilizando la base de con
 - **Similitud Coseno:** `0.3316`
 - **Clase Predicha:** `seguridad`
 
----
+----
 
-* **Integración del Módulo Híbrido (`sistema_hibrido.py`):** Se desarrolló y estructuró el componente central encargado de unificar los motores lógicos y estadísticos dentro de la jerarquía del proyecto (`src/classifiers/`), permitiendo su ejecución automatizada y centralizada desde el script principal (`src/main.py`).
-* **Conexión con la Base de Conocimiento:** Se implementó la carga dinámica del repositorio documental almacenado en `data/base_conocimiento.txt`, extrayendo las guías técnicas estandarizadas para el diagnóstico de incidentes.
-* **Vectorización y Similitud Coseno:** Se aplicó el modelo **TF-IDF** (*Term Frequency-Inverse Document Frequency*) en conjunto con la **Similitud Coseno** de `scikit-learn` para comparar las consultas de los usuarios con la base de conocimiento y extraer la evidencia documental más relevante.
-* **Clasificación Automática de Texto:** Se integró un clasificador basado en regresión logística entrenado con un pipeline de características textuales para categorizar de manera predictiva los incidentes reportados (hardware, red, rendimiento, seguridad, etc.).
-* **Trazabilidad y Auditoría:** Se vinculó la ejecución del sistema híbrido al sistema de registros mediante la función `registrar_traza`, asegurando el monitoreo continuo en el archivo de auditoría (`artifacts/audit.log`).
-
----
 # Tabla de distribución por categorías
  
 | **Categoría** | **Situación / Casos Registrados** | **Acción Recomendada / Evidencia** |
@@ -52,22 +46,14 @@ Registro automatizado de ejecucion del sistema hibrido utilizando la base de con
 | **Almacenamiento** | Disco lleno y falta de espacio libre | Liberar espacio eliminando archivos temporales y caché; vaciar papelera de reciclaje; migrar datos a almacenamiento externo o en la nube |
 | **Software**  | Error crítico en aplicación de negocio | Revisar trazas de error (logs de aplicación); aplicar hotfix o parche correctivo; reinstalar dependencias del sistema |
 
----
-## 3. Conclusiones Técnicas
+----
 
-1. **Robustez del Enfoque Híbrido:** La integración de reglas deterministas (basadas en conocimiento experto) junto con modelos probabilísticos y de aprendizaje automático (TF-IDF y Regresión Logística) permite mitigar las limitaciones individuales de cada enfoque. Las reglas aseguran respuestas críticas predecibles, mientras que la recuperación de documentos basada en similitud vectorial aporta flexibilidad ante variaciones en el lenguaje natural del usuario.
-2. **Eficiencia en la Recuperación Documental:** El uso de métricas de distancia vectorial sobre el corpus de conocimiento permitió automatizar la búsqueda de manuales de solución de forma rápida y precisa, reduciendo los tiempos de diagnóstico en el primer nivel de atención de soporte TI.
-3. **Escalabilidad de la Arquitectura:** La modularización del código —separando la lógica de negocio y clasificación en `src/classifiers/` y centralizando la ejecución secuencial en `src/main.py`— garantiza que el sistema sea altamente extensible para incorporar nuevas semanas de desarrollo, algoritmos de optimización o bases de datos relacionales en futuras fases del proyecto.
+### Conclusiones:
+* ### 1.Funcionamiento del enfoque híbrido:
+Combinar reglas lógicas con un sistema de búsqueda basado en texto nos permitió aprovechar lo mejor de ambos mundos. Por un lado, las reglas aseguran que las alertas críticas sean detectadas con precisión, y por otro, la similitud de texto encuentra soluciones parecidas en nuestra base de datos cuando el usuario describe un problema de forma libre.
 
----
+* ### 2. Crecimiento y orden en la base de conocimiento:
+Al estructurar las 30 entradas técnicas en el archivo de texto, logramos que el asistente tenga una fuente de referencia mucho más amplia y organizada para soporte de hardware y redes. Esto, acompañado del registro de auditoría, hace que sea muy fácil revisar el historial de lo que el sistema va diagnosticando paso a paso.
 
-## Integrantes del Proyecto
-* **Marco Molina Molina**
-* **Daniel Eduardo Daza Cuello**
-* **Institución / Curso:** ETITC - 10º Semestre
-
-## Enlace al Repositorio
-[https://github.com/DanielDaza2901/asistente_soporte_TI_hibrido](https://github.com/DanielDaza2901/asistente_soporte_TI_hibrido)
-
----
-
+* ### 3. Evolución global del proyecto:
+Completar esta quinta semana nos ayudó a amarrar todas las piezas que veníamos trabajando desde las fases pasadas (como la taxonomía, el planificador y el juego de estrategia) en una sola herramienta funcional. Ver todo esto integrado en el panel interactivo demuestra el avance real que hemos logrado en el desarrollo del asistente.
