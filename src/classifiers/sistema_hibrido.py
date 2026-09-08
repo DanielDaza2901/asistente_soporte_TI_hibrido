@@ -12,51 +12,52 @@ REPORTS_DIR = BASE_DIR / "reports"
 KB_PATH = DATA_DIR / "base_conocimiento.txt"
 REPORT_PATH = REPORTS_DIR / "semana05.md"
 
-# Reglas expertas lógicas SI -> ENTONCES adaptadas al dominio
+# Reglas expertas lógicas ampliadas para cubrir las 30 líneas
 RULES = [
-    (lambda q: "caliente" in q or "ventilador" in q or "temperatura" in q, "diagnostico_hardware_temperatura"),
-    (lambda q: "internet" in q or "red" in q or "wifi" in q or "ethernet" in q, "diagnostico_conectividad_red"),
-    (lambda q: "lenta" in q or "rendimiento" in q or "memoria" in q, "optimizacion_recursos_sistema"),
-    (lambda q: "virus" in q or "malware" in q or "phishing" in q, "seguridad_amenazas_detectadas"),
-    (lambda q: "disco" in q or "almacenamiento" in q, "gestion_almacenamiento")
+    (lambda q: "caliente" in q or "ventilador" in q or "temperatura" in q or "ruidoso" in q, "diagnostico_hardware_temperatura"),
+    (lambda q: "internet" in q or "red" in q or "wifi" in q or "ethernet" in q or "conexion" in q, "diagnostico_conectividad_red"),
+    (lambda q: "lenta" in q or "rendimiento" in q or "memoria" in q or "cpu" in q or "arrancar" in q, "optimizacion_recursos_sistema"),
+    (lambda q: "virus" in q or "malware" in q or "phishing" in q or "firewall" in q, "seguridad_amenazas_detectadas"),
+    (lambda q: "disco" in q or "almacenamiento" in q or "espacio" in q, "gestion_almacenamiento"),
+    (lambda q: "impresora" in q or "imprime" in q or "tinta" in q, "soporte_perifericos_impresion"),
+    (lambda q: "servidor" in q or "ping" in q or "vpn" in q, "soporte_redes_servidores"),
+    (lambda q: "password" in q or "contrasena" in q or "bloqueada" in q, "gestion_identidad_accesos")
 ]
 
-# Ejemplos de entrenamiento etiquetados para el clasificador
 TRAIN_X = [
-    "el equipo esta muy caliente y suena fuerte",
-    "temperatura elevada en el chasis del servidor",
-    "se cayo el internet y no hay conexion de red",
-    "la red wifi esta muy intermitente y lenta",
-    "la aplicacion esta muy lenta y consume mucha memoria",
-    "problema de rendimiento por alto consumo de cpu",
-    "alerta de virus detectado en el directorio temporal",
-    "posible malware o amenaza troyana detectada",
-    "el disco duro esta lleno y no hay espacio libre",
-    "problema de almacenamiento en la particion principal",
-    "la cuenta de usuario se encuentra bloqueada",
-    "error de autenticacion y credenciales invalidas",
-    "pantalla azul de error en el sistema operativo",
-    "el servidor no responde a las solicitudes ping",
-    "la impresora presenta un error critico de conexion"
+    "el equipo esta muy caliente y suena fuerte", "temperatura elevada en el chasis del servidor",
+    "se cayo el internet y no hay conexion de red", "la red wifi esta muy intermitente y lenta",
+    "la aplicacion esta muy lenta y consume mucha memoria", "problema de rendimiento por alto consumo de cpu",
+    "alerta de virus detectado en el directorio temporal", "posible malware o amenaza troyana detectada",
+    "el disco duro esta lleno y no hay espacio libre", "problema de almacenamiento en la particion principal",
+    "la cuenta de usuario se encuentra bloqueada", "error de autenticacion y credenciales invalidas",
+    "pantalla azul de error en el sistema operativo", "el servidor no responde a las solicitudes ping",
+    "la impresora presenta un error critico de conexion", "el wifi no conecta en la oficina",
+    "la bateria no carga al conectar el adaptador", "teclado no responde despues de reiniciar",
+    "monitor sin señal de video en puerto hdmi", "la vpn corporativa no funciona"
 ]
 
 TRAIN_Y = [
-    "hardware", "hardware",
-    "red", "red",
-    "rendimiento", "rendimiento",
-    "seguridad", "seguridad",
-    "almacenamiento", "almacenamiento",
-    "seguridad", "seguridad",
-    "sistema",
-    "servidor",
-    "perifericos"
+    "hardware", "hardware", "red", "red", "rendimiento", "rendimiento",
+    "seguridad", "seguridad", "almacenamiento", "almacenamiento",
+    "sistema", "sistema", "sistema", "servidor", "perifericos",
+    "red", "hardware", "perifericos", "hardware", "servidor"
 ]
 
 def load_documents() -> list[str]:
     """Carga los documentos desde el archivo de base de conocimiento."""
     if not KB_PATH.exists():
         raise FileNotFoundError(f"No se encontró el archivo en {KB_PATH}")
-    docs = [line.strip() for line in KB_PATH.read_text(encoding="utf-8").splitlines() if line.strip()]
+    # Lee todas las líneas y limpia el formato numérico inicial si lo hay
+    raw_lines = [line.strip() for line in KB_PATH.read_text(encoding="utf-8").splitlines() if line.strip()]
+    docs = []
+    for line in raw_lines:
+        # Remueve prefijos numéricos como "1. ", "2. ", etc. si existen
+        parts = line.split(". ", 1)
+        if len(parts) == 2 and parts[0].isdigit():
+            docs.append(parts[1])
+        else:
+            docs.append(line)
     return docs
 
 class SistemaHibridoSoporte:
@@ -94,7 +95,7 @@ def generar_reporte(resultados: list[dict]):
     lines = [
         "# Reporte de Pruebas - Semana 05: Asistente de Soporte TI",
         "",
-        "Registro automatizado de ejecucion del sistema hibrido utilizando la base de conocimiento de 30 entradas.",
+        "Registro automatizado de ejecución del sistema híbrido utilizando la base de conocimiento de 30 entradas.",
         ""
     ]
     for i, r in enumerate(resultados, start=1):

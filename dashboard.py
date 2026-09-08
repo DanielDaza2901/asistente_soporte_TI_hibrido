@@ -9,14 +9,14 @@ SRC_DIR = BASE_DIR / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.append(str(SRC_DIR))
 
-# Importación real de los módulos lógicos (igual que main.py)
+# Importación real de los módulos lógicos
 try:
     from classifiers.sistema_hibrido import SistemaHibridoSoporte
     from classifiers.astar import astar_soporte_ti, START_STATE, GOAL_STATE
     from classifiers.minimax import best_move, board as minimax_board
     from classifiers.evaluacion_modelo import ejecutar_validacion
     MODULOS_CARGADOS = True
-except ImportError:
+except ImportError as e:
     MODULOS_CARGADOS = False
 
 # Configuración de la página
@@ -27,7 +27,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estilos CSS personalizados (textos blancos en barra lateral y métricas, títulos centrados)
+# Estilos CSS personalizados (textos negros en la barra lateral)
 st.markdown("""
     <style>
     /* Centrar todos los títulos principales */
@@ -35,22 +35,20 @@ st.markdown("""
         text-align: center !important;
     }
 
-    /* Textos en blanco exclusivamente dentro de la barra lateral oscura */
+    /* Forzar textos en color negro dentro de la barra lateral */
     [data-testid="stSidebar"] p, 
     [data-testid="stSidebar"] span, 
     [data-testid="stSidebar"] label, 
-    [data-testid="stSidebar"] .stMarkdown {
-        color: #ffffff !important;
+    [data-testid="stSidebar"] .stMarkdown,
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3 {
+        color: #111111 !important;
     }
 
-    /* Textos en blanco exclusivamente dentro de las tarjetas de métricas */
-    .stMetric label, 
-    .stMetric [data-testid="stMetricValue"] {
-        color: #ffffff !important;
-    }
-    
-    .stMetric [data-testid="stMetricValue"] {
-        color: #38bdf8 !important;
+    /* Ajustar color del texto de la caja informativa inferior en la barra lateral */
+    [data-testid="stSidebar"] [data-testid="stInfo"] {
+        color: #111111 !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -124,7 +122,7 @@ elif menu == "📈 Matriz de Confusión (Iris)":
         "Clase Predicha 2": [0, 1, 13]
     }
     df_matriz = pd.DataFrame(matriz_data, index=["Clase Real 0", "Clase Real 1", "Clase Real 2"])
-    st.dataframe(df_matriz, use_container_width=True)
+    st.dataframe(df_matriz, width='stretch')
     st.info("La matriz de confusión demuestra una alta tasa de aciertos con mínima dispersión en las clases evaluadas.")
 
 # --- 3. Sistema Híbrido & RAG (Dinámico) ---
@@ -132,11 +130,10 @@ elif menu == "🔍 Sistema Híbrido & RAG":
     st.title("🧠 Simulador de Sistema Híbrido (Reglas + TF-IDF)")
     st.markdown("Consulta la base de conocimiento en tiempo real utilizando similitud coseno y reglas lógicas expertas.")
 
-    query = st.text_input("Escribe un reporte de ticket de soporte:", "El equipo esta muy caliente y el ventilador hace ruido")
+    query = st.text_input("Escribe un reporte de ticket de soporte:", value="Disco lleno", key="query_input")
     
     if st.button("Ejecutar Análisis Híbrido"):
         if MODULOS_CARGADOS:
-            # Procesamiento real mediante la clase SistemaHibridoSoporte
             sistema = SistemaHibridoSoporte()
             resultado = sistema.procesar(query)
             
@@ -151,7 +148,7 @@ elif menu == "🔍 Sistema Híbrido & RAG":
                 st.markdown("### 📄 Evidencia Recuperada (RAG)")
                 st.success(f"{resultado['evidencia']}")
         else:
-            st.error("No se pudieron cargar los módulos de Python desde la carpeta `src/`. Verifica la ruta.")
+            st.error("No se pudieron cargar los módulos de Python desde la carpeta `src/`.")
 
 # --- 4. Planificador A* & Minimax ---
 elif menu == "⚙️ Planificador A* & Minimax":
