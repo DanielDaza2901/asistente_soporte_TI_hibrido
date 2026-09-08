@@ -49,11 +49,22 @@ Registro automatizado de ejecucion del sistema hibrido utilizando la base de con
 ----
 
 ### Conclusiones:
-* ### 1.Funcionamiento del enfoque híbrido:
+
+### 1.Funcionamiento del enfoque híbrido:
 Combinar reglas lógicas con un sistema de búsqueda basado en texto nos permitió aprovechar lo mejor de ambos mundos. Por un lado, las reglas aseguran que las alertas críticas sean detectadas con precisión, y por otro, la similitud de texto encuentra soluciones parecidas en nuestra base de datos cuando el usuario describe un problema de forma libre.
 
-* ### 2. Crecimiento y orden en la base de conocimiento:
+### 2. Crecimiento y orden en la base de conocimiento:
 Al estructurar las 30 entradas técnicas en el archivo de texto, logramos que el asistente tenga una fuente de referencia mucho más amplia y organizada para soporte de hardware y redes. Esto, acompañado del registro de auditoría, hace que sea muy fácil revisar el historial de lo que el sistema va diagnosticando paso a paso.
 
-* ### 3. Evolución global del proyecto:
+### 3. Evolución global del proyecto:
 Completar esta quinta semana nos ayudó a amarrar todas las piezas que veníamos trabajando desde las fases pasadas (como la taxonomía, el planificador y el juego de estrategia) en una sola herramienta funcional. Ver todo esto integrado en el panel interactivo demuestra el avance real que hemos logrado en el desarrollo del asistente.
+
+## Integrantes del Proyecto
+* **Marco Molina Molina**
+* **Daniel Eduardo Daza Cuello**
+* **Institución / Curso:** ETITC - 10º Semestre
+
+## Enlace al Repositorio
+https://github.com/DanielDaza2901/asistente_soporte_TI_hibrido.git
+https://github.com/MarcoMolina2011/asistente_soporte_TI_hibrido
+
