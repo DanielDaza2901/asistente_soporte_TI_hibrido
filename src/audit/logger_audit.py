@@ -1,13 +1,18 @@
 import logging
-import os
 from datetime import datetime
+from pathlib import Path
 
-# Crear carpeta artifacts si no existe
-os.makedirs("artifacts", exist_ok=True)
+# Ruta raíz absoluta del proyecto (sube 2 niveles desde src/audit/)
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+ARTIFACTS_DIR = ROOT_DIR / "artifacts"
+LOG_FILE = ARTIFACTS_DIR / "audit.log"
 
-# Configurar el sistema de logging para trazabilidad
+# Crear carpeta artifacts si no existe en la raíz
+ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
+
+# Configurar el sistema de logging para trazabilidad con ruta absoluta segura
 logging.basicConfig(
-    filename="artifacts/audit.log",
+    filename=str(LOG_FILE),
     level=logging.INFO,
     format="%(asctime)s - [%(levelname)s] - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S"
