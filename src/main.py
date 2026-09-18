@@ -6,6 +6,7 @@ from classifiers.evaluacion_modelo import ejecutar_validacion
 from classifiers.astar import astar_soporte_ti, START_STATE, GOAL_STATE
 from classifiers.minimax import best_move, board as minimax_board, simular_ciberdefensa
 from classifiers.sistema_hibrido import SistemaHibridoSoporte, generar_reporte
+from classifiers.representaciones import ejecutar_representaciones
 
 def main():
     # === SECCIÓN 1: Validación del Modelo Base ===
@@ -94,6 +95,14 @@ def main():
     # Genera el reporte final de Markdown 'reports/semana05.md' y registra la traza final de ejecución
     generar_reporte(resultados)
     registrar_traza(ticket_id, "SISTEMA_HIBRIDO", "Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.")
+    
+    print("\n" + "="*50 + "\n")
+
+    # === SECCIÓN 6: Representaciones del Reconocimiento (Semana 07) ===
+    print("=== 6. REPRESENTACIONES DEL RECONOCIMIENTO (SEMANA 07) ===")
+    ejecutar_representaciones()
+    registrar_traza(ticket_id, "REPRESENTACIONES", "Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.")
+    
     print("==================================================")
 
 # Punto de entrada para ejecutar la orquestación completa al correr 'python src/main.py'

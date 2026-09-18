@@ -2,24 +2,27 @@ import streamlit as st
 import pandas as pd
 from pathlib import Path
 import sys
+import numpy as np
 
-# 1. Resolución de rutas base del proyecto y adición de 'src/' al path de Python para importar módulos internos
+# Agregar la carpeta src al path para importar correctamente los módulos del proyecto
 BASE_DIR = Path(__file__).resolve().parent
 SRC_DIR = BASE_DIR / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.append(str(SRC_DIR))
 
-# 2. Carga segura de módulos de lógica del proyecto (Clasificador Híbrido, A*, Minimax y Evaluación)
+# Importación real de los módulos lógicos
 try:
     from classifiers.sistema_hibrido import SistemaHibridoSoporte
     from classifiers.astar import astar_soporte_ti, START_STATE, GOAL_STATE
     from classifiers.minimax import best_move, board as minimax_board, NODOS_INFRAESTRUCTURA, simular_ciberdefensa
     from classifiers.evaluacion_modelo import ejecutar_validacion
+    # Intentar importar la función del autómata si la definiste en semana07_representaciones
+    # (Si no, la reimplementamos en el dashboard para la UI)
     MODULOS_CARGADOS = True
 except ImportError as e:
     MODULOS_CARGADOS = False
 
-# 3. Configuración del título de la pestaña del navegador, ícono y distribución ancha (wide) de Streamlit
+# Configuración de la página
 st.set_page_config(
     page_title="Dashboard - Asistente de Soporte TI Híbrido",
     page_icon="🤖",
@@ -27,15 +30,15 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 4. Inyección de estilos CSS personalizados para centrar encabezados y forzar contraste en la barra lateral
+# Estilos CSS personalizados (textos negros en la barra lateral)
 st.markdown("""
     <style>
-    /* Centrar títulos principales de las vistas */
+    /* Centrar todos los títulos principales */
     h1, h2, h3 {
         text-align: center !important;
     }
 
-    /* Garantizar contraste con texto oscuro en los elementos de la barra lateral */
+    /* Forzar textos en color negro dentro de la barra lateral */
     [data-testid="stSidebar"] p, 
     [data-testid="stSidebar"] span, 
     [data-testid="stSidebar"] label, 
@@ -46,23 +49,20 @@ st.markdown("""
         color: #111111 !important;
     }
 
-    /* Ajuste de color dentro del contenedor stInfo lateral */
+    /* Ajustar color del texto de la caja informativa inferior en la barra lateral */
     [data-testid="stSidebar"] [data-testid="stInfo"] {
         color: #111111 !important;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# 5. Definición de rutas estáticas de artefactos (registro de trazabilidad y base de conocimiento)
 AUDIT_LOG_PATH = BASE_DIR / "artifacts" / "audit.log"
 KB_PATH = BASE_DIR / "data" / "base_conocimiento.txt"
 
-# 6. Función con caché de Streamlit para leer, tokenizar y estructurar los 30 procedimientos de la KB
 @st.cache_data
 def cargar_base_conocimiento():
     """Carga y categoriza los 30 procedimientos de la base de conocimiento."""
     procs = []
-    # Mapeo id_procedimiento -> Categoría técnica
     categoria_map = {
         1: "Hardware", 2: "Red", 3: "Rendimiento", 4: "Seguridad",
         5: "Hardware", 6: "Hardware", 7: "Hardware", 8: "Red",
@@ -102,7 +102,6 @@ def cargar_base_conocimiento():
                 })
     return procs
 
-# 7. Función de análisis sintáctico (parsing) mediante expresiones regulares del archivo audit.log
 def parsear_audit_log():
     """Parsea el archivo audit.log separando fecha, nivel y mensaje."""
     if not AUDIT_LOG_PATH.exists():
@@ -138,19 +137,42 @@ def parsear_audit_log():
             })
     return registros, raw_text
 
-# 8. Renderizado de la barra lateral: Marca, título, menú de navegación por radio buttons e información institucional
+def acepta_patron_falla_cascada(secuencia_logs):
+    """Implementación del Autómata Finito Determinista (AFD) para la interfaz"""
+    state = "q0"
+    transitions = {
+        ("q0", "O"): "q0", ("q0", "T"): "q0", ("q0", "E"): "q1",
+        ("q1", "O"): "q0", ("q1", "E"): "q1", ("q1", "T"): "q2",
+        ("q2", "O"): "q0", ("q2", "T"): "q0", ("q2", "E"): "q1",
+    }
+    for simbolo in secuencia_logs:
+        if (state, simbolo) in transitions:
+            state = transitions[(state, simbolo)]
+        else:
+            return False, "Símbolo inválido"
+    return state == "q2", "Aceptada" if state == "q2" else "Rechazada"
+
+# --- Barra Lateral ---
 st.sidebar.image("https://img.icons8.com/color/96/artificial-intelligence.png", width=80)
 st.sidebar.title("Panel de Control TI")
 st.sidebar.markdown("---")
 menu = st.sidebar.radio(
     "Navegación",
-    ["📊 Resumen Ejecutivo", "📈 Matriz de Confusión", "🔍 Sistema Híbrido & TF-IDF", "⚙️ Planificador A* & Minimax", "📚 Base de Conocimiento (KB)", "📜 Trazas de Auditoría"]
+    [
+        "📊 Resumen Ejecutivo", 
+        "📈 Matriz de Confusión", 
+        "🔍 Sistema Híbrido & TF-IDF", 
+        "⚙️ Planificador A* & Minimax", 
+        "🧠 Representaciones del Reconocimiento", # <--- NUEVA OPCIÓN AÑADIDA AQUÍ
+        "📚 Base de Conocimiento (KB)", 
+        "📜 Trazas de Auditoría"
+    ]
 )
 
 st.sidebar.markdown("---")
 st.sidebar.info("**Institución:** ETITC - 10º Semestre\n\n**Autores:** Marco Molina & Daniel Daza")
 
-# 9. Módulo 1: Resumen Ejecutivo (Métricas globales, gráficos de barras por categoría y estado de módulos)
+# --- 1. Resumen Ejecutivo ---
 if menu == "📊 Resumen Ejecutivo":
     st.title("🚀 Dashboard General del Asistente de Soporte TI")
     st.markdown("Monitoreo en tiempo real de los componentes lógicos, modelos de machine learning y flujos del sistema híbrido.")
@@ -163,7 +185,7 @@ if menu == "📊 Resumen Ejecutivo":
     with col3:
         st.metric(label="Algoritmo A*", value="3 Escenarios", delta="Costo Óptimo Calculado")
     with col4:
-        st.metric(label="Ciberdefensa Minimax", value="Blue vs Red Team", delta="Blindaje Óptimo (Nodo #6)")
+        st.metric(label="Módulo de Representaciones", value="3 Enfoques", delta="Numérico/Simbólico/AFD") # Actualizado
 
     st.markdown("---")
     
@@ -181,11 +203,12 @@ if menu == "📊 Resumen Ejecutivo":
         st.subheader("🛠️ Estado de Integración de Módulos")
         st.success("✅ Validación y Matriz de Confusión (Semana 02) - Operativo (92.1%)")
         st.success("✅ Clasificador Taxonómico (Semana 03) - 100% de Coincidencia")
-        st.success("✅ Planificador A* y Ciberdefensa Minimax (Semana 04) - Operativo con 3 Escenarios")
+        st.success("✅ Planificador A* y Ciberdefensa Minimax (Semana 04) - Operativo")
         st.success("✅ Sistema Híbrido (Semana 05) - Operativo con Reglas y TF-IDF")
+        st.success("✅ Representaciones del Reconocimiento (Semana 07) - Operativo") # Actualizado
         st.success("✅ Motor de Auditoría y Trazas - Registrando en artifacts/audit.log")
 
-# 10. Módulo 2: Matriz de Confusión (Ejecución del benchmark del modelo base y matriz 3x3)
+# --- 2. Matriz de Confusión ---
 elif menu == "📈 Matriz de Confusión":
     st.title("📉 Validación del Modelo Base (Semana 02)")
     st.markdown("Evaluación del pipeline reproducible de clasificación multiclase del curso (StandardScaler + LogisticRegression sobre el benchmark estándar con división estratificada 75/25).")
@@ -217,7 +240,7 @@ elif menu == "📈 Matriz de Confusión":
     else:
         st.warning("Módulos no disponibles para generar la matriz en tiempo real.")
 
-# 11. Módulo 3: Simulador Híbrido (Procesamiento interactivo de tickets usando Reglas + TF-IDF)
+# --- 3. Sistema Híbrido & TF-IDF (Dinámico) ---
 elif menu == "🔍 Sistema Híbrido & TF-IDF":
     st.title("🧠 Simulador de Sistema Híbrido (Reglas + TF-IDF)")
     st.markdown("Consulta la base de conocimiento en tiempo real utilizando similitud coseno sobre los 30 procedimientos de soporte y reglas lógicas expertas.")
@@ -242,13 +265,12 @@ elif menu == "🔍 Sistema Híbrido & TF-IDF":
         else:
             st.error("No se pudieron cargar los módulos de Python desde la carpeta `src/`.")
 
-# 12. Módulo 4: Optimización A* y Ciberdefensa Minimax
+# --- 4. Planificador A* & Minimax ---
 elif menu == "⚙️ Planificador A* & Minimax":
     st.title("🤖 Optimización en Espacio de Estados y Decisiones Adversariales")
     
     tab1, tab2 = st.tabs(["Planificador A*", "Minimax (Juegos Adversariales)"])
     
-    # Sub-módulo A*: Selección de escenario inicial, barras de progreso de salud y gráfico de evolución
     with tab1:
         st.subheader("Secuencia Óptima de Resolución de Soporte con A*")
         st.markdown("Encuentra la secuencia de acciones técnicas de menor costo de esfuerzo utilizando la distancia de Manhattan como heurística admisible $h(n)$.")
@@ -265,6 +287,7 @@ elif menu == "⚙️ Planificador A* & Minimax":
             ruta, costo_total = astar_soporte_ti(estado_ini, GOAL_STATE)
             st.info(f"📍 **Estado Inicial:** `{estado_ini}` ➔ **Estado Meta:** `{GOAL_STATE}` | **Costo Mínimo Acumulado:** `{costo_total}` unidades de esfuerzo")
             
+            # --- Visualizador Gráfico de Recuperación de Subsistemas (Requerimiento B) ---
             st.markdown("#### 📊 Recuperación y Salud de Subsistemas")
             c_red, c_bd, c_app = st.columns(3)
             with c_red:
@@ -278,6 +301,7 @@ elif menu == "⚙️ Planificador A* & Minimax":
                 st.progress(estado_ini[2] / 2.0, text=f"{(estado_ini[2]/2)*100:.0f}% Operativo")
             
             if ruta:
+                # Datos para gráfico de evolución paso a paso
                 evolucion = [{
                     "Paso": "P0 (Inicial)",
                     "Red (%)": (estado_ini[0] / 2) * 100,
@@ -310,7 +334,6 @@ elif menu == "⚙️ Planificador A* & Minimax":
         else:
             st.warning("Módulo A* no disponible temporalmente.")
         
-    # Sub-módulo Minimax: Renderizado HTML de la matriz 3x3 de topología y decisión táctica óptima
     with tab2:
         st.subheader("🛡️ Simulador de Ciberdefensa con Minimax (Blue Team vs. Red Team)")
         st.markdown(
@@ -375,7 +398,129 @@ elif menu == "⚙️ Planificador A* & Minimax":
         else:
             st.warning("Módulo Minimax no disponible temporalmente.")
 
-# 13. Módulo 5: Explorador interactivo de la Base de Conocimiento (Búsqueda por texto y filtro por categoría)
+# --- NUEVA SECCIÓN: 5. REPRESENTACIONES DEL RECONOCIMIENTO (Semana 07) ---
+elif menu == "🧠 Representaciones del Reconocimiento":
+    st.title("🧠 Representaciones del Reconocimiento (Semana 07)")
+    st.markdown("Simulación de los tres enfoques de inteligencia artificial para interpretar y procesar información técnica de soporte.")
+    
+    tab_num, tab_sim, tab_aut = st.tabs(["1️⃣ Numérica (Telemetría)", "2️⃣ Simbólica (Sistema Experto)", "3️⃣ Autómatas (Logs en Cascada)"])
+    
+    # 1. Representación Numérica
+    with tab_num:
+        st.subheader("Representación Numérica: Distancia Euclidiana (Telemetría)")
+        st.markdown("Mide qué tan cerca está el estado actual del servidor de un perfil crítico de colapso, usando vectores numéricos y distancias en el espacio.")
+        
+        perfil_colapso = np.array([98.0, 95.0, 400.0]) # [CPU, RAM, Latencia]
+        
+        col_sliders, col_results = st.columns([1, 1])
+        with col_sliders:
+            st.markdown("**Ajusta las métricas actuales del servidor:**")
+            cpu_val = st.slider("Uso de CPU (%)", 0.0, 100.0, 75.0)
+            ram_val = st.slider("Uso de RAM (%)", 0.0, 100.0, 80.0)
+            lat_val = st.slider("Latencia de Red (ms)", 10.0, 500.0, 150.0)
+            
+        with col_results:
+            ticket_actual = np.array([cpu_val, ram_val, lat_val])
+            distancia = np.linalg.norm(ticket_actual - perfil_colapso)
+            
+            st.markdown(f"**Vector de Colapso (Fijo):** `[{perfil_colapso[0]}, {perfil_colapso[1]}, {perfil_colapso[2]}]`")
+            st.markdown(f"**Vector Actual (Dinámico):** `[{ticket_actual[0]}, {ticket_actual[1]}, {ticket_actual[2]}]`")
+            
+            st.metric(label="Distancia Matemática al Colapso", value=f"{distancia:.2f}")
+            
+            # Lógica de umbral
+            if distancia < 60.0:
+                st.error("🚨 **ALERTA CRÍTICA:** La distancia es corta. El servidor presenta un comportamiento matemáticamente similar al colapso.")
+            elif distancia < 150.0:
+                st.warning("⚠️ **ADVERTENCIA:** Las métricas muestran degradación de rendimiento. Monitoreo sugerido.")
+            else:
+                st.success("✅ **ESTABLE:** El servidor se encuentra matemáticamente lejano al perfil de colapso.")
+                
+    # 2. Representación Simbólica
+    with tab_sim:
+        st.subheader("Representación Simbólica: Inferencia Discreta (Hechos y Reglas)")
+        st.markdown("Transforma el lenguaje natural en hechos discretos. Utiliza lógica `SI -> ENTONCES` para llegar a un diagnóstico absoluto y justificable.")
+        
+        st.markdown("**Selecciona los síntomas detectados en el ticket:**")
+        
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            sym_ping = st.checkbox("ping_fallido", value=True)
+            sym_lento = st.checkbox("sistema_lento", value=False)
+        with c2:
+            sym_srv = st.checkbox("servidor_no_responde", value=False)
+            sym_tmp = st.checkbox("temperatura_alta", value=False)
+        with c3:
+            sym_led = st.checkbox("luces_rojas_switch", value=False)
+        
+        hechos_detectados = set()
+        if sym_ping: hechos_detectados.add("ping_fallido")
+        if sym_lento: hechos_detectados.add("sistema_lento")
+        if sym_srv: hechos_detectados.add("servidor_no_responde")
+        if sym_tmp: hechos_detectados.add("temperatura_alta")
+        if sym_led: hechos_detectados.add("luces_rojas_switch")
+        
+        st.markdown(f"**Base de Hechos Actual:** `{hechos_detectados}`")
+        
+        # Evaluación de reglas
+        st.markdown("---")
+        st.markdown("#### Motor de Inferencia")
+        if {"ping_fallido", "servidor_no_responde"}.issubset(hechos_detectados) or \
+           {"ping_fallido", "luces_rojas_switch"}.issubset(hechos_detectados):
+            st.error("🚨 **Diagnóstico Simbólico:** `caida_red_masiva` detectada (Regla 1 activada)")
+            st.markdown("**Acción:** Aislar nodo y ejecutar protocolo de enrutamiento alternativo.")
+        elif {"temperatura_alta", "sistema_lento"}.issubset(hechos_detectados):
+            st.warning("⚠️ **Diagnóstico Simbólico:** `sobrecalentamiento_hardware` (Regla 2 activada)")
+            st.markdown("**Acción:** Acelerar ventiladores y migrar carga de procesamiento.")
+        else:
+            st.info("ℹ️ **Diagnóstico Simbólico:** Sin coincidencias de riesgo crítico. Incidentes aislados.")
+
+    # 3. Representación por Autómata
+    with tab_aut:
+        st.subheader("Representación por Autómata: Validación de Cronologías")
+        st.markdown("Utiliza un Autómata Finito Determinista (AFD) para auditar secuencias de tiempo. Valida si una sucesión de eventos (`O`: Operativo, `E`: Error, `T`: Timeout) desencadena el patrón estricto de una *falla en cascada* (errores finalizados en un Timeout).")
+        
+        st.markdown("**Alfabeto permitido:** `O` (Operativo), `E` (Error), `T` (Timeout)")
+        secuencia = st.text_input("Ingresa una secuencia de logs temporales:", "OOOEET").upper()
+        
+        if st.button("Auditar Secuencia con AFD"):
+            secuencia_limpia = "".join(c for c in secuencia if c in ['O', 'E', 'T'])
+            
+            if len(secuencia_limpia) != len(secuencia):
+                st.error(f"La secuencia contiene caracteres no válidos. Procesando solo la parte válida: `{secuencia_limpia}`")
+            
+            if not secuencia_limpia:
+                st.warning("Ingresa una secuencia válida (ej. 'OEOET').")
+            else:
+                aceptada, mensaje = acepta_patron_falla_cascada(secuencia_limpia)
+                
+                st.markdown(f"#### Resultados de Auditoría para: `{secuencia_limpia}`")
+                
+                # Visualización tipo paso a paso del autómata
+                estado_visual = "q0"
+                pasos = [f"Inicio (q0)"]
+                for sim in secuencia_limpia:
+                    if sim == 'O': 
+                        estado_visual = "q0"
+                    elif sim == 'E' and estado_visual in ["q0", "q2"]:
+                        estado_visual = "q1"
+                    elif sim == 'E' and estado_visual == "q1":
+                        estado_visual = "q1"
+                    elif sim == 'T' and estado_visual == "q1":
+                        estado_visual = "q2"
+                    elif sim == 'T' and estado_visual in ["q0", "q2"]:
+                        estado_visual = "q0"
+                    pasos.append(f"Leer '{sim}' ➔ {estado_visual}")
+                
+                st.code(" -> ".join(pasos), language="text")
+                
+                if aceptada:
+                    st.success("✅ **Secuencia Aceptada.** El AFD confirma que el patrón `[Error -> Timeout]` se cumple al final de la traza. Falla en cascada confirmada.")
+                else:
+                    st.error("❌ **Secuencia Rechazada.** El patrón estricto de falla no se cumplió (el sistema pudo haberse estabilizado al final o la secuencia no terminó en Timeout).")
+
+
+# --- 6. Base de Conocimiento (KB) (Requerimiento C) ---
 elif menu == "📚 Base de Conocimiento (KB)":
     st.title("📚 Base de Conocimiento Técnica (KB)")
     st.markdown("Catálogo de los **30 procedimientos operativos estandarizados** del Asistente de Soporte TI, utilizados para el entrenamiento del clasificador y el motor TF-IDF.")
@@ -389,6 +534,7 @@ elif menu == "📚 Base de Conocimiento (KB)":
     with col2:
         busqueda = st.text_input("Buscar procedimiento o palabra clave (ej. 'disco', 'wifi', 'memoria'):")
     
+    # Filtrar
     filtrados = procedimientos
     if cat_sel != "Todas":
         filtrados = [p for p in filtrados if p["categoria"] == cat_sel]
@@ -412,7 +558,7 @@ elif menu == "📚 Base de Conocimiento (KB)":
     else:
         st.warning("No se encontraron procedimientos que coincidan con los filtros aplicados.")
 
-# 14. Módulo 6: Observabilidad y Trazas de Auditoría (Filtro por nivel INFO/WARN/ERROR, búsqueda y descarga)
+# --- 7. Trazas de Auditoría (Requerimiento D) ---
 elif menu == "📜 Trazas de Auditoría":
     st.title("📝 Registro de Auditoría del Sistema (audit.log)")
     st.markdown("Monitoreo y observabilidad de eventos generados por el orquestador `main.py` y los clasificadores del sistema.")
@@ -420,6 +566,7 @@ elif menu == "📜 Trazas de Auditoría":
     registros, raw_text = parsear_audit_log()
     
     if registros:
+        # Métricas de resumen de auditoría
         total_logs = len(registros)
         info_count = sum(1 for r in registros if r["nivel"] == "INFO")
         warn_count = sum(1 for r in registros if r["nivel"] in ["WARNING", "WARN"])
@@ -437,6 +584,7 @@ elif menu == "📜 Trazas de Auditoría":
         
         st.markdown("---")
         
+        # Filtros interactivos
         f_col1, f_col2 = st.columns([1, 2])
         with f_col1:
             niveles_disp = sorted(list(set(r["nivel"] for r in registros)))
@@ -444,6 +592,7 @@ elif menu == "📜 Trazas de Auditoría":
         with f_col2:
             texto_filtro = st.text_input("Buscar en trazas (Ticket ID, Acción, Texto):")
             
+        # Filtrado de registros
         regs_filtrados = [r for r in registros if r["nivel"] in niveles_sel]
         if texto_filtro.strip():
             tf = texto_filtro.lower().strip()

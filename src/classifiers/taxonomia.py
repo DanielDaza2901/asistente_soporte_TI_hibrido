@@ -172,7 +172,7 @@ def write_report(results: list[dict]) -> None:
     lines.extend([
         "",
         "---",
-        "",
+        
         "## Documentación de la Práctica - Semana 03: Taxonomía de IA en Soporte de Software Empresarial",
         "",
         "### 1. Resumen del Módulo",
