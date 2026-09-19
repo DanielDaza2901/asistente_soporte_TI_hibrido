@@ -1,24 +1,26 @@
 # Reporte Semana 07: Representaciones del Reconocimiento
 
-**Proyecto:** Asistente de Soporte TI Híbrido
-**Integrantes:** Marco Molina Molina & Daniel Eduardo Daza Cuello
-**Institución:** ETITC - 10º Semestre
+**Proyecto:** Asistente de Soporte TI Híbrido  
+**Integrantes:** Marco Molina Molina & Daniel Eduardo Daza Cuello  
+**Institución:** ETITC - 10º Semestre  
 
 ## Enlace al Repositorio
 [https://github.com/DanielDaza2901/asistente_soporte_TI_hibrido](https://github.com/DanielDaza2901/asistente_soporte_TI_hibrido)
 
+---
+
 
 ## 1. Aplicación al Proyecto (Adaptaciones realizadas)
 
-En la Semana 07, el objetivo fue aplicar los conceptos de Representaciones del Reconocimiento (Numérica, Simbólica y Autómatas) para demostrar cómo la Inteligencia Artificial debe "traducir" la realidad a distintos formatos según el tipo de problema a resolver.
+En la Semana 07, el objetivo principal fue aplicar los conceptos de **Representaciones del Reconocimiento** (Numérica, Simbólica y Autómatas) para demostrar cómo un sistema inteligente debe transformar la realidad de una infraestructura de TI a distintos formalismos según la naturaleza del problema a resolver.
 
-Alineados con el enfoque de nuestro Asistente de Soporte TI, los ejemplos teóricos se han adaptado a los siguientes dominios prácticos de infraestructura y help desk:
+Alineados con el ecosistema de nuestro **Asistente de Soporte TI Híbrido** (que abarca desde la captura de métricas y automatización de procesos hasta la supervisión de redes y ciberdefensa), los ejemplos conceptuales se implementaron en tres dominios prácticos:
 
-*   **Representación Numérica:** Se implementó el cálculo de distancias (Norma Euclidiana) entre vectores de características técnicas (telemetría). El sistema compara el estado actual de los servidores (Uso de CPU %, Uso de RAM %, Latencia de Red ms) contra un "perfil crítico" predefinido para predecir colapsos inminentes basándose en proximidad matemática.
-*   **Representación Simbólica:** Se diseñó un sistema experto basado en hechos discretos y reglas deterministas. A partir de los síntomas extraídos del lenguaje natural del ticket de soporte (ejemplo: `ping_fallido`, `servidor_no_responde`, `luces_rojas_switch`), se dispara una conclusión diagnóstica (caída masiva de red) mediante inferencia lógica directa (SI-ENTONCES).
-*   **Representación por Autómata:** Se estructuró un Autómata Finito Determinista (AFD) para auditar secuencias de logs temporales (O: Operativo, E: Error, T: Timeout). Reconoce estrictamente si la cronología de eventos refleja un patrón de falla en cascada (finalización en ET) o si el sistema logró recuperarse.
+1. **Representación Numérica (Triaje de Tickets):** Se implementó un vector de características compuesto por *Impacto en Infraestructura (1-10)*, *Urgencia de Tiempo (1-10)* y *Sentimiento Negativo en NLP (0.0-1.0)*. Mediante el cálculo de la **Distancia Euclidiana** frente a un vector de referencia de *Escalamiento Inmediato*, el sistema clasifica de forma cuantitativa la criticidad del ticket para decidir si requiere atención humana prioritaria o manejo automatizado.
+2. **Representación Simbólica (Diagnóstico y Enrutamiento):** Se diseñó un motor de inferencia basado en una base de hechos discretos extraídos de las solicitudes del usuario (ej. `pantalla_azul`, `reinicio_constante`, `codigo_stop`). Mediante reglas expertas booleanas de tipo *SI-ENTONCES*, el sistema deduce conclusiones diagnósticas precisas (como fallas físicas de hardware) y deriva el caso al módulo de campo correspondiente.
+3. **Representación por Autómata (Reconocimiento de Patrones de Logs):** Se estructuró un Autómata Finito Determinista (AFD) para auditar cronologías y sucesos en los registros del sistema. Utilizando el alfabeto técnico **`O` (Operativo), `E` (Error) y `T` (Timeout)**, el autómata reconoce formalmente secuencias críticas como el patrón de **falla en cascada (`ET`)**, permitiendo alertar al NOC de manera temprana ante fallas de infraestructura complejas.
 
---- 
+---
 
 ## 2. Tabla Comparativa de Representaciones
 
@@ -26,18 +28,14 @@ El siguiente cuadro analiza cómo cada enfoque procesa la información y detalla
 
 | Representación | Información que utiliza | Qué puede reconocer | Ventajas | Limitaciones | Información que puede perderse |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Numérica** | Arreglos matemáticos continuos (vectores con métricas como telemetría, latencia, uso de RAM). | Grados de proximidad o similitud; tendencias estadísticas y agrupaciones de anomalías de rendimiento. | Operaciones altamente optimizadas (álgebra lineal). Excelente para clasificar datos inexactos o ruidosos mediante umbrales (distancias). | Es una "caja negra". No explica fácilmente por qué falló un servidor, solo indica numéricamente que se parece a un perfil de colapso. | Se pierde el contexto semántico del incidente, secuencias de eventos y la relación de causa-efecto. |
-| **Simbólica** | Hechos discretos explícitos, palabras clave (ej. ping fallido) y reglas lógicas. | Causa y efecto directo; diagnósticos estructurados basados en condiciones exactas. | Altamente interpretable. Es fácil auditar por qué el sistema tomó una decisión (trazabilidad). | Rigidez. Si un síntoma no está mapeado exactamente en las reglas, el sistema falla (no maneja bien la ambigüedad). | Los matices de intensidad (qué tan lento está el servidor) o datos continuos. |
-| **Autómatas** | Secuencias temporales de estados o eventos (ej. logs sucesivos O -> E -> T). | Patrones de comportamiento en el tiempo, fallas en cascada y flujos de procesos estructurados. | Perfecto para analizar la evolución temporal de un incidente y validar flujos estrictos (ej. protocolos de red). | Poca flexibilidad ante secuencias no previstas. Si el orden varía levemente, el autómata rechaza la cadena. | Contexto de por qué se pasó de un estado a otro; solo evalúa si el salto de estado es válido. |
+| **Numérica** | Arreglos matemáticos continuos (vectores multidimensionales de métricas de impacto y NLP). | Grados de proximidad, similitud matemática y tendencias estadísticas de criticidad. | Operaciones altamente optimizadas mediante álgebra lineal. Excelente para umbrales de triaje ambiguos. | Funciona como una "caja negra"; no explica de forma explícita el fallo técnico subyacente. | Se pierde el contexto semántico detallado del componente averiado y la relación de causa-efecto. |
+| **Simbólica** | Hechos discretos explícitos, palabras clave y reglas lógicas booleanas estructuradas. | Causa y efecto directo; diagnósticos estructurados basados en síntomas técnicos exactos. | Alta interpretabilidad y auditabilidad. Facilita justificar formalmente por qué se sugirió una solución. | Rigidez analítica; si una combinación de síntomas no está mapeada en las reglas expertas, el sistema no puede inferir. | Los matices cuantitativos de escala (grados de urgencia numérica, métricas continuas de rendimiento). |
+| **Autómata** | Secuencias temporales de eventos discretos en cronologías o estados (alfabeto formal `O, E, T`). | Patrones de comportamiento secuencial, bucles y fallas en cascada a lo largo del tiempo. | Excelente para modelar la evolución dinámica de un sistema y validar estados lógicos estrictos. | Dependencia de la completitud de las transiciones; eventos fuera del alfabeto son descartados. | Contexto estático del ticket; el autómata valida la secuencia de eventos pero ignora el detalle descriptivo de los datos. |
 
 ---
 
 ## 3. Conclusión de Integración
 
-La práctica de la Semana 07 demuestra que en el desarrollo de un **Asistente Híbrido** de Soporte TI real, depende de una sola representación limitaría severamente el alcance del análisis.
+La práctica de la Semana 07 demuestra que en el desarrollo de un **Asistente Híbrido de Soporte TI** robusto, depender de una sola representación limitaría severamente las capacidades del Help Desk.
 
-Las tres representaciones deben operar conjuntamente: el **autómata** y la **lógica simbólica** auditan la consistencia cronológica y determinista del ticket (proporcionando explicabilidad y justificación al ingeniero de soporte), mientras que los **modelos numéricos vectoriales** asumen la responsabilidad cuando se evalúan estadísticas de rendimiento y comparaciones complejas (RAM/CPU/TF-IDF)  que requieren cálculos de proximidad y tolerancia al ruido.
-
-
-
-
+La integración de los tres enfoques potencia el sistema: la **lógica simbólica** diagnostica el error técnico a partir de los síntomas literales del usuario; los **modelos numéricos** miden la criticidad y proximidad a escenarios de alto riesgo mediante distancia euclidiana; y los **autómatas** supervisan la observabilidad y los flujos temporales de eventos (`O, E, T`), garantizando una respuesta integral, automatizada y confiable en los entornos SOC/NOC.

@@ -6,37 +6,30 @@ from classifiers.evaluacion_modelo import ejecutar_validacion
 from classifiers.astar import astar_soporte_ti, START_STATE, GOAL_STATE
 from classifiers.minimax import best_move, board as minimax_board, simular_ciberdefensa
 from classifiers.sistema_hibrido import SistemaHibridoSoporte, generar_reporte
-from classifiers.representaciones import ejecutar_representaciones
+from classifiers.representaciones import ejecutar_representaciones_hibridas
 
 def main():
     # === SECCIÓN 1: Validación del Modelo Base ===
-    # Ejecuta la evaluación reproducible (Semana 02) imprimiendo la matriz de confusión y el accuracy del 92.1%
     print("=== 1. VALIDACIÓN DEL MODELO BASE (MATRIZ DE CONFUSIÓN) ===")
     ejecutar_validacion()
     
     print("\n" + "="*50 + "\n")
     
-    # Datos de prueba para simular la recepción de un ticket de soporte real
+    # === SECCIÓN 2: Triage y Clasificación de Ticket ===
     ticket_id = "TICK-2026-001"
     descripcion = "El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual."
     impacto = "Alto"
     urgencia = "Alto"
 
-    # === SECCIÓN 2: Triage y Clasificación de Ticket ===
     print(f"=== 2. PROCESANDO TICKET DE SOPORTE: {ticket_id} ===")
-    
-    # 1. Registra el evento de recepción en el archivo persistente 'artifacts/audit.log'
     registrar_traza(ticket_id, "RECEPCION", f"Ticket recibido con descripción: '{descripcion}'")
 
-    # 2. Asigna la categoría técnica usando la taxonomía de palabras clave (Semana 03)
     categoria_principal, categorias_detectadas, _ = classify_problem(descripcion)
     registrar_traza(ticket_id, "TAXONOMIA", f"Categoría principal: '{categoria_principal}' | Detectadas: {categorias_detectadas}")
 
-    # 3. Calcula el nivel de prioridad (Crítico, Alto, Medio, Bajo) según el impacto y urgencia
     prioridad = calcular_prioridad(impacto, urgencia)
     registrar_traza(ticket_id, "PRIORIZACION", f"Impacto: {impacto}, Urgencia: {urgencia} -> Asignada Prioridad: {prioridad}")
 
-    # Muestra los resultados del triage inicial por consola
     print(f"\nResultado del análisis:")
     print(f"- Categoría de Software (IA): **{categoria_principal}**")
     print(f"- Prioridad asignada: **{prioridad}**")
@@ -45,7 +38,6 @@ def main():
     print("\n" + "="*50 + "\n")
     
     # === SECCIÓN 3: Planificación de Secuencia de Solución con A* ===
-    # Calcula la ruta óptima de menor esfuerzo para reparar los componentes (Semana 04)
     print("=== 3. PLANIFICADOR DE SOPORTE TI CON A* (SEMANA 4) ===")
     print(f"Estado Inicial: {START_STATE} -> Estado Meta: {GOAL_STATE}")
     ruta, costo_total = astar_soporte_ti(START_STATE, GOAL_STATE)
@@ -60,7 +52,6 @@ def main():
     print("\n" + "="*50 + "\n")
     
     # === SECCIÓN 4: Ciberdefensa Adversarial con Minimax ===
-    # Simula la toma de decisión óptima para blindar la red ante una amenaza externa (Semana 04)
     print("=== 4. CIBERDEFENSA Y DECISIÓN ADVERSARIAL CON MINIMAX (SEMANA 4) ===")
     print(f"Estado de red actual (Matriz 3x3): {minimax_board}")
     diag_minimax = simular_ciberdefensa(minimax_board)
@@ -71,7 +62,6 @@ def main():
     print("\n" + "="*50 + "\n")
     
     # === SECCIÓN 5: Motor Híbrido (Reglas + TF-IDF + ML + RAG) ===
-    # Procesa consultas en lenguaje natural consultando la base de conocimiento de 30 procedimientos (Semana 05)
     print("=== 5. SISTEMA HÍBRIDO E INFORMES DE CONOCIMIENTO (SEMANA 05) ===")
     sistema = SistemaHibridoSoporte()
     
@@ -81,7 +71,6 @@ def main():
         "El disco duro esta lleno y la aplicacion esta muy lenta"
     ]
     
-    # Procesa cada consulta de prueba a través de las 3 capas del sistema híbrido
     resultados = [sistema.procesar(p) for p in pruebas]
     
     for idx, r in enumerate(resultados, start=1):
@@ -92,7 +81,6 @@ def main():
         print(f"Similitud:  {r['similitud']:.4f}")
         print(f"Clase:      {r['clase']}")
         
-    # Genera el reporte final de Markdown 'reports/semana05.md' y registra la traza final de ejecución
     generar_reporte(resultados)
     registrar_traza(ticket_id, "SISTEMA_HIBRIDO", "Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.")
     
@@ -100,11 +88,10 @@ def main():
 
     # === SECCIÓN 6: Representaciones del Reconocimiento (Semana 07) ===
     print("=== 6. REPRESENTACIONES DEL RECONOCIMIENTO (SEMANA 07) ===")
-    ejecutar_representaciones()
+    ejecutar_representaciones_hibridas()
     registrar_traza(ticket_id, "REPRESENTACIONES", "Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.")
     
     print("==================================================")
 
-# Punto de entrada para ejecutar la orquestación completa al correr 'python src/main.py'
 if __name__ == "__main__":
     main()
