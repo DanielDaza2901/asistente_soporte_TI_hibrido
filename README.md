@@ -6,6 +6,10 @@ Sistema inteligente de soporte técnico diseñado para automatizar la clasificac
 ##  Arquitectura del Sistema
 
 El proyecto combina un enfoque modular y híbrido adaptado a las necesidades de soporte de software de PC corporativo:
+- **Semana 08 - Red Neuronal, Evidencia y Ontología:** 
+  * *Red Neuronal (MLP):* Clasificador de telemetría e incidentes basado en un Perceptrón Multicapa.
+  * *Base de Evidencia (SQLite):* Almacenamiento persistente y auditable de cada inferencia y metadato del modelo en `artifacts/soporte_evidencia.db`.
+  * *Ontología (GraphML):* Representación formal del conocimiento mediante grafos en NetworkX (`artifacts/ontologia.graphml`), conectando la predicción con su respectivo significado semántico dentro del dominio.
 - **Semana 07 - Representaciones del Reconocimiento:** Integración de tres enfoques para la interpretación de fallas:
 1. **Numérica:** Análisis de telemetría mediante distancias euclidianas para detectar riesgos de colapso en servidores.
 2. **Simbólica:** Sistema experto con inferencia lógica para diagnósticos a partir de hechos discretos.

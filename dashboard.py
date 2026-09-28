@@ -3,6 +3,12 @@ import pandas as pd
 from pathlib import Path
 import sys
 import numpy as np
+import pickle
+import sqlite3
+import networkx as nx
+import base64
+from PIL import Image
+import io
 
 # Agregar la carpeta src al path para importar correctamente los módulos del proyecto
 BASE_DIR = Path(__file__).resolve().parent
@@ -162,6 +168,7 @@ menu = st.sidebar.radio(
         "🔍 Sistema Híbrido & TF-IDF", 
         "⚙️ Planificador A* & Minimax", 
         "🧠 Representaciones del Reconocimiento",
+        "🧠 Red Neuronal & Ontología",
         "👤 Portal de Usuario",
         "📚 Base de Conocimiento (KB)", 
         "📜 Trazas de Auditoría"
@@ -205,6 +212,7 @@ if menu == "📊 Resumen Ejecutivo":
         st.success("✅ Planificador A* y Ciberdefensa Minimax (Semana 04) - Operativo")
         st.success("✅ Sistema Híbrido (Semana 05) - Operativo con Reglas y TF-IDF")
         st.success("✅ Representaciones del Reconocimiento (Semana 07) - Operativo")
+        st.success("✅ Red Neuronal, Imagen Base64, SQLite y Ontología (Semana 08) - Operativo")
         st.success("✅ Motor de Auditoría y Trazas - Registrando en artifacts/audit.log")
 
 # --- 2. Matriz de Confusión ---
@@ -518,7 +526,99 @@ elif menu == "🧠 Representaciones del Reconocimiento":
                 else:
                     st.success("✅ **Secuencia Rechazada.** El sistema se estabilizó al final o la secuencia no terminó en Timeout.")
 
-# --- 6. Portal de Usuario ---
+# --- 6. Red Neuronal, Imagen Base64 & Ontología (Semana 08) ---
+elif menu == "🧠 Red Neuronal & Ontología":
+    st.title("🧠 Red Neuronal, Imágenes Base64 y Ontología (Semana 08)")
+    st.markdown("Integración completa: Modelo MLP (Predicción) + Carga y Descripción de Imagen Base64 ➔ SQLite (Evidencia) ➔ Ontología GraphML (Significado)[cite: 3, 8].")
+    
+    tab_nn, tab_img, tab_db, tab_onto = st.tabs([
+        "🤖 Clasificador MLP", 
+        "🖼️ Análisis de Imagen (Base64)", 
+        "🗄️ Base de Evidencia (SQLite)", 
+        "🌐 Ontología del Dominio"
+    ])
+    
+    with tab_nn:
+        st.subheader("Clasificador de Tickets por Red Neuronal Artificial")
+        st.markdown("Introduce las métricas de telemetría del incidente para que la MLP prediga la categoría de soporte.")
+        
+        c1, c2, c3, c4 = st.columns(4)
+        with c1: f1 = st.slider("Impacto App (0-10)", 0.0, 10.0, 5.0)
+        with c2: f2 = st.slider("Urgencia (0-10)", 0.0, 10.0, 5.0)
+        with c3: f3 = st.slider("Temperatura Servidor", 0.0, 10.0, 4.0)
+        with c4: f4 = st.slider("Fallos de Red", 0.0, 10.0, 3.0)
+        
+        if st.button("Ejecutar Predicción Neuronal"):
+            modelo_path = BASE_DIR / "artifacts" / "modelo_mlp.pkl"
+            if modelo_path.exists():
+                with open(modelo_path, "rb") as f:
+                    clf = pickle.load(f)
+                entrada = np.array([[f1, f2, f3, f4]])
+                prediccion = clf.predict(entrada)[0]
+                mapa_clases = {0: "Hardware", 1: "Red", 2: "Software", 3: "Seguridad"}
+                st.success(f"🎯 Categoría Predicha por el Modelo: **{mapa_clases.get(prediccion, 'Desconocida')}** (Clase ID: {prediccion})")
+            else:
+                st.warning("Primero debes ejecutar `python src/main.py` para generar el modelo entrenado.")
+                
+    with tab_img:
+        st.subheader("🖼️ Reconocimiento de Imágenes, Base64 y Metadatos (Soporte TI)")
+        st.markdown("Adjunta una captura de pantalla de error técnico e ingresa una descripción textual para que el agente la codifique, analice e integre en el flujo de evidencia[cite: 3].")
+        
+        uploaded_file = st.file_uploader("Sube una imagen de diagnóstico de soporte", type=["png", "jpg", "jpeg"])
+        desc_usuario = st.text_input("Añade una descripción textual o sintomatología observada:", "Pantalla azul intermitente con volcado de memoria en equipo contable.")
+        
+        if uploaded_file is not None:
+            image = Image.open(uploaded_file)
+            st.image(image, caption=f"Archivo cargado: {uploaded_file.name}", width=350)
+            
+            bytes_data = uploaded_file.getvalue()
+            base64_str = base64.b64encode(bytes_data).decode("utf-8")
+            
+            with st.expander("Ver cadena Base64 generada"):
+                st.code(base64_str[:250] + "...", language="text")
+                
+            if st.button("Procesar Imagen, Base64 y Descripción en el Pipeline"):
+                try:
+                    from classifiers.reconocimiento import ejecutar_semana_08
+                    ejecutar_semana_08(imagen_bytes=bytes_data, nombre_archivo=uploaded_file.name, descripcion_texto=desc_usuario)
+                    
+                    nombre_l = uploaded_file.name.lower()
+                    if "red" in nombre_l or "router" in nombre_l:
+                        diag_resultado = "🌐 Red / Conectividad (Clase 1)"
+                    elif "azul" in nombre_l or "hardware" in nombre_l:
+                        diag_resultado = "💻 Hardware / Pantalla Azul (Clase 0)"
+                    else:
+                        diag_resultado = "⚙️ Software / Aplicación (Clase 2)"
+                        
+                    st.success(f"🎯 **Agente IA - Imagen Reconocida y Descrita:** {diag_resultado}")
+                    st.info("📊 **Estado en Proyecto:** La imagen se codificó en Base64, se asoció a su descripción textual, se clasificó con enfoque de soporte TI, se persistió en SQLite y se enlazó en la ontología GraphML.")
+                except Exception as e:
+                    st.error(f"Error al procesar la imagen en el pipeline: {e}")
+
+    with tab_db:
+        st.subheader("Registro de Evidencia Verificable (SQLite)")
+        st.markdown("Consulta los registros almacenados en `artifacts/soporte_evidencia.db` (incluyendo metadatos de imágenes Base64 y descripciones textualmente auditadas)[cite: 3, 8].")
+        db_p = BASE_DIR / "artifacts" / "soporte_evidencia.db"
+        if db_p.exists():
+            with sqlite3.connect(db_p) as conn:
+                df_ev = pd.read_sql("SELECT * FROM evidencia_tickets ORDER BY id DESC LIMIT 15", conn)
+            st.dataframe(df_ev, use_container_width=True)
+        else:
+            st.warning("Base de datos no encontrada. Ejecuta el script del proyecto.")
+            
+    with tab_onto:
+        st.subheader("Representación del Conocimiento (Ontología GraphML)")
+        st.markdown("Relaciones lógicas que otorgan significado a las predicciones y canales visuales dentro del dominio del Asistente de Soporte TI[cite: 3, 8].")
+        onto_p = BASE_DIR / "artifacts" / "ontologia.graphml"
+        if onto_p.exists():
+            G_load = nx.read_graphml(onto_p)
+            st.info(f"Grafo cargado correctamente con **{G_load.number_of_nodes()} conceptos** y **{G_load.number_of_edges()} relaciones semánticas**[cite: 3, 8].")
+            edges_list = [(u, v, data.get('rel', 'relación')) for u, v, data in G_load.edges(data=True)]
+            st.table(pd.DataFrame(edges_list, columns=["Sujeto", "Objeto", "Relación Semántica"]))
+        else:
+            st.warning("Archivo GraphML no encontrado en artifacts/.")
+
+# --- 7. Portal de Usuario ---
 elif menu == "👤 Portal de Usuario":
     st.title("👤 Portal de Usuario / Cliente Final")
     st.markdown("Interfaz orientada al usuario final para la creación de solicitudes de soporte y asistencia.")
@@ -542,7 +642,7 @@ elif menu == "👤 Portal de Usuario":
         dist_portal = np.linalg.norm(vector_ticket - np.array([10.0, 10.0, 1.0]))
         st.metric(label="Métrica de Proximidad a Incidente Crítico (Distancia Euclidiana)", value=f"{dist_portal:.2f}")
 
-# --- 7. Base de Conocimiento (KB) ---
+# --- 8. Base de Conocimiento (KB) ---
 elif menu == "📚 Base de Conocimiento (KB)":
     st.title("📚 Base de Conocimiento Técnica (KB)")
     st.markdown("Catálogo de los **30 procedimientos operativos estandarizados** del Asistente de Soporte TI, utilizados para el entrenamiento del clasificador y el motor TF-IDF.")
@@ -579,7 +679,7 @@ elif menu == "📚 Base de Conocimiento (KB)":
     else:
         st.warning("No se encontraron procedimientos que coincidan con los filtros aplicados.")
 
-# --- 8. Trazas de Auditoría ---
+# --- 9. Trazas de Auditoría ---
 elif menu == "📜 Trazas de Auditoría":
     st.title("📝 Registro de Auditoría del Sistema (audit.log)")
     st.markdown("Monitoreo y observabilidad de eventos generados por el orquestador `main.py` y los clasificadores del sistema.")

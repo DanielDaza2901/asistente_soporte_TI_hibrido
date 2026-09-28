@@ -7,6 +7,7 @@ from classifiers.astar import astar_soporte_ti, START_STATE, GOAL_STATE
 from classifiers.minimax import best_move, board as minimax_board, simular_ciberdefensa
 from classifiers.sistema_hibrido import SistemaHibridoSoporte, generar_reporte
 from classifiers.representaciones import ejecutar_representaciones_hibridas
+from classifiers.reconocimiento import ejecutar_semana_08
 
 def main():
     # === SECCIÓN 1: Validación del Modelo Base ===
@@ -90,6 +91,13 @@ def main():
     print("=== 6. REPRESENTACIONES DEL RECONOCIMIENTO (SEMANA 07) ===")
     ejecutar_representaciones_hibridas()
     registrar_traza(ticket_id, "REPRESENTACIONES", "Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.")
+    
+    print("\n" + "="*50 + "\n")
+
+    # === SECCIÓN 7: Red Neuronal, Imagen Base64, SQLite y Ontología (Semana 08) ===
+    print("=== 7. RED NEURONAL, IMAGEN BASE64, EVIDENCIA SQLite Y ONTOLOGÍA GraphML (SEMANA 08) ===")
+    ejecutar_semana_08()
+    registrar_traza(ticket_id, "SEMANA_08", "Ejecución del clasificador MLP, persistencia en SQLite de imagen Base64 y ontología GraphML completada.")
     
     print("==================================================")
 

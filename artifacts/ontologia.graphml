@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d0" for="edge" attr.name="rel" attr.type="string" />
+  <graph edgedefault="directed">
+    <node id="modelo_mlp" />
+    <node id="ticket_soporte" />
+    <node id="categoria_falla" />
+    <node id="prediccion_ia" />
+    <node id="base_conocimiento_txt" />
+    <node id="imagen_diagnostico_ti" />
+    <edge source="modelo_mlp" target="ticket_soporte">
+      <data key="d0">reconoce patrones en</data>
+    </edge>
+    <edge source="modelo_mlp" target="prediccion_ia">
+      <data key="d0">produce salida de</data>
+    </edge>
+    <edge source="ticket_soporte" target="categoria_falla">
+      <data key="d0">representa problema de</data>
+    </edge>
+    <edge source="prediccion_ia" target="categoria_falla">
+      <data key="d0">asigna clase a</data>
+    </edge>
+    <edge source="base_conocimiento_txt" target="categoria_falla">
+      <data key="d0">explica procedimiento de</data>
+    </edge>
+    <edge source="base_conocimiento_txt" target="imagen_diagnostico_ti">
+      <data key="d0">contextualiza analisis de</data>
+    </edge>
+    <edge source="imagen_diagnostico_ti" target="ticket_soporte">
+      <data key="d0">evidencia incidente en</data>
+    </edge>
+  </graph>
+</graphml>

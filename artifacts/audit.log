@@ -91,3 +91,94 @@
 2026-09-18 23:14:12 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
 2026-09-18 23:14:12 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
 2026-09-18 23:14:12 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-18 23:29:05 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-18 23:29:05 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-18 23:29:05 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-18 23:29:05 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-18 23:29:05 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-25 18:40:59 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-25 18:40:59 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-25 18:40:59 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-25 18:40:59 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-25 18:40:59 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-25 18:46:14 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-25 18:46:14 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-25 18:46:14 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-25 18:46:14 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-25 18:46:14 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-25 18:47:50 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-25 18:47:50 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-25 18:47:50 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-25 18:47:50 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-25 18:47:50 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-25 18:47:51 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_08 | DETALLES: Ejecución del clasificador MLP, persistencia en SQLite y ontología GraphML completada.
+2026-09-25 18:52:03 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-25 18:52:03 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-25 18:52:03 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-25 18:52:03 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-25 18:52:03 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-25 18:52:04 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_08 | DETALLES: Ejecución del clasificador MLP, persistencia en SQLite y ontología GraphML completada.
+2026-09-25 18:55:34 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-25 18:55:34 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-25 18:55:34 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-25 18:55:34 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-25 18:55:34 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-25 18:55:35 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_08 | DETALLES: Ejecución del clasificador MLP, persistencia en SQLite y ontología GraphML completada.
+2026-09-25 19:04:31 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-25 19:04:31 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-25 19:04:31 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-25 19:04:31 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-25 19:04:31 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-25 19:04:32 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_08 | DETALLES: Ejecución del clasificador MLP, persistencia en SQLite y ontología GraphML completada.
+2026-09-25 19:44:46 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-25 19:44:46 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-25 19:44:46 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-25 19:44:46 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-25 19:44:46 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-25 23:37:00 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-25 23:37:00 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-25 23:37:00 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-25 23:37:00 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-25 23:37:00 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-25 23:39:52 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-25 23:39:52 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-25 23:39:52 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-25 23:39:52 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-25 23:39:52 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-25 23:39:53 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_08 | DETALLES: Ejecución del clasificador MLP, persistencia en SQLite de imagen Base64 y ontología GraphML completada.
+2026-09-26 00:12:23 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-26 00:12:23 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-26 00:12:23 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-26 00:12:23 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-26 00:12:23 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-26 00:12:23 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_08 | DETALLES: Ejecución del clasificador MLP, persistencia en SQLite de imagen Base64 y ontología GraphML completada.
+2026-09-26 00:14:33 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-26 00:14:33 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-26 00:14:33 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-26 00:14:33 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-26 00:14:33 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-26 00:14:34 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_08 | DETALLES: Ejecución del clasificador MLP, persistencia en SQLite de imagen Base64 y ontología GraphML completada.
+2026-09-26 00:22:36 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-26 00:22:36 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-26 00:22:36 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-26 00:22:36 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-26 00:22:36 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-26 00:22:36 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_08 | DETALLES: Ejecución del clasificador MLP, persistencia en SQLite de imagen Base64 y ontología GraphML completada.
+2026-09-26 00:46:20 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-26 00:46:20 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-26 00:46:20 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-26 00:46:20 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-26 00:46:20 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-26 00:46:21 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_08 | DETALLES: Ejecución del clasificador MLP, persistencia en SQLite de imagen Base64 y ontología GraphML completada.
+2026-09-26 00:57:42 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-26 00:57:42 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-26 00:57:42 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-26 00:57:42 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-26 00:57:42 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-26 00:57:43 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_08 | DETALLES: Ejecución del clasificador MLP, persistencia en SQLite de imagen Base64 y ontología GraphML completada.
+2026-09-27 22:06:19 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-09-27 22:06:19 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-09-27 22:06:19 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-09-27 22:06:19 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-09-27 22:06:19 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-09-27 22:06:20 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_08 | DETALLES: Ejecución del clasificador MLP, persistencia en SQLite de imagen Base64 y ontología GraphML completada.

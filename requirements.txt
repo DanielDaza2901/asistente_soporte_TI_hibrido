@@ -19,3 +19,6 @@ matplotlib>=3.8.0
 # Framework para el Dashboard interactivo (dashboard.py)
 # streamlit: Creación de la interfaz web interactiva para visualizar métricas, simuladores y logs de auditoría en tiempo real.
 streamlit>=1.30.0
+
+#NetworkX 3.0: Es una versión principal de NetworkX, la popular biblioteca de Python para la creación, manipulación y estudio de estructuras de redes complejas.
+networkx>=3.0
