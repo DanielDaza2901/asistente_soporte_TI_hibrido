@@ -532,7 +532,7 @@ elif menu == "🧠 Representaciones del Reconocimiento":
 # --- 6. Red Neuronal, Imagen Base64 & Ontología (Semana 08) ---
 elif menu == "🧠 Red Neuronal & Ontología":
     st.title("🧠 Red Neuronal, Imágenes Base64 y Ontología (Semana 08)")
-    st.markdown("Integración completa: Modelo MLP (Predicción) + Carga y Descripción de Imagen Base64 ➔ SQLite (Evidencia) ➔ Ontología GraphML (Significado)[cite: 3, 8].")
+    st.markdown("Integración completa: Modelo MLP (Predicción) + Carga y Descripción de Imagen Base64 ➔ SQLite (Evidencia) ➔ Ontología GraphML (Significado).")
     
     tab_nn, tab_img, tab_db, tab_onto = st.tabs([
         "🤖 Clasificador MLP", 
@@ -565,7 +565,7 @@ elif menu == "🧠 Red Neuronal & Ontología":
                 
     with tab_img:
         st.subheader("🖼️ Reconocimiento de Imágenes, Base64 y Metadatos (Soporte TI)")
-        st.markdown("Adjunta una captura de pantalla de error técnico e ingresa una descripción textual para que el agente la codifique, analice e integre en el flujo de evidencia[cite: 3].")
+        st.markdown("Adjunta una captura de pantalla de error técnico e ingresa una descripción textual para que el agente la codifique, analice e integre en el flujo de evidencia.")
         
         uploaded_file = st.file_uploader("Sube una imagen de diagnóstico de soporte", type=["png", "jpg", "jpeg"])
         desc_usuario = st.text_input("Añade una descripción textual o sintomatología observada:", "Pantalla azul intermitente con volcado de memoria en equipo contable.")
@@ -600,7 +600,7 @@ elif menu == "🧠 Red Neuronal & Ontología":
 
     with tab_db:
         st.subheader("Registro de Evidencia Verificable (SQLite)")
-        st.markdown("Consulta los registros almacenados en `artifacts/soporte_evidencia.db` (incluyendo metadatos de imágenes Base64 y descripciones textualmente auditadas)[cite: 3, 8].")
+        st.markdown("Consulta los registros almacenados en `artifacts/soporte_evidencia.db` (incluyendo metadatos de imágenes Base64 y descripciones textualmente auditadas).")
         db_p = BASE_DIR / "artifacts" / "soporte_evidencia.db"
         if db_p.exists():
             with sqlite3.connect(db_p) as conn:
@@ -611,11 +611,11 @@ elif menu == "🧠 Red Neuronal & Ontología":
             
     with tab_onto:
         st.subheader("Representación del Conocimiento (Ontología GraphML)")
-        st.markdown("Relaciones lógicas que otorgan significado a las predicciones y canales visuales dentro del dominio del Asistente de Soporte TI[cite: 3, 8].")
+        st.markdown("Relaciones lógicas que otorgan significado a las predicciones y canales visuales dentro del dominio del Asistente de Soporte TI.")
         onto_p = BASE_DIR / "artifacts" / "ontologia.graphml"
         if onto_p.exists():
             G_load = nx.read_graphml(onto_p)
-            st.info(f"Grafo cargado correctamente con **{G_load.number_of_nodes()} conceptos** y **{G_load.number_of_edges()} relaciones semánticas**[cite: 3, 8].")
+            st.info(f"Grafo cargado correctamente con **{G_load.number_of_nodes()} conceptos** y **{G_load.number_of_edges()} relaciones semánticas**.")
             edges_list = [(u, v, data.get('rel', 'relación')) for u, v, data in G_load.edges(data=True)]
             st.table(pd.DataFrame(edges_list, columns=["Sujeto", "Objeto", "Relación Semántica"]))
         else:
