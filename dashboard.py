@@ -23,6 +23,7 @@ try:
     from classifiers.minimax import best_move, board as minimax_board, NODOS_INFRAESTRUCTURA, simular_ciberdefensa
     from classifiers.evaluacion_modelo import ejecutar_validacion
     from classifiers.vision import ejecutar_vision_soporte  # Importación agregada para evitar ModuleNotFoundError
+    from classifiers.texturas import procesar_imagen_proyecto  # Importación para la Semana 10
     MODULOS_CARGADOS = True
 except ImportError as e:
     MODULOS_CARGADOS = False
@@ -352,6 +353,7 @@ menu = st.sidebar.radio(
         "Representaciones del Reconocimiento",
         "Red Neuronal & Ontología",
         "Visión Artificial (Semana 09)",
+        "Histogramas y Texturas LBP (Semana 10)",
         "Portal de Usuario",
         "Base de Conocimiento (KB)", 
         "Trazas de Auditoría"
@@ -403,6 +405,7 @@ if menu == "Resumen Ejecutivo":
             ("Representaciones del Reconocimiento (Semana 07)", ""),
             ("Red Neuronal, Imagen Base64, SQLite y Ontología (Semana 08)", ""),
             ("Visión Artificial (Semana 09)", ""),
+            ("Histogramas y Texturas LBP (Semana 10)", "Extracción de Features Vectoriales"),
             ("Motor de Auditoría y Trazas", "Registrando en artifacts/audit.log"),
         ]
         filas_estado = "".join(
@@ -805,17 +808,16 @@ elif menu == "Red Neuronal & Ontología":
         onto_p = BASE_DIR / "artifacts" / "ontologia.graphml"
         if onto_p.exists():
             G_load = nx.read_graphml(onto_p)
-            st.info(f"Grafo cargado correctamente con **{G_load.number_of_nodes()} conceptos** y **{G_load.number_of_edges()} relaciones semánticas**.")
+            st.info(f"Grafo cargado correctamente con {G_load.number_of_nodes()} conceptos y {G_load.number_of_edges()} relaciones semánticas.")
             edges_list = [(u, v, data.get('rel', 'relación')) for u, v, data in G_load.edges(data=True)]
             st.table(pd.DataFrame(edges_list, columns=["Sujeto", "Objeto", "Relación Semántica"]))
         else:
             st.warning("Archivo GraphML no encontrado en artifacts/.")
 
-# --- 6.1 Visión Artificial (Semana 09) ---
+# --- 7. Visión Artificial (Semana 09) ---
 elif menu == "Visión Artificial (Semana 09)":
     encabezado("Visión Artificial y Procesamiento de Imágenes", "Transformación de evidencia visual en información numérica mediante extracción de características, detección de contornos (Canny) y segmentación por umbrales (Otsu).")
 
-    # NUEVO: Selector de imágenes de la Base de Conocimiento
     st.subheader("Analizar Evidencia desde la Base de Conocimiento")
     
     opciones_imagenes = {
@@ -824,14 +826,13 @@ elif menu == "Visión Artificial (Semana 09)":
         "Falla 3: Router sin conexión (Luces apagadas)": "router.png"
     }
     
-    imagen_seleccionada = st.selectbox("Selecciona un caso de estudio predefinido para procesar:", list(opciones_imagenes.keys()))
+    imagen_seleccionada = st.selectbox("Selecciona un caso de estudio predefinido para procesar:", list(opciones_imagenes.keys()), key="select_vis_09")
     archivo_imagen = opciones_imagenes[imagen_seleccionada]
 
-    if st.button("Procesar Imagen Seleccionada"):
+    if st.button("Procesar Imagen Seleccionada", key="btn_vis_09"):
         if MODULOS_CARGADOS:
             with st.spinner(f"Procesando bordes, umbrales y regiones de {archivo_imagen}..."):
                 try:
-                    # Pasamos el archivo seleccionado a la función backend
                     umbral, regiones = ejecutar_vision_soporte(nombre_imagen=archivo_imagen)
                     
                     if umbral is not None:
@@ -865,9 +866,139 @@ elif menu == "Visión Artificial (Semana 09)":
     else:
         st.warning("No se ha generado la evidencia visual. Selecciona una imagen y procesa el pipeline.")
 
-# --- 7. Portal de Usuario ---
+# --- 8. Histogramas y Texturas LBP (Semana 10) ---
+elif menu == "Histogramas y Texturas LBP (Semana 10)":
+    encabezado("Comparativa de Dispositivos (Bueno vs. Malo) y Análisis de Texturas LBP", "Evaluación morfológica y comparación lado a lado entre componentes en estado óptimo y componentes con fallos específicos.")
+
+    categorias_hardware = {
+        "Disco Duro": {
+            "bueno": "disco_duro_bueno.jpg",
+            "malos": {
+                "Daño por Golpe Físico": "disco_duro_dañado_por_golpe.jpg",
+                "Rayones en Superficie Magnética": "disco_duro_dañado_por_rayones.jpg",
+                "No Gira (Falla en Motor Spindle)": "disco_duro_no_gira.jpg"
+            }
+        },
+        "Router / Red": {
+            "bueno": "router_bueno.jpg",
+            "malos": {
+                "Falla de Conexión Intermitente": "router_falla_conexion_intermitente.jpg"
+            }
+        },
+        "Pantalla / Display": {
+            "bueno": "panatalla_inicio_bueno.jpg",
+            "malos": {
+                "Daño Físico por Golpe en Display": "pantalla_dañada_por_golpe.jpg",
+                "Fallo de Encendido (No Arranca / Sin Video)": "pantalla_no_arranca.jpg"
+            }
+        }
+    }
+
+    col_cat1, col_cat2 = st.columns(2)
+    with col_cat1:
+        categoria_sel = st.selectbox("Seleccionar Categoría de Producto:", list(categorias_hardware.keys()), key="s10_cat")
+    
+    prod_info = categorias_hardware[categoria_sel]
+    img_buena_nombre = prod_info["bueno"]
+
+    with col_cat2:
+        fallo_sel = st.selectbox(f"Seleccionar Tipo de Avería ({categoria_sel}):", list(prod_info["malos"].keys()), key="s10_fallo")
+    
+    img_mala_nombre = prod_info["malos"][fallo_sel]
+
+    st.markdown("---")
+
+    if st.button("Ejecutar Análisis Comparativo (Bueno vs. Malo)"):
+        if MODULOS_CARGADOS:
+            with st.spinner("Procesando características, histogramas y texturas LBP para ambos estados..."):
+                try:
+                    import matplotlib.pyplot as plt
+                    
+                    img_a, mask_a, hist_int_a, hist_lbp_a, feat_a = procesar_imagen_proyecto(img_buena_nombre)
+                    img_b, mask_b, hist_int_b, hist_lbp_b, feat_b = procesar_imagen_proyecto(img_mala_nombre)
+
+                    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+                    
+                    axes[0, 0].imshow(img_a, cmap='gray')
+                    axes[0, 0].set_title(f"Óptimo: {img_buena_nombre}")
+                    axes[0, 0].axis('off')
+                    
+                    axes[0, 1].imshow(img_b, cmap='gray')
+                    axes[0, 1].set_title(f"Averiado: {img_mala_nombre}")
+                    axes[0, 1].axis('off')
+                    
+                    axes[1, 0].plot(hist_int_a, label="Intensidad (Sano)", color='blue')
+                    axes[1, 0].plot(hist_lbp_a, label="LBP Textura (Sano)", color='orange')
+                    axes[1, 0].set_title(f"Histogramas - {img_buena_nombre}")
+                    axes[1, 0].legend(loc="upper right")
+                    
+                    axes[1, 1].plot(hist_int_b, label="Intensidad (Averiado)", color='green')
+                    axes[1, 1].plot(hist_lbp_b, label="LBP Textura (Averiado)", color='red')
+                    axes[1, 1].set_title(f"Histogramas - {img_mala_nombre}")
+                    axes[1, 1].legend(loc="upper right")
+                    
+                    plt.tight_layout()
+                    artifact_path = BASE_DIR / "artifacts" / "semana10_comparativa.png"
+                    artifact_path.parent.mkdir(parents=True, exist_ok=True)
+                    plt.savefig(artifact_path)
+                    plt.close()
+
+                    st.session_state['s10_feat_bueno'] = feat_a
+                    st.session_state['s10_feat_malo'] = feat_b
+                    st.session_state['s10_nombres'] = (img_buena_nombre, img_mala_nombre)
+                    st.session_state['s10_fallo_desc'] = fallo_sel
+
+                    st.success("¡Análisis comparativo de la Semana 10 completado con éxito!")
+                except Exception as e:
+                    st.error(f"Error al procesar las imágenes: {e}")
+        else:
+            st.error("Módulos no cargados correctamente.")
+
+    comp_path = Path("artifacts/semana10_comparativa.png")
+    if comp_path.exists():
+        st.markdown("### Visualización Lado a lado (Imágenes e Histogramas Analíticos)")
+        st.image(str(comp_path), use_container_width=True)
+
+    if 's10_feat_bueno' in st.session_state:
+        f_bno = st.session_state['s10_feat_bueno']
+        f_mlo = st.session_state['s10_feat_malo']
+        n_bno, n_mlo = st.session_state['s10_nombres']
+        desc_fallo = st.session_state['s10_fallo_desc']
+
+        st.markdown("### Especificación Técnica del Diagnóstico y Fallos")
+        st.error(f"**Avería Detectada:** {desc_fallo} (`{n_mlo}`)")
+        
+        if "golpe" in n_mlo:
+            st.markdown("- **Análisis de Fallo:** Disrupción estructural por impacto cinético. Las regiones conectadas aumentan debido a las fracturas y astillas, alterando drásticamente el patrón regular de la referencia sana (`{n_bno}`).")
+        elif "rayones" in n_mlo:
+            st.markdown("- **Análisis de Fallo:** Abrasión profunda en la superficie magnética. Se observa una desviación notoria en los descriptores de textura LBP respecto al componente óptimo.")
+        elif "no_gira" in n_mlo:
+            st.markdown("- **Análisis de Fallo:** Traba mecánica en el motor o bloqueo de eje. El histograma carece de variabilidad dinámica al encontrarse el componente detenido.")
+        elif "intermitente" in n_mlo:
+            st.markdown("- **Análisis de Fallo:** Degeneración en la pasarela de red y pérdida de estabilidad de enlace inalámbrico.")
+        else:
+            st.markdown("- **Análisis de Fallo:** Anomalía crítica en circuitos de video o alimentación, rompiendo la simetría morfológica del estado base.")
+
+        st.markdown("---")
+        st.markdown("### Comparativa Numérica de Vectores de Características (.npy)")
+        
+        col_m1, col_m2 = st.columns(2)
+        with col_m1:
+            st.markdown(f"**Referencia Sana: `{n_bno}`**")
+            st.metric("Área Media de Regiones", f"{f_bno[0]:.2f} px")
+            st.metric("Desviación Estándar", f"{f_bno[1]:.2f}")
+            st.metric("Regiones Validadas", int(f_bno[2]))
+        with col_m2:
+            st.markdown(f"**Componente Averiado: `{n_mlo}`**")
+            st.metric("Área Media de Regiones", f"{f_mlo[0]:.2f} px", delta=f"{f_mlo[0]-f_bno[0]:.2f} px", delta_color="inverse")
+            st.metric("Desviación Estándar", f"{f_mlo[1]:.2f}", delta=f"{f_mlo[1]-f_bno[1]:.2f}", delta_color="off")
+            st.metric("Regiones Validadas", int(f_mlo[2]), delta=f"{int(f_mlo[2]-f_bno[2])}", delta_color="inverse")
+    else:
+        st.warning("Selecciona una categoría y un tipo de avería, luego haz clic en 'Ejecutar Análisis Comparativo (Bueno vs. Malo)'.")
+
+# --- 9. Portal de Usuario ---
 elif menu == "Portal de Usuario":
-    encabezado("Portal de Usuario / Cliente Final", "Interfaz orientada al usuario final para la creación de solicitudes de soporte y asistencia.")
+    encabezado("Portal / Cliente Final", "Interfaz orientada al usuario final para la creación de solicitudes de soporte y asistencia.")
     
     usuario_nombre = st.text_input("Nombre del Empleado / Usuario:", "Carlos Pérez (Contabilidad)")
     problema_desc = st.text_area("Describe el síntoma técnico:", "La aplicación de nómina se congela y arroja pantalla azul al intentar generar el cierre mensual.")
@@ -888,7 +1019,7 @@ elif menu == "Portal de Usuario":
         dist_portal = np.linalg.norm(vector_ticket - np.array([10.0, 10.0, 1.0]))
         st.metric(label="Métrica de Proximidad a Incidente Crítico (Distancia Euclidiana)", value=f"{dist_portal:.2f}")
 
-# --- 8. Base de Conocimiento (KB) ---
+# --- 10. Base de Conocimiento (KB) ---
 elif menu == "Base de Conocimiento (KB)":
     encabezado("Base de Conocimiento Técnica (KB)", "Catálogo de los **30 procedimientos operativos estandarizados** del Asistente de Soporte TI, utilizados para el entrenamiento del clasificador y el motor TF-IDF.")
     
@@ -924,7 +1055,7 @@ elif menu == "Base de Conocimiento (KB)":
     else:
         st.warning("No se encontraron procedimientos que coincidan con los filtros aplicados.")
 
-# --- 9. Trazas de Auditoría ---
+# --- 11. Trazas de Auditoría ---
 elif menu == "Trazas de Auditoría":
     encabezado("Registro de Auditoría del Sistema (audit.log)", "Monitoreo y observabilidad de eventos generados por el orquestador `main.py` y los clasificadores del sistema.")
     
