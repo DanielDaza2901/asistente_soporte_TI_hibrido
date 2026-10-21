@@ -111,6 +111,7 @@ def main():
 
     print("\n" + "="*50 + "\n")
 
+
     # === SECCIÓN 9: Histogramas y Texturas LBP (Semana 10) ===
     print("=== 9. HISTOGRAMAS Y TEXTURAS LBP (SEMANA 10) ===")
     img, mask, hi, hl, feat = procesar_imagen_proyecto("disco_duro_dañado_por_golpe.jpg")
@@ -118,7 +119,7 @@ def main():
     print(f"Diagnóstico asociado: {FALLOS_DESCRIPCION.get('disco_duro_dañado_por_golpe.jpg')}")
     registrar_traza(ticket_id, "SEMANA_10", "Análisis de características vectoriales y texturas LBP completado.")
 
-    print("\n" + "="*50 + "\n")
+    print("==================================================")
 
     # === SECCIÓN 10: Benchmark y Decisiones de Modelos con Evidencia (Semana 11) ===
     print("=== 10. BENCHMARK DE MODELOS Y DECISIONES TÉCNICAS (SEMANA 11) ===")
