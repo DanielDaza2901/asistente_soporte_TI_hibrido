@@ -11,6 +11,7 @@ from classifiers.reconocimiento import ejecutar_semana_08
 from classifiers.vision import ejecutar_vision_soporte
 from classifiers.texturas import procesar_imagen_proyecto, FALLOS_DESCRIPCION
 from classifiers.benchmark import ejecutar_benchmark_semana11
+from classifiers.motor_inferencia import inferir_con_explicacion, REGLAS_SOPORTE_TI
 
 def main():
     # === SECCIÓN 1: Validación del Modelo Base ===
@@ -111,7 +112,6 @@ def main():
 
     print("\n" + "="*50 + "\n")
 
-
     # === SECCIÓN 9: Histogramas y Texturas LBP (Semana 10) ===
     print("=== 9. HISTOGRAMAS Y TEXTURAS LBP (SEMANA 10) ===")
     img, mask, hi, hl, feat = procesar_imagen_proyecto("disco_duro_dañado_por_golpe.jpg")
@@ -128,7 +128,21 @@ def main():
     print(df_benchmark.to_string(index=False))
 
     print("==================================================")
-    print("¡PIPELINE COMPLETO DE LA SEMANA 02 A LA SEMANA 11 EJECUTADO EXITOSAMENTE!")
+
+    # === SECCIÓN 11: Motor de Inferencia Lógica Avanzado (Semana 13) ===
+    print("=== 11. INGENIERÍA DEL CONOCIMIENTO Y MOTOR DE INFERENCIA (SEMANA 13) ===")
+    hechos_iniciales_demo = {"imagen_procesada_ok", "textura_anomala_detectada", "hardware_critico", "sla_excedido"}
+    hechos_finales, traza_reglas, explicaciones_demo = inferir_con_explicacion(hechos_iniciales_demo, REGLAS_SOPORTE_TI)
+    print(f"Hechos iniciales: {hechos_iniciales_demo}")
+    print(f"Hechos deducidos (Finales): {hechos_finales}")
+    print(f"Traza de reglas ejecutadas: {traza_reglas}")
+    print("Explicaciones paso a paso:")
+    for exp in explicaciones_demo:
+        print(f" -> {exp}")
+    registrar_traza(ticket_id, "SEMANA_13_INFERENCIA", f"Motor de inferencia ejecutado con éxito. Trazas: {traza_reglas}")
+
+    print("==================================================")
+    print("¡PIPELINE COMPLETO DE LA SEMANA 02 A LA SEMANA 13 EJECUTADO EXITOSAMENTE!")
 
 if __name__ == "__main__":
     main()

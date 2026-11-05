@@ -25,6 +25,7 @@ try:
     from classifiers.vision import ejecutar_vision_soporte
     from classifiers.texturas import procesar_imagen_proyecto
     from classifiers.texturas import procesar_imagen_proyecto, FALLOS_DESCRIPCION
+    from classifiers.motor_inferencia import inferir_con_explicacion, REGLAS_SOPORTE_TI  # <--- NUEVO S13 AVANZADO
     MODULOS_CARGADOS = True
 except ImportError as e:
     MODULOS_CARGADOS = False
@@ -357,6 +358,7 @@ menu = st.sidebar.radio(
         "Visión Artificial (Semana 09)",
         "Histogramas y Texturas LBP (Semana 10)",
         "Benchmark y Decisiones de Modelos (Semana 11)",
+        "Motor de Inferencia (Semana 13)",
         "Portal de Usuario",
         "Base de Conocimiento (KB)", 
         "Trazas de Auditoría"
@@ -410,6 +412,7 @@ if menu == "Resumen Ejecutivo":
             ("Visión Artificial (Semana 09)", ""),
             ("Histogramas y Texturas LBP (Semana 10)", "Extracción de Features Vectoriales"),
             ("Benchmark de Modelos y ADR (Semana 11)", "Evaluación y Serialización en artifacts/"),
+            ("Motor de Inferencia Avanzado (Semana 13)", "Reglas Horn, Trazas y Explicabilidad"),
             ("Motor de Auditoría y Trazas", "Registrando en artifacts/audit.log"),
         ]
         filas_estado = "".join(
@@ -817,6 +820,7 @@ elif menu == "Red Neuronal & Ontología":
             st.table(pd.DataFrame(edges_list, columns=["Sujeto", "Objeto", "Relación Semántica"]))
         else:
             st.warning("Archivo GraphML no encontrado en artifacts/.")
+            
 # --- 7. Visión Artificial (Semana 09) ---
 elif menu == "Visión Artificial (Semana 09)":
     encabezado("Visión Artificial y Procesamiento de Imágenes", "Transformación de evidencia visual en información numérica mediante extracción de características, detección de contornos (Canny) y segmentación por umbrales (Otsu).")
@@ -1069,7 +1073,75 @@ elif menu == "Benchmark y Decisiones de Modelos (Semana 11)":
             st.info("Ejecuta `python src/semana11_benchmark.py` para generar el informe ADR automáticamente.")
     else:
         st.warning("No se encontró el archivo de benchmark. Ejecuta `python src/semana11_benchmark.py` para generarlo.")
-# --- 10. Portal de Usuario ---
+
+# --- 10. Motor de Inferencia Avanzado (Semana 13) ---
+elif menu == "Motor de Inferencia (Semana 13)":
+    encabezado("Ingeniería del Conocimiento: Motor de Inferencia Lógica (Semana 13)", "Evaluación de reglas Horn por encadenamiento hacia adelante con trazabilidad y explicabilidad paso a paso para el Asistente de Soporte TI.")
+    
+    st.markdown("### 📋 Catálogo Extendido de Reglas del Sistema")
+    st.markdown("""
+    - **R1:** $\\text{imagen\\_procesada\\_ok} \\land \\text{textura\\_anomala\\_detectada} \\longrightarrow \\text{diagnostico\\_hardware\\_fallido}$
+    - **R2:** $\\text{diagnostico\\_hardware\\_fallido} \\land \\text{hardware\\_critico} \\longrightarrow \\text{escalamiento\\_nivel\\_2}$
+    - **R3:** $\\text{escalamiento\\_nivel\\_2} \\land \\text{sla\\_excedido} \\longrightarrow \\text{prioridad\\_critica\\_urgente}$
+    - **R4:** $\\text{conexion\\_intermitente} \\land \\text{alta\\_latencia} \\longrightarrow \\text{falla\\_enlace\\_wan}$
+    - **R5:** $\\text{falla\\_enlace\\_wan} \\land \\text{impacto\\_critico} \\longrightarrow \\text{escalamiento\\_redes\\_nivel\\_3}$
+    """)
+    
+    st.markdown("---")
+    st.subheader("Simulador Interactivo de Escenarios y Explicabilidad")
+    
+    col_esc1, col_esc2 = st.columns(2)
+    with col_esc1:
+        st.markdown("**Selecciona las evidencias de Hardware / Tickets:**")
+        hecho_1 = st.checkbox("imagen_procesada_ok", value=True)
+        hecho_2 = st.checkbox("textura_anomala_detectada", value=True)
+        hecho_3 = st.checkbox("hardware_critico", value=True)
+        hecho_4 = st.checkbox("sla_excedido", value=True)
+    with col_esc2:
+        st.markdown("**Selecciona las evidencias de Red / WAN:**")
+        hecho_5 = st.checkbox("conexion_intermitente", value=False)
+        hecho_6 = st.checkbox("alta_latencia", value=False)
+        hecho_7 = st.checkbox("impacto_critico", value=False)
+        
+    hechos_usuario = set()
+    if hecho_1: hechos_usuario.add("imagen_procesada_ok")
+    if hecho_2: hechos_usuario.add("textura_anomala_detectada")
+    if hecho_3: hechos_usuario.add("hardware_critico")
+    if hecho_4: hechos_usuario.add("sla_excedido")
+    if hecho_5: hechos_usuario.add("conexion_intermitente")
+    if hecho_6: hechos_usuario.add("alta_latencia")
+    if hecho_7: hechos_usuario.add("impacto_critico")
+    
+    if st.button("Ejecutar Motor de Inferencia con Explicabilidad"):
+        if MODULOS_CARGADOS:
+            hechos_finales, trazas, explicaciones = inferir_con_explicacion(hechos_usuario, REGLAS_SOPORTE_TI)
+            
+            st.markdown("---")
+            col_r1, col_r2 = st.columns(2)
+            with col_r1:
+                st.markdown("#### Hechos Deducidos (Base Ampliada)")
+                st.info(list(hechos_finales))
+            with col_r2:
+                st.markdown("#### Traza de Reglas Activadas")
+                st.success(trazas if trazas else "Ninguna regla activada.")
+                
+            st.markdown("#### 🔍 Explicabilidad Paso a Paso (Modus Ponens)")
+            if explicaciones:
+                for exp in explicaciones:
+                    st.markdown(f"- {exp}")
+            else:
+                st.warning("No se disparó ninguna regla con las premisas proporcionadas.")
+                
+            if "prioridad_critica_urgente" in hechos_finales:
+                st.error("**Conclusión Demostrada:** `prioridad_critica_urgente` alcanzada con éxito.")
+            elif "escalamiento_redes_nivel_3" in hechos_finales:
+                st.error("**Conclusión Demostrada:** `escalamiento_redes_nivel_3` alcanzada con éxito.")
+            else:
+                st.warning("**Conclusión No Demostrada:** Faltan premisas intermedias para llegar a la conclusión final (esto no significa que sea falsa, sino insuficiente en evidencia).")
+        else:
+            st.error("Módulos no disponibles.")
+
+# --- 11. Portal de Usuario ---
 elif menu == "Portal de Usuario":
     encabezado("Portal / Cliente Final", "Interfaz orientada al usuario final para la creación de solicitudes de soporte.")
     usuario_nombre = st.text_input("Nombre:", "Carlos Pérez")
@@ -1077,14 +1149,14 @@ elif menu == "Portal de Usuario":
     if st.button("Enviar Solicitud"):
         st.success(f"¡Ticket registrado con éxito para {usuario_nombre}!")
 
-# --- 11. Base de Conocimiento (KB) ---
+# --- 12. Base de Conocimiento (KB) ---
 elif menu == "Base de Conocimiento (KB)":
     encabezado("Base de Conocimiento Técnica (KB)", "Catálogo de los 30 procedimientos operativos estandarizados.")
     for proc in cargar_base_conocimiento()[:10]:
         with st.expander(f"#{proc['id']} - {proc['titulo']} [{proc['categoria']}]"):
             st.markdown(f"**Solución:** {proc['solucion']}")
 
-# --- 12. Trazas de Auditoría ---
+# --- 13. Trazas de Auditoría ---
 elif menu == "Trazas de Auditoría":
     encabezado("Registro de Auditoría del Sistema (audit.log)", "Monitoreo de eventos generados por el orquestador.")
     registros, raw_text = parsear_audit_log()
