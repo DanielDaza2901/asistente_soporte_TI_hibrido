@@ -3,10 +3,9 @@
 Red semántica aplicada al **Asistente de Soporte TI Híbrido**. Interpreta oraciones simples en español, las convierte en triples `(sujeto, relación, objeto)`, las almacena como un grafo dirigido y obtiene conclusiones por jerarquía (`es_un`) y herencia de propiedades, mostrando **cómo** se llegó a cada conclusión.
 
 ---
-## Enlace al Repositorio
-[https://github.com/DanielDaza2901/asistente_soporte_TI_hibrido](https://github.com/DanielDaza2901/asistente_soporte_TI_hibrido)
-
-https://github.com/MarcoMolina2011/asistente_soporte_TI_hibrido
+   ### Enlace al repositorio
+   - Daniel Daza: [asistente_soporte_TI_hibrido](https://github.com/DanielDaza2901/asistente_soporte_TI_hibrido)
+   - Marco Molina: [asistente_soporte_TI_hibrido](https://github.com/MarcoMolina2011/asistente_soporte_TI_hibrido)
 ---
 ### 1. Conceptos del proyecto (8)
 

@@ -56,6 +56,10 @@ st.markdown("""
         --muted: #5B6779;
         --ok: #1E8E5A;
         --ok-soft: #E7F5EE;
+        --warn: #B7791F;
+        --warn-soft: #FEF6E4;
+        --err: #C0392B;
+        --err-soft: #FCEBE9;
     }
 
     /* ---------- Base ---------- */
@@ -227,6 +231,114 @@ st.markdown("""
     [data-testid="stCode"] { border: 1px solid var(--line); border-radius: 10px; }
     [data-testid="stImage"] img { border-radius: 10px; border: 1px solid var(--line); }
     [data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] * { color: var(--muted) !important; opacity: 1 !important; }
+
+    /* =====================================================================
+       SISTEMA DE DISEÑO V2: menú, desplegables, estados, gráficas y controles
+       ===================================================================== */
+
+    /* ---------- Barra lateral: grupos del menú ---------- */
+    [data-testid="stSidebar"] [role="radiogroup"] > label { position: relative; }
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(1),
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(3),
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(10),
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(12) { margin-top: 30px; }
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(1)::before,
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(3)::before,
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(10)::before,
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(12)::before {
+        position: absolute; left: 12px; top: -23px; pointer-events: none;
+        font-size: 0.68rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: #6F829F;
+    }
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(1)::before { content: "Fundamentos"; }
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(3)::before { content: "Modelos y algoritmos"; }
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(10)::before { content: "Conocimiento"; }
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(12)::before { content: "Operación"; }
+
+    /* ---------- Menús desplegables (selectbox y multiselect) ---------- */
+    [data-baseweb="select"] > div { min-height: 42px; transition: border-color 0.15s ease, box-shadow 0.15s ease; }
+    [data-baseweb="select"] > div:hover { border-color: #B9C4D8; }
+    [data-baseweb="select"]:focus-within > div { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(36, 87, 214, 0.15); }
+    [data-baseweb="select"] svg { color: var(--muted); }
+    [data-baseweb="tag"] { border-radius: 6px; font-weight: 500; }
+    div[data-baseweb="popover"] { font-family: 'IBM Plex Sans', 'Segoe UI', Roboto, Arial, sans-serif; }
+    div[data-baseweb="popover"] > div {
+        border-radius: 12px; border: 1px solid var(--line); background: var(--surface);
+        box-shadow: 0 12px 32px rgba(15, 27, 45, 0.18); overflow: hidden;
+    }
+    div[data-baseweb="popover"] ul[role="listbox"], div[data-baseweb="popover"] [data-baseweb="menu"] { background: var(--surface); padding: 6px; }
+    div[data-baseweb="popover"] li[role="option"] {
+        border-radius: 8px; margin: 1px 0; padding-top: 9px; padding-bottom: 9px; font-size: 0.9rem; color: var(--text);
+    }
+    div[data-baseweb="popover"] li[role="option"]:hover,
+    div[data-baseweb="popover"] li[role="option"][data-highlighted="true"] { background: var(--accent-soft); }
+    div[data-baseweb="popover"] li[role="option"][aria-selected="true"] { background: var(--accent-soft); color: var(--accent-dark); font-weight: 600; }
+
+    /* ---------- Estados: alertas por tipo ---------- */
+    [data-testid="stAlert"] {
+        border-radius: 10px; border: 1px solid var(--line); border-left: 4px solid var(--line);
+        box-shadow: 0 1px 2px rgba(15, 27, 45, 0.04);
+    }
+    [data-testid="stAlert"] p, [data-testid="stAlert"] li { color: var(--text); }
+    [data-testid="stAlert"] code { background: rgba(255, 255, 255, 0.8); color: var(--accent-dark); }
+    [data-testid="stAlert"]:has([data-testid="stAlertContentInfo"]) { background: var(--accent-soft); border-color: #CFDBF8; border-left-color: var(--accent); }
+    [data-testid="stAlert"]:has([data-testid="stAlertContentSuccess"]) { background: var(--ok-soft); border-color: #CBE8D8; border-left-color: var(--ok); }
+    [data-testid="stAlert"]:has([data-testid="stAlertContentWarning"]) { background: var(--warn-soft); border-color: #F2DFB5; border-left-color: var(--warn); }
+    [data-testid="stAlert"]:has([data-testid="stAlertContentError"]) { background: var(--err-soft); border-color: #F2C9C4; border-left-color: var(--err); }
+
+    /* ---------- Tarjetas de resultado de los modelos ---------- */
+    .result-card {
+        background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--tono, var(--accent));
+        border-radius: 12px; padding: 14px 18px; margin: 0 0 12px 0; box-shadow: 0 1px 2px rgba(15, 27, 45, 0.04);
+    }
+    .result-label { font-size: 0.78rem; font-weight: 600; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 4px; }
+    .result-value { font-size: 1.35rem; font-weight: 700; color: var(--text); line-height: 1.3; word-break: break-word; }
+    .result-card.texto .result-value { font-size: 0.98rem; font-weight: 500; line-height: 1.6; }
+    .result-detail {
+        display: inline-block; margin-top: 8px; padding: 2px 10px; border-radius: 6px;
+        background: var(--tono-suave, var(--accent-soft)); color: var(--tono, var(--accent)); font-size: 0.78rem; font-weight: 600;
+    }
+    .result-bar { margin-top: 10px; height: 8px; border-radius: 999px; background: #E9EDF4; overflow: hidden; }
+    .result-bar > span { display: block; height: 100%; border-radius: 999px; background: var(--tono, var(--accent)); }
+    .badge-warn { background: var(--warn-soft); color: var(--warn); border-radius: 999px; padding: 3px 11px; font-size: 0.75rem; font-weight: 600; }
+    .badge-err { background: var(--err-soft); color: var(--err); border-radius: 999px; padding: 3px 11px; font-size: 0.75rem; font-weight: 600; }
+
+    /* ---------- Gráficas e imágenes como paneles ---------- */
+    [data-testid="stPlotlyChart"], [data-testid="stVegaLiteChart"], [data-testid="stArrowVegaLiteChart"], [data-testid="stGraphVizChart"] {
+        background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+        padding: 14px 14px 8px 14px; box-shadow: 0 1px 2px rgba(15, 27, 45, 0.04);
+    }
+    [data-testid="stImage"] img { background: var(--surface); box-shadow: 0 1px 2px rgba(15, 27, 45, 0.05); }
+    [data-testid="stImageCaption"] { color: var(--muted); font-size: 0.8rem; text-align: center; }
+
+    /* ---------- Controles operativos ---------- */
+    [data-testid="stProgress"] [role="progressbar"] { height: 10px !important; border-radius: 999px; background: #E2E7F0; overflow: hidden; }
+    [data-testid="stProgress"] [role="progressbar"] > div { border-radius: 999px; }
+    [data-testid="stProgress"] p { font-size: 0.82rem; color: var(--muted); }
+    [data-testid="stSlider"] [data-testid="stThumbValue"] { color: var(--accent-dark); font-weight: 600; font-size: 0.85rem; }
+    [data-testid="stSlider"] [data-testid="stTickBarMin"], [data-testid="stSlider"] [data-testid="stTickBarMax"] { color: var(--muted); font-size: 0.75rem; }
+    [data-testid="stCheckbox"] label { padding: 6px 10px; border-radius: 8px; transition: background 0.15s ease; }
+    [data-testid="stCheckbox"] label:hover { background: var(--accent-soft); }
+    [data-testid="stCheckbox"] label p { font-size: 0.9rem; }
+    .stButton > button:active, [data-testid="stDownloadButton"] > button:active { transform: translateY(1px); box-shadow: none; }
+    .stButton > button:disabled, [data-testid="stDownloadButton"] > button:disabled {
+        background: #C5CEDC; color: #FFFFFF; box-shadow: none; cursor: not-allowed;
+    }
+    [data-testid="stFileUploaderDropzone"] { transition: border-color 0.15s ease, background 0.15s ease; }
+    [data-testid="stFileUploaderDropzone"]:hover { border-color: var(--accent); background: var(--accent-soft); }
+    [data-testid="stExpander"] summary { border-radius: 10px; transition: background 0.15s ease; }
+    [data-testid="stExpander"] summary:hover { background: #F7F9FC; }
+    [data-testid="stExpander"] details[open] > summary { border-bottom: 1px solid var(--line); border-radius: 10px 10px 0 0; }
+    [data-testid="stMetric"] { transition: box-shadow 0.15s ease; }
+    [data-testid="stMetric"]:hover { box-shadow: 0 4px 14px rgba(15, 27, 45, 0.08); }
+    [data-testid="stSpinner"] { color: var(--muted); }
+    [data-testid="stTooltipContent"] { font-size: 0.82rem; border-radius: 8px; }
+
+    /* ---------- Barras de desplazamiento ---------- */
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-thumb { background: #C5CEDC; border-radius: 999px; border: 2px solid transparent; background-clip: content-box; }
+    ::-webkit-scrollbar-thumb:hover { background: #A9B6CB; background-clip: content-box; }
+    [data-testid="stSidebar"] ::-webkit-scrollbar-thumb { background: #2A3E5C; background-clip: content-box; }
+    [data-testid="stSidebar"] ::-webkit-scrollbar-track { background: transparent; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -240,6 +352,55 @@ def encabezado(titulo, descripcion=""):
     d = _re.sub(r"`(.+?)`", r"<code>\1</code>", d)
     cuerpo = f"<p>{d}</p>" if d else ""
     st.markdown(f'<div class="page-head"><h1>{t}</h1>{cuerpo}</div>', unsafe_allow_html=True)
+
+# --- Componentes visuales reutilizables (solo presentación) ---
+def tarjeta_resultado(etiqueta, valor, detalle="", tono="azul", progreso=None, texto=False):
+    """Tarjeta de resultado de un modelo: etiqueta, valor, detalle opcional y barra de progreso 0-1."""
+    import html as _h
+    tonos = {"azul": ("#2457D6", "#E8EEFC"), "verde": ("#1E8E5A", "#E7F5EE"),
+             "ambar": ("#B7791F", "#FEF6E4"), "rojo": ("#C0392B", "#FCEBE9"), "gris": ("#5B6779", "#EDF1F8")}
+    fuerte, suave = tonos.get(tono, tonos["azul"])
+    clase = "result-card texto" if texto else "result-card"
+    partes = [f'<div class="{clase}" style="--tono:{fuerte};--tono-suave:{suave}">',
+              f'<div class="result-label">{_h.escape(str(etiqueta))}</div>',
+              f'<div class="result-value">{_h.escape(str(valor))}</div>']
+    if detalle:
+        partes.append(f'<div class="result-detail">{_h.escape(str(detalle))}</div>')
+    if progreso is not None:
+        try:
+            pct = max(0.0, min(1.0, float(progreso))) * 100
+            partes.append(f'<div class="result-bar"><span style="width:{pct:.1f}%"></span></div>')
+        except (TypeError, ValueError):
+            pass
+    partes.append("</div>")
+    st.markdown("".join(partes), unsafe_allow_html=True)
+
+def estilo_plotly(fig):
+    """Aplica la paleta, tipografía y rejilla del dashboard a una figura de Plotly."""
+    fig.update_layout(
+        template="plotly_white",
+        font=dict(family="IBM Plex Sans, Segoe UI, Arial, sans-serif", size=13, color="#14213D"),
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+        colorway=["#2457D6", "#0E9F8E", "#E08A1E", "#C0392B", "#7A5AF8"],
+        xaxis=dict(showgrid=False, linecolor="#C5CEDC", tickcolor="#C5CEDC", title_font=dict(size=12, color="#5B6779")),
+        yaxis=dict(gridcolor="#E9EDF4", zeroline=False, title_font=dict(size=12, color="#5B6779")),
+        hoverlabel=dict(bgcolor="#0F1B2D", font=dict(color="#FFFFFF", size=12), bordercolor="#0F1B2D"),
+    )
+    return fig
+
+def estilo_matplotlib():
+    """Estilo uniforme (paleta, tipografía, rejilla suave) para las figuras de Matplotlib."""
+    import matplotlib.pyplot as plt
+    plt.rcParams.update({
+        "font.family": "sans-serif", "font.sans-serif": ["IBM Plex Sans", "Segoe UI", "DejaVu Sans", "Arial"],
+        "font.size": 11, "axes.titlesize": 13, "axes.titleweight": "bold", "axes.titlecolor": "#14213D",
+        "axes.labelcolor": "#5B6779", "axes.edgecolor": "#C5CEDC", "axes.linewidth": 0.8,
+        "axes.spines.top": False, "axes.spines.right": False, "axes.grid": True, "axes.axisbelow": True,
+        "grid.color": "#E9EDF4", "grid.linewidth": 0.8, "xtick.color": "#5B6779", "ytick.color": "#5B6779",
+        "legend.frameon": False, "lines.linewidth": 2.0,
+        "figure.facecolor": "white", "axes.facecolor": "white", "savefig.facecolor": "white",
+    })
+    return plt
 
 # --- Redes semánticas (Semana 14): construcción de redes y grafos ---
 ORACIONES_RED_PROYECTO = [
@@ -537,12 +698,12 @@ elif menu == "Sistema Híbrido & TF-IDF":
             col1, col2 = st.columns(2)
             with col1:
                 st.markdown("### Resultados del Motor")
-                st.info(f"**Reglas Activadas:** `{resultado['reglas']}`")
-                st.warning(f"**Clase Predicha (ML):** `{resultado['clase']}`")
-                st.metric(label="Similitud Coseno", value=f"{resultado['similitud']:.4f}")
+                tarjeta_resultado("Reglas activadas", resultado['reglas'], tono="azul")
+                tarjeta_resultado("Clase predicha (ML)", resultado['clase'], tono="ambar")
+                tarjeta_resultado("Similitud coseno", f"{resultado['similitud']:.4f}", tono="verde", progreso=resultado['similitud'])
             with col2:
                 st.markdown("### Evidencia Recuperada (TF-IDF)")
-                st.success(f"{resultado['evidencia']}")
+                tarjeta_resultado("Procedimiento recuperado", resultado['evidencia'], tono="verde", texto=True)
         else:
             st.error("No se pudieron cargar los módulos de Python desde la carpeta `src/`.")
 
@@ -828,7 +989,7 @@ elif menu == "Red Neuronal & Ontología":
                 entrada = np.array([[f1, f2, f3, f4]])
                 prediccion = clf.predict(entrada)[0]
                 mapa_clases = {0: "Hardware", 1: "Red", 2: "Software", 3: "Seguridad"}
-                st.success(f"Categoría Predicha por el Modelo: **{mapa_clases.get(prediccion, 'Desconocida')}** (Clase ID: {prediccion})")
+                tarjeta_resultado("Categoría predicha por el modelo", mapa_clases.get(prediccion, 'Desconocida'), detalle=f"Clase ID: {prediccion}", tono="verde")
             else:
                 st.warning("Primero debes ejecutar `python src/main.py` para generar el modelo entrenado.")
                 
@@ -989,6 +1150,7 @@ elif menu == "Histogramas y Texturas LBP (Semana 10)":
             with st.spinner("Procesando características, histogramas y texturas LBP para ambos estados..."):
                 try:
                     import matplotlib.pyplot as plt
+                    estilo_matplotlib()
                     
                     img_a, mask_a, hist_int_a, hist_lbp_a, feat_a = procesar_imagen_proyecto(img_buena_nombre)
                     img_b, mask_b, hist_int_b, hist_lbp_b, feat_b = procesar_imagen_proyecto(img_mala_nombre)
@@ -1003,20 +1165,20 @@ elif menu == "Histogramas y Texturas LBP (Semana 10)":
                     axes[0, 1].set_title(f"Averiado: {img_mala_nombre}")
                     axes[0, 1].axis('off')
                     
-                    axes[1, 0].plot(hist_int_a, label="Intensidad (Sano)", color='blue')
-                    axes[1, 0].plot(hist_lbp_a, label="LBP Textura (Sano)", color='orange')
+                    axes[1, 0].plot(hist_int_a, label="Intensidad (Sano)", color="#2457D6")
+                    axes[1, 0].plot(hist_lbp_a, label="LBP Textura (Sano)", color="#E08A1E")
                     axes[1, 0].set_title(f"Histogramas - {img_buena_nombre}")
                     axes[1, 0].legend(loc="upper right")
                     
-                    axes[1, 1].plot(hist_int_b, label="Intensidad (Averiado)", color='green')
-                    axes[1, 1].plot(hist_lbp_b, label="LBP Textura (Averiado)", color='red')
+                    axes[1, 1].plot(hist_int_b, label="Intensidad (Averiado)", color="#0E9F8E")
+                    axes[1, 1].plot(hist_lbp_b, label="LBP Textura (Averiado)", color="#C0392B")
                     axes[1, 1].set_title(f"Histogramas - {img_mala_nombre}")
                     axes[1, 1].legend(loc="upper right")
                     
                     plt.tight_layout()
                     artifact_path = BASE_DIR / "artifacts" / "semana10_comparativa.png"
                     artifact_path.parent.mkdir(parents=True, exist_ok=True)
-                    plt.savefig(artifact_path)
+                    plt.savefig(artifact_path, dpi=150, bbox_inches="tight")
                     plt.close()
 
                     st.session_state['s10_feat_bueno'] = feat_a
@@ -1099,13 +1261,14 @@ elif menu == "Benchmark y Decisiones de Modelos (Semana 11)":
             color="modelo",
             color_discrete_sequence=["#2457D6", "#0E9F8E", "#E08A1E"]
         )
-        fig.update_traces(texttemplate='%{text:.4f}', textposition='outside')
+        fig.update_traces(texttemplate='%{text:.4f}', textposition='outside', textfont=dict(size=13, color="#14213D"), cliponaxis=False)
         fig.update_layout(
             yaxis=dict(range=[0.90, 1.02]),
             margin=dict(t=20, b=20, l=20, r=20),
             height=400,
             showlegend=False
         )
+        fig = estilo_plotly(fig)
         st.plotly_chart(fig, use_container_width=True)
         
         df_sorted = df_bench.sort_values("accuracy", ascending=False).reset_index(drop=True)
