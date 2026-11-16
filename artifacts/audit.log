@@ -475,3 +475,48 @@
 2026-11-06 19:06:08 - [INFO] - TICKET_ID: TICK-2026-001 | ACCI�N: SEMANA_11_BENCHMARK | DETALLES: Benchmark completado sin errores. Modelo ganador: 'MLPClassifier (Red Neuronal)' con Accuracy de 98.00% y tiempo de entrenamiento de 2.986s.
 2026-11-06 19:06:08 - [INFO] - TICKET_ID: TICK-2026-001 | ACCI�N: SEMANA_13_INFERENCIA | DETALLES: Motor de inferencia con 10 reglas ejecutado con �xito. Trazas: ['R1', 'R2', 'R3']
 2026-11-06 19:06:08 - [INFO] - TICKET_ID: TICK-2026-001 | ACCI�N: SEMANA_14_RED_SEMANTICA | DETALLES: Red sem�ntica (8 conceptos y 5 triples expl�citos); inferencia es_un servidor_bd -> activo_corporativo = True; herencia de propiedades ejecutada.
+2026-11-09 21:43:30 - [INFO] - TICKET_ID: TICK-2026-001 | ACCI�N: RECEPCION | DETALLES: Ticket recibido con descripci�n: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-11-09 21:43:30 - [INFO] - TICKET_ID: TICK-2026-001 | ACCI�N: TAXONOMIA | DETALLES: Categor�a principal: 'Seguridad y An�lisis de Errores (Logs)' | Detectadas: ['Seguridad y An�lisis de Errores (Logs)']
+2026-11-09 21:43:30 - [INFO] - TICKET_ID: TICK-2026-001 | ACCI�N: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Cr�tica
+2026-11-09 21:43:30 - [INFO] - TICKET_ID: TICK-2026-001 | ACCI�N: SISTEMA_HIBRIDO | DETALLES: Ejecuci�n completa del sistema h�brido de la Semana 05 con base de conocimiento.
+2026-11-09 21:43:30 - [INFO] - TICKET_ID: TICK-2026-001 | ACCI�N: REPRESENTACIONES | DETALLES: Ejecuci�n de representaciones num�rica, simb�lica y de aut�mata (Semana 07) completada.
+2026-11-09 21:43:30 - [INFO] - TICKET_ID: TICK-2026-001 | ACCI�N: SEMANA_08 | DETALLES: Ejecuci�n del clasificador MLP, persistencia en SQLite de imagen Base64 y ontolog�a GraphML completada.
+2026-11-09 21:43:32 - [INFO] - TICKET_ID: TICK-2026-001 | ACCI�N: SEMANA_09 | DETALLES: Ejecuci�n de pipeline de visi�n artificial completada.
+2026-11-09 21:43:33 - [INFO] - TICKET_ID: TICK-2026-001 | ACCI�N: SEMANA_10 | DETALLES: An�lisis de caracter�sticas vectoriales y texturas LBP completado.
+2026-11-09 21:43:37 - [INFO] - TICKET_ID: TICK-2026-001 | ACCI�N: SEMANA_11_BENCHMARK | DETALLES: Benchmark completado sin errores. Modelo ganador: 'MLPClassifier (Red Neuronal)' con Accuracy de 98.00% y tiempo de entrenamiento de 3.496s.
+2026-11-09 21:43:37 - [INFO] - TICKET_ID: TICK-2026-001 | ACCI�N: SEMANA_13_INFERENCIA | DETALLES: Motor de inferencia con 10 reglas ejecutado con �xito. Trazas: ['R1', 'R2', 'R3']
+2026-11-09 21:43:37 - [INFO] - TICKET_ID: TICK-2026-001 | ACCI�N: SEMANA_14_RED_SEMANTICA | DETALLES: Red sem�ntica (8 conceptos y 5 triples expl�citos); inferencia es_un servidor_bd -> activo_corporativo = True; herencia de propiedades y validaciones ejecutadas.
+2026-11-10 14:13:28 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-11-10 14:13:28 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-11-10 14:13:28 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-11-10 14:13:28 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-11-10 14:13:28 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-11-10 14:13:28 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_08 | DETALLES: Ejecución del clasificador MLP, persistencia en SQLite de imagen Base64 y ontología GraphML completada.
+2026-11-10 14:13:30 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_09 | DETALLES: Ejecución de pipeline de visión artificial completada.
+2026-11-10 14:13:30 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_10 | DETALLES: Análisis de características vectoriales y texturas LBP completado.
+2026-11-10 14:13:33 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_11_BENCHMARK | DETALLES: Benchmark completado sin errores. Modelo ganador: 'MLPClassifier (Red Neuronal)' con Accuracy de 98.00% y tiempo de entrenamiento de 1.412s.
+2026-11-10 14:13:33 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_13_INFERENCIA | DETALLES: Motor de inferencia con 10 reglas ejecutado con éxito. Trazas: ['R1', 'R2', 'R3']
+2026-11-10 14:13:33 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_14_RED_SEMANTICA | DETALLES: Red semántica (8 conceptos y 5 triples explícitos); inferencia es_un servidor_bd -> activo_corporativo = True; herencia de propiedades y validaciones ejecutadas.
+2026-11-12 19:38:03 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-11-12 19:38:03 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-11-12 19:38:03 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-11-12 19:38:03 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-11-12 19:38:03 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-11-12 19:38:03 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_08 | DETALLES: Ejecución del clasificador MLP, persistencia en SQLite de imagen Base64 y ontología GraphML completada.
+2026-11-12 19:38:05 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_09 | DETALLES: Ejecución de pipeline de visión artificial completada.
+2026-11-12 19:38:05 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_10 | DETALLES: Análisis de características vectoriales y texturas LBP completado.
+2026-11-12 19:38:08 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_11_BENCHMARK | DETALLES: Benchmark completado sin errores. Modelo ganador: 'MLPClassifier (Red Neuronal)' con Accuracy de 98.00% y tiempo de entrenamiento de 1.248s.
+2026-11-12 19:38:08 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_13_INFERENCIA | DETALLES: Motor de inferencia con 10 reglas ejecutado con éxito. Trazas: ['R1', 'R2', 'R3']
+2026-11-12 19:38:08 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_14_RED_SEMANTICA | DETALLES: Red semántica (8 conceptos y 5 triples explícitos); inferencia es_un servidor_bd -> activo_corporativo = True; herencia de propiedades y validaciones ejecutadas.
+2026-11-16 18:37:11 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: RECEPCION | DETALLES: Ticket recibido con descripción: 'El departamento de Contabilidad reporta que la aplicacion de nomina se cierra inesperadamente al generar el informe fiscal mensual.'
+2026-11-16 18:37:11 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: TAXONOMIA | DETALLES: Categoría principal: 'Seguridad y Análisis de Errores (Logs)' | Detectadas: ['Seguridad y Análisis de Errores (Logs)']
+2026-11-16 18:37:11 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: PRIORIZACION | DETALLES: Impacto: Alto, Urgencia: Alto -> Asignada Prioridad: Crítica
+2026-11-16 18:37:11 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SISTEMA_HIBRIDO | DETALLES: Ejecución completa del sistema híbrido de la Semana 05 con base de conocimiento.
+2026-11-16 18:37:11 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: REPRESENTACIONES | DETALLES: Ejecución de representaciones numérica, simbólica y de autómata (Semana 07) completada.
+2026-11-16 18:37:11 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_08 | DETALLES: Ejecución del clasificador MLP, persistencia en SQLite de imagen Base64 y ontología GraphML completada.
+2026-11-16 18:37:13 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_09 | DETALLES: Ejecución de pipeline de visión artificial completada.
+2026-11-16 18:37:13 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_10 | DETALLES: Análisis de características vectoriales y texturas LBP completado.
+2026-11-16 18:37:15 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_11_BENCHMARK | DETALLES: Benchmark completado sin errores. Modelo ganador: 'MLPClassifier (Red Neuronal)' con Accuracy de 98.00% y tiempo de entrenamiento de 1.415s.
+2026-11-16 18:37:15 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_13_INFERENCIA | DETALLES: Motor de inferencia con 10 reglas ejecutado con éxito. Trazas: ['R1', 'R2', 'R3']
+2026-11-16 18:37:15 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_14_RED_SEMANTICA | DETALLES: Red semántica (8 conceptos y 5 triples explícitos); inferencia es_un servidor_bd -> activo_corporativo = True; herencia de propiedades y validaciones ejecutadas.
+2026-11-16 18:37:16 - [INFO] - TICKET_ID: TICK-2026-001 | ACCIÓN: SEMANA_15_BASE_CONOCIMIENTO | DETALLES: Base de conocimiento SQLite reconstruida y demostración ejecutada (7 de 7 pasos correctos).

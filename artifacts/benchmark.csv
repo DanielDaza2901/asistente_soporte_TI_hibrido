@@ -1,4 +1,4 @@
 modelo,accuracy,fit_seconds
-MLPClassifier (Red Neuronal),0.98,2.9857957999920473
-Logistic Regression (Línea Base),0.9777777777777777,0.05662649999430869
-Random Forest (Ensamble),0.9666666666666667,1.2825687999866204
+MLPClassifier (Red Neuronal),0.98,1.4147695999999996
+Logistic Regression (Línea Base),0.9777777777777777,0.12617869999985487
+Random Forest (Ensamble),0.9666666666666667,0.7793830000000526

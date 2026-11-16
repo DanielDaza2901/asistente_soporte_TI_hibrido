@@ -30,6 +30,14 @@ try:
 except ImportError as e:
     MODULOS_CARGADOS = False
 
+# Módulo de preguntas frecuentes (independiente: si falta, solo esa página lo avisa)
+try:
+    from classifiers.faq_semanas import AsistenteFAQ, SEMANAS
+    FAQ_DISPONIBLE = True
+except ImportError:
+    AsistenteFAQ, SEMANAS = None, {}
+    FAQ_DISPONIBLE = False
+
 # Configuración de la página
 st.set_page_config(
     page_title="Dashboard - Asistente de Soporte TI Híbrido",
@@ -339,8 +347,142 @@ st.markdown("""
     ::-webkit-scrollbar-thumb:hover { background: #A9B6CB; background-clip: content-box; }
     [data-testid="stSidebar"] ::-webkit-scrollbar-thumb { background: #2A3E5C; background-clip: content-box; }
     [data-testid="stSidebar"] ::-webkit-scrollbar-track { background: transparent; }
+
+    /* =====================================================================
+       SEGUNDA PASADA: cabecera, subtítulos, selector segmentado, estado y FAQ
+       ===================================================================== */
+    .page-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    [data-testid="stMain"] h3 { font-size: 1.12rem; padding-bottom: 0.45rem; border-bottom: 1px solid var(--line); margin-bottom: 0.8rem; }
+
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(15) { margin-top: 30px; }
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(15)::before {
+        content: "Ayuda"; position: absolute; left: 12px; top: -23px; pointer-events: none;
+        font-size: 0.68rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: #6F829F;
+    }
+    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
+    .dot.ok { background: #34D399; }
+    .dot.err { background: #F87171; }
+
+    /* Selectores horizontales del área principal como botones segmentados */
+    [data-testid="stMain"] [role="radiogroup"] { gap: 8px; flex-wrap: wrap; }
+    [data-testid="stMain"] [role="radiogroup"] label {
+        background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+        padding: 5px 15px; cursor: pointer; transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    [data-testid="stMain"] [role="radiogroup"] label div:not(:has(p)),
+    [data-testid="stMain"] [role="radiogroup"] label span:not(:has(p)),
+    [data-testid="stMain"] [role="radiogroup"] label svg { display: none !important; }
+    [data-testid="stMain"] [role="radiogroup"] label p { font-size: 0.86rem; font-weight: 500; }
+    [data-testid="stMain"] [role="radiogroup"] label:hover { border-color: #B9C4D8; background: #F7F9FC; }
+    [data-testid="stMain"] [role="radiogroup"] label:has(input:checked) { background: var(--accent); border-color: var(--accent); }
+    [data-testid="stMain"] [role="radiogroup"] label:has(input:checked) p { color: #FFFFFF; font-weight: 600; }
+
+    /* Preguntas frecuentes */
+    .faq-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; margin: 0 0 12px 0; box-shadow: 0 1px 2px rgba(15, 27, 45, 0.04); }
+    .faq-card.mejor { border-color: #B9CBF5; box-shadow: 0 2px 10px rgba(36, 87, 214, 0.10); }
+    .faq-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+    .faq-sem { background: var(--accent-soft); color: var(--accent-dark); border-radius: 999px; padding: 2px 11px; font-size: 0.74rem; font-weight: 600; }
+    .faq-best { background: var(--ok-soft); color: var(--ok); border-radius: 999px; padding: 2px 11px; font-size: 0.74rem; font-weight: 600; }
+    .faq-sim { margin-left: auto; font-size: 0.78rem; font-weight: 600; color: var(--muted); }
+    .faq-q { font-size: 1.04rem; font-weight: 600; color: var(--text); line-height: 1.4; margin: 0 0 6px 0; }
+    .faq-a { font-size: 0.93rem; color: var(--text); line-height: 1.65; margin: 0; }
+    .faq-meta { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 0.78rem; color: var(--muted); }
+    [class*="st-key-faq_sug"] button {
+        width: 100%; text-align: left; justify-content: flex-start; background: var(--surface); color: var(--accent-dark);
+        border: 1px solid var(--line); box-shadow: none; font-weight: 500;
+    }
+    [class*="st-key-faq_sug"] button:hover { background: var(--accent-soft); border-color: #B9CBF5; color: var(--accent-dark); box-shadow: none; }
+    [class*="st-key-faq_sug"] button p { color: var(--accent-dark); }
+
+    /* =====================================================================
+       TERCERA PASADA: ruta del proyecto, accesos rápidos y pie de página
+       ===================================================================== */
+    .roadmap { display: flex; overflow-x: auto; padding: 8px 2px 16px 2px; margin: 4px 0 10px 0; }
+    .rm-step { position: relative; flex: 1 0 94px; text-align: center; padding: 0 6px; }
+    .rm-step::before { content: ""; position: absolute; top: 28px; left: -50%; width: 100%; height: 2px; background: #C9D5EE; z-index: 0; }
+    .rm-step:first-child::before { display: none; }
+    .rm-dot {
+        position: relative; z-index: 1; width: 40px; height: 40px; margin: 8px auto 10px auto; border-radius: 50%;
+        background: var(--accent); color: #FFFFFF; font-weight: 700; font-size: 0.88rem;
+        display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 5px var(--accent-soft);
+    }
+    .rm-name { font-size: 0.78rem; font-weight: 700; color: var(--text); }
+    .rm-desc { font-size: 0.76rem; color: var(--muted); line-height: 1.35; margin-top: 2px; }
+    .quick-group { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); margin: 16px 0 8px 0; }
+    [class*="st-key-acc_"] button {
+        width: 100%; text-align: left; justify-content: flex-start; min-height: 58px; padding: 12px 16px;
+        background: var(--surface); color: var(--text); border: 1px solid var(--line); box-shadow: none; font-weight: 600;
+    }
+    [class*="st-key-acc_"] button:hover { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-dark); box-shadow: 0 4px 14px rgba(36, 87, 214, 0.10); }
+    [class*="st-key-acc_"] button p { color: inherit; font-weight: 600; text-align: left; }
+    .app-footer { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.78rem; color: var(--muted); text-align: center; }
+
+    /* =====================================================================
+       AJUSTES TRAS REVISAR CAPTURAS: desbordes, márgenes y botones
+       ===================================================================== */
+    [data-testid="stPlotlyChart"], [data-testid="stVegaLiteChart"], [data-testid="stArrowVegaLiteChart"], [data-testid="stGraphVizChart"] {
+        box-sizing: border-box; max-width: 100%; overflow: hidden;
+    }
+    .block-container { padding-left: 2.8rem !important; padding-right: 2.8rem !important; }
+    .rm-step { flex: 1 0 84px; padding: 0 3px; }
+    .rm-desc { font-size: 0.72rem; }
+    [class*="st-key-acc_"] button, [class*="st-key-faq_sug"] button { height: auto; min-height: 60px; }
+    [class*="st-key-acc_"] button p, [class*="st-key-faq_sug"] button p {
+        white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.3; text-align: left;
+    }
+
+    /* =====================================================================
+       PORTADA: recorrido real, actividad, arquitectura y estados
+       ===================================================================== */
+    .rm-step.pend .rm-dot { background: #C5CEDC; box-shadow: 0 0 0 5px #EDF1F8; }
+    .rm-step.pend .rm-name, .rm-step.pend .rm-desc { color: #8A97AB; }
+    .activity { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 6px 20px; }
+    .act-item { position: relative; display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .act-item:last-child { border-bottom: none; }
+    .act-dot { flex-shrink: 0; width: 10px; height: 10px; margin-top: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+    .act-body { flex: 1; min-width: 0; }
+    .act-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+    .act-action { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+    .act-time { font-size: 0.76rem; color: var(--muted); white-space: nowrap; }
+    .act-detail { font-size: 0.82rem; color: var(--muted); margin-top: 2px; line-height: 1.45; word-break: break-word; }
+    .arch { display: flex; align-items: stretch; gap: 0; overflow-x: auto; padding: 6px 2px 12px 2px; }
+    .arch-col { flex: 1 1 0; min-width: 150px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+    .arch-head { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .arch-chip { background: #F4F6FA; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; }
+    .arch-chip b { display: block; font-size: 0.82rem; color: var(--text); }
+    .arch-chip span { display: block; font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
+    .arch-arrow { flex: 0 0 26px; display: flex; align-items: center; justify-content: center; color: #9AA8C0; font-size: 1.1rem; }
+
+    /* =====================================================================
+       ESTADO: barras propias y paneles de gráfica sin desborde
+       ===================================================================== */
+    [data-testid="stPlotlyChart"], [data-testid="stVegaLiteChart"], [data-testid="stArrowVegaLiteChart"], [data-testid="stGraphVizChart"] { padding: 0 !important; }
+    .bars { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 20px; margin-bottom: 6px; box-shadow: 0 1px 2px rgba(15, 27, 45, 0.04); }
+    .bar-row { display: flex; align-items: center; gap: 14px; padding: 8px 0; }
+    .bar-label { flex: 0 0 124px; font-size: 0.86rem; font-weight: 500; color: var(--text); }
+    .bar-track { flex: 1; height: 10px; background: #E9EDF4; border-radius: 999px; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--accent); border-radius: 999px; }
+    .bar-value { flex: 0 0 26px; text-align: right; font-size: 0.86rem; font-weight: 600; color: var(--text); }
     </style>
 """, unsafe_allow_html=True)
+
+ETIQUETAS_PAGINA = {
+    "Resumen Ejecutivo": "Fundamentos",
+    "Matriz de Confusión": "Fundamentos · Semana 02",
+    "Sistema Híbrido & TF-IDF": "Modelos y algoritmos · Semana 05",
+    "Planificador A* & Minimax": "Modelos y algoritmos · Semana 04",
+    "Representaciones del Reconocimiento": "Modelos y algoritmos · Semana 07",
+    "Red Neuronal & Ontología": "Modelos y algoritmos · Semana 08",
+    "Visión Artificial (Semana 09)": "Modelos y algoritmos · Semana 09",
+    "Histogramas y Texturas LBP (Semana 10)": "Modelos y algoritmos · Semana 10",
+    "Benchmark y Decisiones de Modelos (Semana 11)": "Modelos y algoritmos · Semana 11",
+    "Motor de Inferencia (Semana 13)": "Conocimiento · Semana 13",
+    "Redes Semánticas (Semana 14)": "Conocimiento · Semana 14",
+    "Portal de Usuario": "Operación",
+    "Base de Conocimiento (KB)": "Operación",
+    "Trazas de Auditoría": "Operación",
+    "Preguntas Frecuentes (FAQ)": "Ayuda · Semana 02 a Semana 14",
+}
 
 def encabezado(titulo, descripcion=""):
     """Cabecera de página con jerarquía visual consistente (solo presentación)."""
@@ -351,7 +493,205 @@ def encabezado(titulo, descripcion=""):
     d = _re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", d)
     d = _re.sub(r"`(.+?)`", r"<code>\1</code>", d)
     cuerpo = f"<p>{d}</p>" if d else ""
-    st.markdown(f'<div class="page-head"><h1>{t}</h1>{cuerpo}</div>', unsafe_allow_html=True)
+    etiqueta = ETIQUETAS_PAGINA.get(globals().get("menu"), "")
+    ojo = f'<div class="page-eyebrow">{_html.escape(etiqueta)}</div>' if etiqueta else ""
+    st.markdown(f'<div class="page-head">{ojo}<h1>{t}</h1>{cuerpo}</div>', unsafe_allow_html=True)
+
+# --- Portada: artefactos, actividad, arquitectura y pruebas ---
+ARTEFACTOS = [
+    ("artifacts/audit.log", "02", "Registro de auditoría"),
+    ("reports/semana03.md", "03", "Informe de la taxonomía"),
+    ("reports/semana05.md", "05", "Informe del sistema híbrido"),
+    ("artifacts/modelo_mlp.pkl", "08", "Modelo MLP entrenado"),
+    ("artifacts/soporte_evidencia.db", "08", "Base SQLite de evidencia"),
+    ("artifacts/ontologia.graphml", "08", "Ontología del dominio"),
+    ("artifacts/semana09_vision.png", "09", "Figura del pipeline de visión"),
+    ("artifacts/benchmark.csv", "11", "Resultados del benchmark"),
+    ("artifacts/mejor_modelo.pkl", "11", "Mejor modelo serializado"),
+    ("reports/semana11_adr.md", "11", "Registro de decisión (ADR)"),
+]
+REQUISITOS_MODULOS = {
+    "Semana 03)": ["reports/semana03.md"],
+    "Semana 05)": ["reports/semana05.md"],
+    "Semana 08)": ["artifacts/modelo_mlp.pkl", "artifacts/soporte_evidencia.db", "artifacts/ontologia.graphml"],
+    "Semana 09)": ["artifacts/semana09_vision.png"],
+    "Semana 11)": ["artifacts/benchmark.csv", "artifacts/mejor_modelo.pkl", "reports/semana11_adr.md"],
+    "Motor de Auditor": ["artifacts/audit.log"],
+}
+ETAPAS_TICKET = [
+    ("RECEPCION", "Recepción"), ("TAXONOMIA", "Taxonomía"), ("PRIORIZACION", "Prioridad"),
+    ("SISTEMA_HIBRIDO", "Híbrido"), ("REPRESENTACIONES", "Represent."), ("SEMANA_08", "Red neuronal"),
+    ("SEMANA_09", "Visión"), ("SEMANA_10", "Texturas"), ("SEMANA_11_BENCHMARK", "Benchmark"),
+    ("SEMANA_13_INFERENCIA", "Inferencia"), ("SEMANA_14_RED_SEMANTICA", "Red semántica"),
+]
+
+def html_barras(etiquetas, valores):
+    """Barras horizontales ordenadas de mayor a menor, dibujadas con HTML (sin depender de Vega)."""
+    import html as _h
+    pares = sorted(zip(etiquetas, valores), key=lambda x: -x[1])
+    maximo = max((v for _, v in pares), default=1) or 1
+    filas = "".join(
+        f'<div class="bar-row"><div class="bar-label">{_h.escape(str(e))}</div>'
+        f'<div class="bar-track"><div class="bar-fill" style="width:{v / maximo * 100:.1f}%"></div></div>'
+        f'<div class="bar-value">{v}</div></div>' for e, v in pares)
+    return f'<div class="bars">{filas}</div>'
+
+def ir_a_faq(consulta):
+    """Abre Preguntas Frecuentes con la consulta ya escrita."""
+    st.session_state["menu_nav"] = "Preguntas Frecuentes (FAQ)"
+    st.session_state["faq_consulta"] = consulta
+
+def modulos_faltantes(nombre_modulo):
+    """Archivos que un módulo debe haber generado y todavía no existen."""
+    for clave, archivos in REQUISITOS_MODULOS.items():
+        if clave in nombre_modulo:
+            return [a for a in archivos if not (BASE_DIR / a).exists()]
+    return []
+
+def _tamano_legible(n):
+    return f"{n} B" if n < 1024 else (f"{n / 1024:.1f} KB" if n < 1024 * 1024 else f"{n / (1024 * 1024):.1f} MB")
+
+def estado_artefactos():
+    """Comprueba en disco cada artefacto: existencia, tamaño y fecha de modificación."""
+    from datetime import datetime
+    filas = []
+    for ruta, semana, descripcion in ARTEFACTOS:
+        p = BASE_DIR / ruta
+        existe = p.exists()
+        info = p.stat() if existe else None
+        filas.append({"ruta": ruta, "semana": semana, "descripcion": descripcion, "existe": existe,
+                      "tamano": _tamano_legible(info.st_size) if info else "",
+                      "fecha": datetime.fromtimestamp(info.st_mtime).strftime("%d/%m/%Y %H:%M") if info else ""})
+    return filas
+
+def html_artefactos(filas):
+    import html as _h
+    partes = []
+    for f in filas:
+        if f["existe"]:
+            meta, badge = f'Semana {f["semana"]} · {f["descripcion"]} · {f["tamano"]} · {f["fecha"]}', '<span class="badge-ok">Disponible</span>'
+        else:
+            meta, badge = f'Semana {f["semana"]} · {f["descripcion"]} · aún no generado', '<span class="badge-warn">Pendiente</span>'
+        partes.append(f'<div class="status-row"><div><div class="status-name">{_h.escape(f["ruta"])}</div>'
+                      f'<div class="status-meta">{_h.escape(meta)}</div></div>{badge}</div>')
+    return '<div class="status-list">' + "".join(partes) + "</div>"
+
+def trazas_del_log():
+    """Trazas estructuradas (fecha, ticket, acción, detalle) leídas de audit.log."""
+    import re as _re
+    patron = _re.compile(r"TICKET_ID:\s*(?P<ticket>[^|]+?)\s*\|\s*ACCI\S{0,3}N:\s*(?P<accion>[^|]+?)\s*\|\s*DETALLES:\s*(?P<detalle>.*)$")
+    registros, _ = parsear_audit_log()
+    trazas = []
+    for r in registros:
+        m = patron.search(r.get("mensaje", ""))
+        if m:
+            trazas.append({"fecha": r["fecha"], "ticket": m["ticket"].strip(), "accion": m["accion"].strip(), "detalle": m["detalle"].strip()})
+    return trazas
+
+def recorrido_ticket(trazas):
+    """Última traza de cada etapa para el ticket más reciente del log."""
+    if not trazas:
+        return None, []
+    ticket = trazas[-1]["ticket"]
+    ultimas = {t["accion"]: t for t in trazas if t["ticket"] == ticket}
+    return ticket, [(accion, nombre, ultimas.get(accion)) for accion, nombre in ETAPAS_TICKET]
+
+def html_recorrido(etapas):
+    pasos = []
+    for i, (accion, nombre, tr) in enumerate(etapas, 1):
+        hora = tr["fecha"].split()[-1] if tr else "sin traza"
+        pasos.append(f'<div class="rm-step{"" if tr else " pend"}"><div class="rm-dot">{i}</div>'
+                     f'<div class="rm-name">{nombre}</div><div class="rm-desc">{hora}</div></div>')
+    return '<div class="roadmap">' + "".join(pasos) + "</div>"
+
+def html_actividad(trazas, n=8):
+    import html as _h
+    nombres = dict(ETAPAS_TICKET)
+    filas = []
+    for t in reversed(trazas[-n:]):
+        detalle = t["detalle"] if len(t["detalle"]) <= 120 else t["detalle"][:117] + "..."
+        filas.append(
+            '<div class="act-item"><div class="act-dot"></div><div class="act-body"><div class="act-top">'
+            f'<span class="act-action">{_h.escape(nombres.get(t["accion"], t["accion"]))}</span>'
+            f'<span class="act-time">{_h.escape(t["fecha"])}</span></div>'
+            f'<div class="act-detail">{_h.escape(t["ticket"])} · {_h.escape(detalle)}</div></div></div>')
+    return '<div class="activity">' + "".join(filas) + "</div>"
+
+def html_arquitectura():
+    capas = [
+        ("Entrada", [("Ticket de soporte", "descripción, impacto, urgencia"), ("Imagen de evidencia", "fallo de hardware")]),
+        ("Clasificación", [("Taxonomía", "Semana 03"), ("Prioridad", "Semana 02"), ("Validación del modelo base", "Semana 02")]),
+        ("Razonamiento", [("Sistema híbrido", "Semana 05"), ("A* y Minimax", "Semana 04"), ("Representaciones", "Semana 07"),
+                          ("Motor de inferencia", "Semana 13"), ("Red semántica", "Semana 14")]),
+        ("Visión y modelos", [("Visión artificial", "Semana 09"), ("Texturas LBP", "Semana 10"),
+                              ("Red neuronal MLP", "Semana 08"), ("Benchmark de modelos", "Semana 11")]),
+        ("Persistencia y auditoría", [("audit.log", "trazas de cada etapa"), ("SQLite y ontología", "evidencia"),
+                                      ("Modelos .pkl", "MLP y mejor modelo"), ("Informes .md", "reports/")]),
+    ]
+    columnas = []
+    for titulo, modulos in capas:
+        chips = "".join(f'<div class="arch-chip"><b>{n}</b><span>{d}</span></div>' for n, d in modulos)
+        columnas.append(f'<div class="arch-col"><div class="arch-head">{titulo}</div>{chips}</div>')
+    return '<div class="arch">' + '<div class="arch-arrow">→</div>'.join(columnas) + "</div>"
+
+def ejecutar_pruebas():
+    """Ejecuta unittest sobre tests/ en un proceso aparte y resume el resultado."""
+    import os
+    import re as _re
+    import subprocess
+    import sys
+    carpeta = BASE_DIR / "tests"
+    if not carpeta.is_dir():
+        return {"ok": False, "error": "No se encontró la carpeta tests/ en el proyecto."}
+    entorno = {**os.environ, "PYTHONPATH": str(BASE_DIR / "src"), "PYTHONIOENCODING": "utf-8"}
+    try:
+        r = subprocess.run([sys.executable, "-m", "unittest", "discover", "-s", "tests"], cwd=str(BASE_DIR), env=entorno,
+                           capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180)
+    except subprocess.TimeoutExpired:
+        return {"ok": False, "error": "Las pruebas superaron los 180 segundos y se cancelaron."}
+    salida = (r.stderr or "") + (r.stdout or "")
+    ran = _re.search(r"Ran (\d+) tests? in ([\d.]+)s", salida)
+    fallos = _re.search(r"FAILED \((.*?)\)", salida)
+    return {"ok": r.returncode == 0, "pruebas": int(ran.group(1)) if ran else None,
+            "segundos": float(ran.group(2)) if ran else None, "detalle_fallos": fallos.group(1) if fallos else "",
+            "salida": salida[-3500:]}
+
+# --- Navegación desde la página de inicio ---
+def ir_a(pagina):
+    """Cambia la página activa del menú lateral (se ejecuta antes de volver a dibujar)."""
+    st.session_state["menu_nav"] = pagina
+
+# --- Preguntas frecuentes: componentes ---
+@st.cache_resource
+def cargar_asistente_faq():
+    """Construye una sola vez el índice TF-IDF de las preguntas frecuentes."""
+    return AsistenteFAQ()
+
+def _md_inline(texto):
+    import html as _h
+    import re as _r
+    t = _h.escape(str(texto))
+    t = _r.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", t)
+    return _r.sub(r"`(.+?)`", r"<code>\1</code>", t)
+
+def tarjeta_faq(faq, similitud=None, mejor=False):
+    """Tarjeta de una pregunta frecuente con su semana, respuesta y similitud."""
+    import html as _h
+    etiqueta = "General" if faq["semana"] == 0 else f"Semana {faq['semana']:02d}"
+    partes = [f'<div class="faq-card{" mejor" if mejor else ""}">', '<div class="faq-top">',
+              f'<span class="faq-sem">{etiqueta} · {_h.escape(faq["tema"])}</span>']
+    if mejor:
+        partes.append('<span class="faq-best">Mejor coincidencia</span>')
+    if similitud is not None:
+        partes.append(f'<span class="faq-sim">Similitud {similitud:.2f}</span>')
+    partes += ['</div>', f'<div class="faq-q">{_h.escape(faq["pregunta"])}</div>',
+               f'<p class="faq-a">{_md_inline(faq["respuesta"])}</p>']
+    if similitud is not None:
+        pct = max(0.0, min(1.0, similitud)) * 100
+        partes.append(f'<div class="result-bar" style="--tono:#2457D6"><span style="width:{pct:.1f}%"></span></div>')
+    pagina = SEMANAS.get(faq["semana"], ("", ""))[1]
+    partes.append(f'<div class="faq-meta">Página del dashboard: {_h.escape(pagina)} · Módulo: <code>{_h.escape(faq["ref"])}</code></div></div>')
+    st.markdown("".join(partes), unsafe_allow_html=True)
 
 # --- Componentes visuales reutilizables (solo presentación) ---
 def tarjeta_resultado(etiqueta, valor, detalle="", tono="azul", progreso=None, texto=False):
@@ -590,8 +930,10 @@ menu = st.sidebar.radio(
         "Redes Semánticas (Semana 14)", 
         "Portal de Usuario",
         "Base de Conocimiento (KB)", 
-        "Trazas de Auditoría"
-    ]
+        "Trazas de Auditoría",
+        "Preguntas Frecuentes (FAQ)"
+    ],
+    key="menu_nav"
 )
 
 st.sidebar.markdown("---")
@@ -599,6 +941,7 @@ st.sidebar.markdown(
     '<div class="side-card">'
     '<div class="side-card-k">Institución</div><div class="side-card-v">ETITC - 10º Semestre</div>'
     '<div class="side-card-k">Autores</div><div class="side-card-v">Marco Molina &amp; Daniel Daza</div>'
+    f'<div class="side-card-k">Estado</div><div class="side-card-v"><span class="dot {"ok" if MODULOS_CARGADOS else "err"}"></span>{"Módulos cargados" if MODULOS_CARGADOS else "Módulos no disponibles"}</div>'
     '</div>',
     unsafe_allow_html=True
 )
@@ -617,40 +960,133 @@ if menu == "Resumen Ejecutivo":
     with col4:
         st.metric(label="Módulo de Representaciones", value="3 Enfoques", delta="Numérico/Simbólico/AFD")
 
-    st.markdown("---")
-    
-    col_a, col_b = st.columns(2)
-    with col_a:
-        st.subheader("Distribución por Categorías Técnicas (KB)")
-        data_cat = {
-            "Categoría": ["Hardware", "Red", "Seguridad", "Rendimiento", "Almacenamiento", "Software"],
-            "Procedimientos": [8, 6, 6, 6, 3, 3]
-        }
-        df_cat = pd.DataFrame(data_cat)
-        st.bar_chart(df_cat.set_index("Categoría"), color="#2457D6")
+    st.markdown("")
+
+    # --- 1) Pregunta al asistente ---
+    st.markdown("### Pregunta al asistente")
+    if FAQ_DISPONIBLE:
+        asistente_inicio = cargar_asistente_faq()
+        pregunta_inicio = st.text_input("Pregunta al asistente", key="inicio_consulta", label_visibility="collapsed",
+                                        placeholder="Pregunta algo sobre el proyecto. Ejemplo: ¿Qué es la red semántica?")
+        if pregunta_inicio.strip():
+            respuestas_inicio = asistente_inicio.buscar(pregunta_inicio, k=1)
+            if respuestas_inicio:
+                tarjeta_faq(respuestas_inicio[0], similitud=respuestas_inicio[0]["similitud"], mejor=True)
+                st.button("Ver más respuestas en Preguntas Frecuentes", key="inicio_ver_mas", on_click=ir_a_faq, args=(pregunta_inicio,))
+            else:
+                st.info("No encontré una pregunta suficientemente parecida. Prueba con otras palabras o abre Preguntas Frecuentes.")
+    else:
+        st.info("El asistente de preguntas frecuentes no está disponible (falta `classifiers/faq_semanas.py`).")
+
+    tab_estado, tab_actividad, tab_arquitectura, tab_calidad = st.tabs(
+        ["Estado del sistema", "Actividad reciente", "Arquitectura", "Calidad y pruebas"])
+
+    # --- 2) Estado del sistema: módulos, categorías y artefactos reales ---
+    with tab_estado:
+        trazas_est = trazas_del_log()
+        filas_art = estado_artefactos()
+        col_a, col_b = st.columns(2)
+        with col_a:
+            st.subheader("Distribución por Categorías Técnicas (KB)")
+            data_cat = {
+                "Categoría": ["Hardware", "Red", "Seguridad", "Rendimiento", "Almacenamiento", "Software"],
+                "Procedimientos": [8, 6, 6, 6, 3, 3]
+            }
+            df_cat = pd.DataFrame(data_cat)
+            procs_kb_res = cargar_base_conocimiento()
+            if procs_kb_res:  # categorías reales de la base de conocimiento
+                conteo_kb = {}
+                for p_kb in procs_kb_res:
+                    nombre_cat = str(p_kb.get("categoria", "Sin categoría")).strip()
+                    nombre_cat = nombre_cat[:1].upper() + nombre_cat[1:]
+                    conteo_kb[nombre_cat] = conteo_kb.get(nombre_cat, 0) + 1
+                etiquetas_cat, valores_cat = list(conteo_kb.keys()), list(conteo_kb.values())
+            else:
+                etiquetas_cat, valores_cat = list(df_cat["Categoría"]), list(df_cat["Procedimientos"])
+            st.markdown(html_barras(etiquetas_cat, valores_cat), unsafe_allow_html=True)
+            st.caption(f"{sum(valores_cat)} procedimientos en {len(valores_cat)} categorías.")
+            ticket_est, etapas_est = recorrido_ticket(trazas_est)
+            if trazas_est:
+                con_traza_est = sum(1 for _, _, tr in etapas_est if tr)
+                tarjeta_resultado("Última ejecución", trazas_est[-1]["fecha"], detalle=ticket_est, tono="azul")
+                tarjeta_resultado("Etapas con traza", f"{con_traza_est} de {len(etapas_est)}",
+                                  tono="verde" if con_traza_est == len(etapas_est) else "ambar", progreso=con_traza_est / len(etapas_est))
+            n_art_ok = sum(1 for f in filas_art if f["existe"])
+            tarjeta_resultado("Artefactos disponibles", f"{n_art_ok} de {len(filas_art)}",
+                              tono="verde" if n_art_ok == len(filas_art) else "ambar", progreso=n_art_ok / len(filas_art))
         
-    with col_b:
-        st.subheader("Estado de Integración de Módulos")
-        modulos_estado = [
-            ("Validación y Matriz de Confusión (Semana 02)", "Accuracy 92.1%"),
-            ("Clasificador Taxonómico (Semana 03)", "100% de coincidencia"),
-            ("Planificador A* y Ciberdefensa Minimax (Semana 04)", ""),
-            ("Sistema Híbrido (Semana 05)", "Reglas y TF-IDF"),
-            ("Representaciones del Reconocimiento (Semana 07)", ""),
-            ("Red Neuronal, Imagen Base64, SQLite y Ontología (Semana 08)", ""),
-            ("Visión Artificial (Semana 09)", ""),
-            ("Histogramas y Texturas LBP (Semana 10)", "Extracción de Features Vectoriales"),
-            ("Benchmark de Modelos y ADR (Semana 11)", "Evaluación y Serialización en artifacts/"),
-            ("Motor de Inferencia Avanzado (10 Reglas - Semana 13)", "Reglas Horn, Trazas y Explicabilidad"),
-            ("Redes Semánticas e Inferencia (Semana 14)", "Triples, es_un y Herencia con KB de 30 Casos"),
-            ("Motor de Auditoría y Trazas", "Registrando en artifacts/audit.log"),
-        ]
-        filas_estado = "".join(
-            f'<div class="status-row"><div><div class="status-name">{nombre}</div>'
-            f'<div class="status-meta">{detalle}</div></div><span class="badge-ok">Operativo</span></div>'
-            for nombre, detalle in modulos_estado
-        )
-        st.markdown(f'<div class="status-list">{filas_estado}</div>', unsafe_allow_html=True)
+        with col_b:
+            st.subheader("Estado de Integración de Módulos")
+            modulos_estado = [
+                ("Validación y Matriz de Confusión (Semana 02)", "Accuracy 92.1%"),
+                ("Clasificador Taxonómico (Semana 03)", "100% de coincidencia"),
+                ("Planificador A* y Ciberdefensa Minimax (Semana 04)", ""),
+                ("Sistema Híbrido (Semana 05)", "Reglas y TF-IDF"),
+                ("Representaciones del Reconocimiento (Semana 07)", ""),
+                ("Red Neuronal, Imagen Base64, SQLite y Ontología (Semana 08)", ""),
+                ("Visión Artificial (Semana 09)", ""),
+                ("Histogramas y Texturas LBP (Semana 10)", "Extracción de Features Vectoriales"),
+                ("Benchmark de Modelos y ADR (Semana 11)", "Evaluación y Serialización en artifacts/"),
+                ("Motor de Inferencia Avanzado (10 Reglas - Semana 13)", "Reglas Horn, Trazas y Explicabilidad"),
+                ("Redes Semánticas e Inferencia (Semana 14)", "Triples, es_un y Herencia con KB de 30 Casos"),
+                ("Motor de Auditoría y Trazas", "Registrando en artifacts/audit.log"),
+            ]
+            filas_estado = ""
+            for nombre, detalle in modulos_estado:
+                faltan = modulos_faltantes(nombre)
+                if faltan:
+                    detalle_fila = (detalle + " · " if detalle else "") + "Falta: " + ", ".join(faltan)
+                    insignia = '<span class="badge-warn">Pendiente</span>'
+                else:
+                    detalle_fila, insignia = detalle, '<span class="badge-ok">Operativo</span>'
+                filas_estado += (f'<div class="status-row"><div><div class="status-name">{nombre}</div>'
+                                 f'<div class="status-meta">{detalle_fila}</div></div>{insignia}</div>')
+            st.markdown(f'<div class="status-list">{filas_estado}</div>', unsafe_allow_html=True)
+
+        st.markdown("")
+        st.subheader("Artefactos generados")
+        st.caption(f"{sum(1 for f in filas_art if f['existe'])} de {len(filas_art)} artefactos disponibles en disco. Se generan al ejecutar `python src/main.py` y los scripts de cada semana.")
+        st.markdown(html_artefactos(filas_art), unsafe_allow_html=True)
+
+    # --- 3) Actividad: recorrido del ticket y últimas trazas ---
+    with tab_actividad:
+        trazas_log = trazas_del_log()
+        if trazas_log:
+            ticket_log, etapas_log = recorrido_ticket(trazas_log)
+            con_traza = sum(1 for _, _, tr in etapas_log if tr)
+            st.subheader("Recorrido del ticket")
+            st.caption(f"{ticket_log} · {con_traza} de {len(etapas_log)} etapas con traza en audit.log · última traza: {trazas_log[-1]['fecha']}")
+            st.markdown(html_recorrido(etapas_log), unsafe_allow_html=True)
+            st.subheader("Últimas trazas")
+            st.markdown(html_actividad(trazas_log), unsafe_allow_html=True)
+        else:
+            st.info("Aún no hay trazas en `artifacts/audit.log`. Ejecuta `python src/main.py` para generarlas.")
+
+    # --- 4) Arquitectura ---
+    with tab_arquitectura:
+        st.subheader("Cómo fluye un ticket por el sistema")
+        st.caption("Cinco capas: lo que entra, cómo se clasifica, cómo se razona, qué evidencia y modelos intervienen y qué queda registrado.")
+        st.markdown(html_arquitectura(), unsafe_allow_html=True)
+
+    # --- 5) Calidad: pruebas automáticas ---
+    with tab_calidad:
+        st.subheader("Pruebas automáticas")
+        st.markdown("Ejecuta todas las pruebas de la carpeta `tests/` (unittest) y muestra el resultado.")
+        if st.button("Ejecutar pruebas", key="inicio_pruebas"):
+            with st.spinner("Ejecutando pruebas..."):
+                st.session_state["resultado_pruebas"] = ejecutar_pruebas()
+        resultado_pruebas = st.session_state.get("resultado_pruebas")
+        if resultado_pruebas:
+            if resultado_pruebas.get("error"):
+                st.error(resultado_pruebas["error"])
+            else:
+                q1, q2, q3 = st.columns(3)
+                q1.metric("Pruebas ejecutadas", resultado_pruebas["pruebas"] if resultado_pruebas["pruebas"] is not None else "-")
+                q2.metric("Resultado", "Todas pasan" if resultado_pruebas["ok"] else "Con fallos", resultado_pruebas["detalle_fallos"] or None, delta_color="off")
+                q3.metric("Duración", f"{resultado_pruebas['segundos']:.2f} s" if resultado_pruebas["segundos"] is not None else "-")
+                (st.success if resultado_pruebas["ok"] else st.error)("Todas las pruebas pasaron." if resultado_pruebas["ok"] else "Hay pruebas que fallan. Revisa la salida.")
+                with st.expander("Ver salida completa"):
+                    st.code(resultado_pruebas["salida"], language="text")
 
 # --- 2. Matriz de Confusión ---
 elif menu == "Matriz de Confusión":
@@ -676,7 +1112,7 @@ elif menu == "Matriz de Confusión":
                 index=[f"Real: {c}" for c in clases],
                 columns=[f"Pred: {c}" for c in clases]
             )
-            st.dataframe(df_matriz, use_container_width=True)
+            st.dataframe(df_matriz, width="stretch")
             st.info("La matriz demuestra 35 aciertos de 38 muestras de prueba (92.1% de precisión global), con dispersión mínima focalizada únicamente en 3 casos límite entre clases contiguas.")
         except Exception as e:
             st.error(f"Error al ejecutar la validación del modelo: {e}")
@@ -1035,7 +1471,7 @@ elif menu == "Red Neuronal & Ontología":
         if db_p.exists():
             with sqlite3.connect(db_p) as conn:
                 df_ev = pd.read_sql("SELECT * FROM evidencia_tickets ORDER BY id DESC LIMIT 15", conn)
-            st.dataframe(df_ev, use_container_width=True)
+            st.dataframe(df_ev, width="stretch")
         else:
             st.warning("Base de datos no encontrada. Ejecuta el script del proyecto.")
             
@@ -1085,7 +1521,7 @@ elif menu == "Visión Artificial (Semana 09)":
 
     img_path = Path("artifacts/semana09_vision.png")
     if img_path.exists():
-        st.image(str(img_path), caption="Pipeline de Visión: Imagen Original ➔ Bordes (Canny) ➔ Máscara Binaria (Otsu)", use_container_width=True)
+        st.image(str(img_path), caption="Pipeline de Visión: Imagen Original ➔ Bordes (Canny) ➔ Máscara Binaria (Otsu)", width="stretch")
         
         if 'otsu_thresh' in st.session_state and 'otsu_regs' in st.session_state:
             st.markdown("### Resultados del Procesamiento Numérico")
@@ -1097,7 +1533,7 @@ elif menu == "Visión Artificial (Semana 09)":
         st.info("""
         **Análisis Técnico del Procesamiento:**
         * **Contornos (Canny):** Identifica los cambios bruscos de intensidad en los píxeles, marcando los límites físicos y estructurales del hardware defectuoso para aislar su forma.
-        * **Umbral Automático (Otsu):** Calcula matemáticamente el punto óptimo en el histograma de la imagen para separar los píxeles en deux clases (claro/oscuro), generando una máscara binaria.
+        * **Umbral Automático (Otsu):** Calcula matemáticamente el punto óptimo en el histograma de la imagen para separar los píxeles en dos clases (claro/oscuro), generando una máscara binaria.
         * **Regiones Conectadas:** La máscara permite al sistema contar grupos de píxeles unidos, lo cual es el primer paso para aislar piezas o zonas afectadas antes de pasarlas a una red neuronal convolucional.
         """)
     else:
@@ -1195,7 +1631,7 @@ elif menu == "Histogramas y Texturas LBP (Semana 10)":
     comp_path = Path("artifacts/semana10_comparativa.png")
     if comp_path.exists():
         st.markdown("### Visualización Lado a lado (Imágenes e Histogramas Analíticos)")
-        st.image(str(comp_path), use_container_width=True)
+        st.image(str(comp_path), width="stretch")
 
     if 's10_feat_bueno' in st.session_state:
         f_bno = st.session_state['s10_feat_bueno']
@@ -1248,7 +1684,7 @@ elif menu == "Benchmark y Decisiones de Modelos (Semana 11)":
     
     if BENCHMARK_CSV_PATH.exists():
         df_bench = pd.read_csv(BENCHMARK_CSV_PATH)
-        st.dataframe(df_bench, use_container_width=True)
+        st.dataframe(df_bench, width="stretch")
         
         st.markdown("#### Gráfico Comparativo de Desempeño (Accuracy)")
         
@@ -1269,7 +1705,7 @@ elif menu == "Benchmark y Decisiones de Modelos (Semana 11)":
             showlegend=False
         )
         fig = estilo_plotly(fig)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
         
         df_sorted = df_bench.sort_values("accuracy", ascending=False).reset_index(drop=True)
         
@@ -1407,7 +1843,7 @@ elif menu == "Redes Semánticas (Semana 14)":
             st.graphviz_chart(dot_red(red_proyecto.triples))
             st.markdown("#### Triples explícitos")
             st.dataframe(pd.DataFrame(red_proyecto.triples, columns=["Sujeto", "Relación", "Objeto"]),
-                         use_container_width=True, hide_index=True)
+                         width="stretch", hide_index=True)
             st.markdown("#### Relaciones y su significado")
             st.table(pd.DataFrame([
                 {"Relación": r, "Significado": d, "Transitiva": "Sí" if r == "es_un" else "No",
@@ -1479,7 +1915,7 @@ elif menu == "Redes Semánticas (Semana 14)":
                     cadena = " -> ".join([d["ruta"][0][0]] + [t[2] for t in d["ruta"]]) if d["ruta"] else concepto
                     filas.append({"Propiedad": d["propiedad"], "Declarada en": d["declarada_en"],
                                   "Origen": "Propia" if not d["ruta"] else "Heredada (R2)", "Cadena es_un": cadena})
-                st.dataframe(pd.DataFrame(filas), use_container_width=True, hide_index=True)
+                st.dataframe(pd.DataFrame(filas), width="stretch", hide_index=True)
                 st.caption("R2 (herencia): si A es_un B y B requiere P, entonces A requiere P.")
                 prueba = [t for d in props for t in d["ruta"]] + [(d["declarada_en"], "requiere", d["propiedad"]) for d in props]
                 st.graphviz_chart(dot_red(triples_para_grafo(red_q, prueba), prueba))
@@ -1502,10 +1938,10 @@ elif menu == "Redes Semánticas (Semana 14)":
                 {"Categoría": cat, "Casos": int(n),
                  "Requisitos heredados": ", ".join(red_ampliada.consultar_propiedades(f"categoria_{cat}"))}
                 for cat, n in conteo.items()
-            ]), use_container_width=True, hide_index=True)
+            ]), width="stretch", hide_index=True)
             st.markdown("#### Triples de la red ampliada")
             st.dataframe(pd.DataFrame(red_ampliada.triples, columns=["Sujeto", "Relación", "Objeto"]),
-                         use_container_width=True, hide_index=True, height=320)
+                         width="stretch", hide_index=True, height=320)
             if kb_omitidos:
                 st.caption(f"Casos omitidos por no poder normalizarse: {', '.join(kb_omitidos)}")
     else:
@@ -1531,6 +1967,80 @@ elif menu == "Trazas de Auditoría":
     encabezado("Registro de Auditoría del Sistema (audit.log)", "Monitoreo de eventos generados por el orquestador.")
     registros, raw_text = parsear_audit_log()
     if registros:
-        st.dataframe(pd.DataFrame(registros)[["fecha", "nivel", "mensaje"]], use_container_width=True, height=400)
+        st.dataframe(pd.DataFrame(registros)[["fecha", "nivel", "mensaje"]], width="stretch", height=400)
     else:
         st.warning("No se encontró `artifacts/audit.log`.")
+
+
+# --- 15. Preguntas Frecuentes (FAQ) ---
+elif menu == "Preguntas Frecuentes (FAQ)":
+    encabezado("Preguntas Frecuentes del Proyecto (Semana 02 a Semana 14)",
+               "Consulta las dudas más comunes sobre cada semana implementada. Escribe tu pregunta y el asistente recupera las respuestas más parecidas con TF-IDF y similitud coseno, el mismo enfoque del Sistema Híbrido de la Semana 05.")
+
+    if FAQ_DISPONIBLE:
+        asistente_faq = cargar_asistente_faq()
+        semanas_faq = [s for s in asistente_faq.semanas_disponibles() if s != 0]
+        opciones_semana = ["Todas"] + [f"Semana {s:02d}" for s in semanas_faq] + ["General"]
+
+        def _semana_de(opcion):
+            if opcion == "Todas":
+                return None
+            return 0 if opcion == "General" else int(opcion.split()[1])
+
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Preguntas registradas", len(asistente_faq.faqs), "Catálogo del proyecto", delta_color="off")
+        m2.metric("Semanas cubiertas", len(semanas_faq), "De la 02 a la 14", delta_color="off")
+        m3.metric("Método de búsqueda", "TF-IDF", "Similitud coseno", delta_color="off")
+        m4.metric("Umbral de confianza", "0.15", "Mínimo para responder", delta_color="off")
+        st.markdown("")
+
+        tab_preguntar, tab_explorar = st.tabs(["Pregúntale al asistente", "Explorar por semana"])
+
+        # ---------- Pestaña 1: preguntar ----------
+        with tab_preguntar:
+            st.session_state.setdefault("faq_consulta", "")
+
+            def _usar_sugerencia(texto):
+                st.session_state["faq_consulta"] = texto
+
+            consulta = st.text_input("Escribe tu pregunta", key="faq_consulta",
+                                     placeholder="Ejemplo: ¿Cómo funciona el algoritmo A*?")
+            filtro = st.radio("Buscar en", opciones_semana, horizontal=True, key="faq_filtro")
+
+            if consulta.strip():
+                resultados = asistente_faq.buscar(consulta, k=3, semana=_semana_de(filtro))
+                if resultados:
+                    st.markdown(f"#### Respuestas más parecidas ({len(resultados)})")
+                    for posicion, r in enumerate(resultados):
+                        tarjeta_faq(r, similitud=r["similitud"], mejor=(posicion == 0))
+                else:
+                    st.info("No encontré una pregunta suficientemente parecida. Prueba con otras palabras, quita el filtro de semana o elige una de las preguntas sugeridas.")
+            else:
+                st.markdown("#### Preguntas sugeridas")
+                columnas = st.columns(2)
+                for i, sugerencia in enumerate(asistente_faq.sugerencias(4)):
+                    columnas[i % 2].button(sugerencia, key=f"faq_sug_{i}", on_click=_usar_sugerencia, args=(sugerencia,), width="stretch")
+
+        # ---------- Pestaña 2: explorar por semana ----------
+        with tab_explorar:
+            elegido = st.radio("Semana", opciones_semana, horizontal=True, key="faq_semana_explorar")
+            semana_exp = _semana_de(elegido)
+            lista = asistente_faq.por_semana(semana_exp)
+            if semana_exp not in (None, 0):
+                tema, pagina = SEMANAS[semana_exp]
+                st.markdown(f"**{tema}** · Página del dashboard: `{pagina}`")
+            st.caption(f"{len(lista)} preguntas")
+            semana_actual = None
+            for faq in lista:
+                if semana_exp is None and faq["semana"] != semana_actual:
+                    semana_actual = faq["semana"]
+                    rotulo = "General" if semana_actual == 0 else f"Semana {semana_actual:02d}"
+                    st.subheader(f"{rotulo} · {SEMANAS[semana_actual][0]}")
+                with st.expander(faq["pregunta"]):
+                    st.markdown(faq["respuesta"])
+                    st.caption(f"Módulo: {faq['ref']}")
+    else:
+        st.error("El módulo de preguntas frecuentes (`classifiers/faq_semanas.py`) no está disponible. Cópialo a `src/classifiers/`.")
+
+# --- Pie de página común ---
+st.markdown('<div class="app-footer">Asistente de Soporte TI Híbrido · Inteligencia Artificial · ETITC · Semana 02 a Semana 14</div>', unsafe_allow_html=True)

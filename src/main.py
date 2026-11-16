@@ -12,6 +12,7 @@ from classifiers.texturas import procesar_imagen_proyecto, FALLOS_DESCRIPCION
 from classifiers.benchmark import ejecutar_benchmark_semana11
 from classifiers.motor_inferencia import inferir_con_explicacion, REGLAS_SOPORTE_TI
 from classifiers.red_semantica import RedSemanticaSoporteTI 
+from classifiers.base_conocimiento import ejecutar_demostracion as ejecutar_demostracion_kb
 
 def main():
     # === SECCIÓN 1: Validación del Modelo Base ===
@@ -36,8 +37,8 @@ def main():
     registrar_traza(ticket_id, "PRIORIZACION", f"Impacto: {impacto}, Urgencia: {urgencia} -> Asignada Prioridad: {prioridad}")
 
     print(f"\nResultado del análisis:")
-    print(f"- Categoría de Software (IA): **{categoria_principal}**")
-    print(f"- Prioridad asignada: **{prioridad}**")
+    print(f"- Categoría de Software (IA): {categoria_principal}")
+    print(f"- Prioridad asignada: {prioridad}")
     print(f"- Traza guardada correctamente en artifacts/audit.log.")
 
     print("\n" + "="*50 + "\n")
@@ -148,6 +149,8 @@ def main():
     print("=== 12. REDES SEMÁNTICAS E INFERENCIA POR JERARQUÍA (SEMANA 14) ===")
     red = RedSemanticaSoporteTI()
 
+    # 12.1 Interpretación: oraciones -> triples (hechos explícitos)
+    print("\n[12.1] Oraciones interpretadas como triples (hechos explícitos):")
     oraciones_demo = [
         "servidor_bd es un hardware_critico",
         "hardware_critico es un activo_corporativo",
@@ -156,14 +159,62 @@ def main():
         "sobrecalentamiento se resuelve con limpieza_ventilacion"
     ]
     for oracion in oraciones_demo:
-        red.interpretar_oracion(oracion)
+        print(f"  \"{oracion}\"  ->  {red.interpretar_oracion(oracion)}")
     print(f"  Red construida: {red.resumen()}")
 
+    # 12.2 Consultas sobre conceptos relacionados
+    print("\n[12.2] Consultas sobre conceptos relacionados:")
+    rel = red.conceptos_relacionados("hardware_critico")
+    print(f"  hardware_critico -> salientes: {rel['salientes']} | entrantes: {rel['entrantes']}")
+    print(f"  Subtipos de activo_corporativo: {red.subtipos('activo_corporativo')}")
+
+    # 12.3 Inferencia por jerarquía (R1: transitividad de es_un) con su prueba
+    print("\n[12.3] Inferencia por jerarquía (R1: A es_un B y B es_un C => A es_un C):")
     es_activo = red.es_un("servidor_bd", "activo_corporativo")
-    registrar_traza(ticket_id, "SEMANA_14_RED_SEMANTICA", f"Red semántica ({red.resumen()}); inferencia es_un servidor_bd -> activo_corporativo = {es_activo}; herencia de propiedades ejecutada.")
+    print(f"  ¿servidor_bd es un activo_corporativo? {es_activo}")
+    print(f"  Justificación: {red.justificar_es_un('servidor_bd', 'activo_corporativo')}")
+    print(f"  Hecho directo almacenado: {('servidor_bd', 'es_un', 'activo_corporativo') in red.triples}  (la conclusión no se guardó, se infirió)")
+
+    # 12.4 Herencia de propiedades (R2) con su origen
+    print("\n[12.4] Herencia de propiedades (R2: A es_un B y B requiere P => A requiere P):")
+    print(f"  Propiedades de servidor_bd: {red.consultar_propiedades('servidor_bd')}")
+    for linea in red.justificar_propiedades("servidor_bd"):
+        print(f"  {linea}")
+
+    # 12.5 Consultas sin evidencia suficiente
+    print("\n[12.5] Consultas sin evidencia suficiente (mundo cerrado: False = no demostrado):")
+    print(f"  ¿estacion_trabajo es un hardware_critico? {red.es_un('estacion_trabajo', 'hardware_critico')}")
+    print(f"  {red.justificar_es_un('estacion_trabajo', 'hardware_critico')}")
+    print(f"  Propiedades de estacion_trabajo: {red.consultar_propiedades('estacion_trabajo')}")
+    print(f"  {red.justificar_es_un('impresora_3d', 'activo_corporativo')}")
+
+    # 12.6 Validación de oraciones no admitidas
+    print("\n[12.6] Validación de oraciones no admitidas:")
+    for oracion in ["el procesador funciona muy lento hoy", "servidor_bd es un", "x es un y que requiere z"]:
+        try:
+            red.interpretar_oracion(oracion)
+        except ValueError as error:
+            print(f"  RECHAZADA: \"{oracion}\"\n    ValueError: {error}")
+
+    registrar_traza(ticket_id, "SEMANA_14_RED_SEMANTICA", f"Red semántica ({red.resumen()}); inferencia es_un servidor_bd -> activo_corporativo = {es_activo}; herencia de propiedades y validaciones ejecutadas.")
 
     print("==================================================")
-    print("¡PIPELINE COMPLETO DE LA SEMANA 02 A LA SEMANA 14 EJECUTADO EXITOSAMENTE!")
+
+    # === SECCIÓN 13: Base de Conocimiento Empresarial en SQLite (Semana 15) ===
+    print("=== 13. BASE DE CONOCIMIENTO EMPRESARIAL EN SQLITE (SEMANA 15) ===")
+    # Reconstruye artifacts/base_conocimiento.db desde sql/esquema.sql y sql/datos.sql
+    # y recorre el flujo: registrar -> BORRADOR -> consulta -> validar -> consulta -> integridad.
+    pasos_kb = ejecutar_demostracion_kb()
+    for paso in pasos_kb:
+        print(f"\n[13.{paso['id']}] {paso['titulo']}  ({'OK' if paso['ok'] else 'FALLO'})")
+        for linea in paso["lineas"]:
+            print(f"  {linea}")
+    pasos_kb_ok = sum(1 for p in pasos_kb if p["ok"])
+    registrar_traza(ticket_id, "SEMANA_15_BASE_CONOCIMIENTO",
+                    f"Base de conocimiento SQLite reconstruida y demostración ejecutada ({pasos_kb_ok} de {len(pasos_kb)} pasos correctos).")
+
+    print("==================================================")
+    print("¡PIPELINE COMPLETO DE LA SEMANA 02 A LA SEMANA 15 EJECUTADO EXITOSAMENTE!")
 
 if __name__ == "__main__":
     main()

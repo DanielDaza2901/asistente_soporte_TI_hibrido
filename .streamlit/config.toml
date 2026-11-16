@@ -4,4 +4,21 @@ primaryColor = "#2457D6"
 backgroundColor = "#F4F6FA"
 secondaryBackgroundColor = "#FFFFFF"
 textColor = "#14213D"
-font = "sans serif"
+linkColor = "#1B44AD"
+font = "'IBM Plex Sans':https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+baseRadius = "0.6rem"
+buttonRadius = "0.5rem"
+borderColor = "#E2E7F0"
+showWidgetBorder = true
+# Tablas interactivas (st.dataframe) y gráficas nativas
+dataframeBorderColor = "#E2E7F0"
+dataframeHeaderBackgroundColor = "#EDF1F8"
+chartCategoricalColors = ["#2457D6", "#0E9F8E", "#E08A1E", "#C0392B", "#7A5AF8"]
+
+# Barra lateral oscura con tema nativo (los controles heredan estos colores)
+[theme.sidebar]
+backgroundColor = "#0F1B2D"
+secondaryBackgroundColor = "#17263D"
+textColor = "#C9D3E3"
+borderColor = "#22344F"
+codeBackgroundColor = "#17263D"

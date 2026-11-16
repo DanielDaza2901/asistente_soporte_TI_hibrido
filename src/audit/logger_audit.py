@@ -15,7 +15,8 @@ logging.basicConfig(
     filename=str(LOG_FILE),
     level=logging.INFO,
     format="%(asctime)s - [%(levelname)s] - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S"
+    datefmt="%Y-%m-%d %H:%M:%S",
+    encoding="utf-8"  # evita que "ACCIÓN" se guarde en cp1252 en Windows
 )
 
 def registrar_traza(ticket_id: str, accion: str, detalles: str):
