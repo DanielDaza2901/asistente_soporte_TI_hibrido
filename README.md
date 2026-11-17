@@ -6,6 +6,7 @@ Sistema inteligente de soporte técnico diseñado para automatizar la clasificac
 ##  Arquitectura del Sistema
 
 El proyecto combina un enfoque modular y híbrido adaptado a las necesidades de soporte de software de PC corporativo:
+* **Semana 16 - Motor de Referencia Inteligente:** Sistema de consulta basado en normalización de texto y recuperación estricta de fuentes aprobadas (`VALIDADO`). Gestiona los estados `ENCONTRADA`, `SIN_REFERENCIA` y `VACIA`, absteniéndose de inventar información cuando no existe evidencia verificable.
 * **Semana 15 - Base de Conocimiento Empresarial (SQLite):** Organización modular del conocimiento en 5 tablas relacionales (`dominio`, `aplicacion`, `experto`, `herramienta`, `articulo`). Implementa un flujo estricto donde los artículos nacen como `BORRADOR`, pasan por validación formal y se consultan mediante `SQL JOIN` con integridad garantizada a nivel de código y base de datos (*triggers* y restricciones `CHECK`).
 * **Semana 14 - Redes Semánticas e Inferencia:** Modelado taxonómico mediante triples semánticos `(Sujeto, Relación, Objeto)`, inferencia transitiva por jerarquía (`es_un`) y herencia automática de propiedades (`requiere`) integrada con los 30 casos de la Base de Conocimiento.
 * **Semana 13. Ingeniería del Conocimiento y Motor de Inferencia Lógica**

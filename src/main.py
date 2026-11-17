@@ -13,6 +13,7 @@ from classifiers.benchmark import ejecutar_benchmark_semana11
 from classifiers.motor_inferencia import inferir_con_explicacion, REGLAS_SOPORTE_TI
 from classifiers.red_semantica import RedSemanticaSoporteTI 
 from classifiers.base_conocimiento import ejecutar_demostracion as ejecutar_demostracion_kb
+from classifiers.motor_referencia import MotorReferencia
 
 def main():
     # === SECCIÓN 1: Validación del Modelo Base ===
@@ -202,8 +203,6 @@ def main():
 
     # === SECCIÓN 13: Base de Conocimiento Empresarial en SQLite (Semana 15) ===
     print("=== 13. BASE DE CONOCIMIENTO EMPRESARIAL EN SQLITE (SEMANA 15) ===")
-    # Reconstruye artifacts/base_conocimiento.db desde sql/esquema.sql y sql/datos.sql
-    # y recorre el flujo: registrar -> BORRADOR -> consulta -> validar -> consulta -> integridad.
     pasos_kb = ejecutar_demostracion_kb()
     for paso in pasos_kb:
         print(f"\n[13.{paso['id']}] {paso['titulo']}  ({'OK' if paso['ok'] else 'FALLO'})")
@@ -214,7 +213,33 @@ def main():
                     f"Base de conocimiento SQLite reconstruida y demostración ejecutada ({pasos_kb_ok} de {len(pasos_kb)} pasos correctos).")
 
     print("==================================================")
-    print("¡PIPELINE COMPLETO DE LA SEMANA 02 A LA SEMANA 15 EJECUTADO EXITOSAMENTE!")
+
+    # === SECCIÓN 14: Motor de Referencia Inteligente (Semana 16) ===
+    print("=== 14. MOTOR DE REFERENCIA INTELIGENTE (SEMANA 16) ===")
+    motor = MotorReferencia()
+    if not motor.bc.existe_base():
+        motor.bc.crear_esquema(con_datos=True)
+
+    preguntas_prueba = [
+        "Cómo calcular la prioridad con la matriz de impacto y urgencia",
+        "Explicación de la red semántica y herencia",
+        "Consulta de prueba fuera de cobertura sobre un tema totalmente desconocido"
+    ]
+
+    for idx, preg in enumerate(preguntas_prueba, 1):
+        print(f"\n[14.{idx}] Pregunta de prueba: \"{preg}\"")
+        res = motor.consultar(preg)
+        print(f"  -> Estado del motor: {res['estado']}")
+        print(f"  -> Mensaje: {res['mensaje']}")
+        if res["referencia"]:
+            print(f"  -> ID Seleccionado: {res['referencia']['id']}")
+            print(f"  -> Título: {res['referencia']['titulo']}")
+            print(f"  -> Fuente de información: {res['referencia']['fuente']}")
+
+    registrar_traza(ticket_id, "SEMANA_16_MOTOR_REFERENCIA", "Motor de referencia inteligente ejecutado con éxito bajo escenarios de validación y control de calidad.")
+
+    print("==================================================")
+    print("¡PIPELINE COMPLETO DE LA SEMANA 02 A LA SEMANA 16 EJECUTADO EXITOSAMENTE!")
 
 if __name__ == "__main__":
     main()

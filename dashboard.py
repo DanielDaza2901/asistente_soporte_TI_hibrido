@@ -26,6 +26,8 @@ try:
     from classifiers.texturas import procesar_imagen_proyecto
     from classifiers.motor_inferencia import inferir_con_explicacion, REGLAS_SOPORTE_TI
     from classifiers.red_semantica import RedSemanticaSoporteTI, RELACIONES, RELACIONES_HEREDABLES, normalizar  # S14 REDES SEMÁNTICAS
+    from classifiers.base_conocimiento import BaseConocimiento, VALIDADO, BORRADOR  # S15 BASE DE CONOCIMIENTO
+    from classifiers.motor_referencia import MotorReferencia  # S16 MOTOR DE REFERENCIA
     MODULOS_CARGADOS = True
 except ImportError as e:
     MODULOS_CARGADOS = False
@@ -249,18 +251,18 @@ st.markdown("""
     [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(1),
     [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(3),
     [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(10),
-    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(12) { margin-top: 30px; }
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(13) { margin-top: 30px; }
     [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(1)::before,
     [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(3)::before,
     [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(10)::before,
-    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(12)::before {
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(13)::before {
         position: absolute; left: 12px; top: -23px; pointer-events: none;
         font-size: 0.68rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: #6F829F;
     }
     [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(1)::before { content: "Fundamentos"; }
     [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(3)::before { content: "Modelos y algoritmos"; }
     [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(10)::before { content: "Conocimiento"; }
-    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(12)::before { content: "Operación"; }
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(13)::before { content: "Operación"; }
 
     /* ---------- Menús desplegables (selectbox y multiselect) ---------- */
     [data-baseweb="select"] > div { min-height: 42px; transition: border-color 0.15s ease, box-shadow 0.15s ease; }
@@ -350,12 +352,12 @@ st.markdown("""
 
     /* =====================================================================
        SEGUNDA PASADA: cabecera, subtítulos, selector segmentado, estado y FAQ
-       ===================================================================== */
+       ================================================================     */
     .page-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
     [data-testid="stMain"] h3 { font-size: 1.12rem; padding-bottom: 0.45rem; border-bottom: 1px solid var(--line); margin-bottom: 0.8rem; }
 
-    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(15) { margin-top: 30px; }
-    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(15)::before {
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(16) { margin-top: 30px; }
+    [data-testid="stSidebar"] [role="radiogroup"] > label:nth-of-type(16)::before {
         content: "Ayuda"; position: absolute; left: 12px; top: -23px; pointer-events: none;
         font-size: 0.68rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: #6F829F;
     }
@@ -396,7 +398,7 @@ st.markdown("""
 
     /* =====================================================================
        TERCERA PASADA: ruta del proyecto, accesos rápidos y pie de página
-       ===================================================================== */
+       ================================================================     */
     .roadmap { display: flex; overflow-x: auto; padding: 8px 2px 16px 2px; margin: 4px 0 10px 0; }
     .rm-step { position: relative; flex: 1 0 94px; text-align: center; padding: 0 6px; }
     .rm-step::before { content: ""; position: absolute; top: 28px; left: -50%; width: 100%; height: 2px; background: #C9D5EE; z-index: 0; }
@@ -419,7 +421,7 @@ st.markdown("""
 
     /* =====================================================================
        AJUSTES TRAS REVISAR CAPTURAS: desbordes, márgenes y botones
-       ===================================================================== */
+       ================================================================     */
     [data-testid="stPlotlyChart"], [data-testid="stVegaLiteChart"], [data-testid="stArrowVegaLiteChart"], [data-testid="stGraphVizChart"] {
         box-sizing: border-box; max-width: 100%; overflow: hidden;
     }
@@ -433,7 +435,7 @@ st.markdown("""
 
     /* =====================================================================
        PORTADA: recorrido real, actividad, arquitectura y estados
-       ===================================================================== */
+       ================================================================     */
     .rm-step.pend .rm-dot { background: #C5CEDC; box-shadow: 0 0 0 5px #EDF1F8; }
     .rm-step.pend .rm-name, .rm-step.pend .rm-desc { color: #8A97AB; }
     .activity { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 6px 20px; }
@@ -455,7 +457,7 @@ st.markdown("""
 
     /* =====================================================================
        ESTADO: barras propias y paneles de gráfica sin desborde
-       ===================================================================== */
+       ================================================================     */
     [data-testid="stPlotlyChart"], [data-testid="stVegaLiteChart"], [data-testid="stArrowVegaLiteChart"], [data-testid="stGraphVizChart"] { padding: 0 !important; }
     .bars { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 20px; margin-bottom: 6px; box-shadow: 0 1px 2px rgba(15, 27, 45, 0.04); }
     .bar-row { display: flex; align-items: center; gap: 14px; padding: 8px 0; }
@@ -478,10 +480,12 @@ ETIQUETAS_PAGINA = {
     "Benchmark y Decisiones de Modelos (Semana 11)": "Modelos y algoritmos · Semana 11",
     "Motor de Inferencia (Semana 13)": "Conocimiento · Semana 13",
     "Redes Semánticas (Semana 14)": "Conocimiento · Semana 14",
+    "Base de Conocimiento (Semana 15)": "Conocimiento · Semana 15",
+    "Motor de Referencia (Semana 16)": "Conocimiento · Semana 16",
     "Portal de Usuario": "Operación",
     "Base de Conocimiento (KB)": "Operación",
     "Trazas de Auditoría": "Operación",
-    "Preguntas Frecuentes (FAQ)": "Ayuda · Semana 02 a Semana 14",
+    "Preguntas Frecuentes (FAQ)": "Ayuda · Semana 02 a Semana 16",
 }
 
 def encabezado(titulo, descripcion=""):
@@ -509,6 +513,7 @@ ARTEFACTOS = [
     ("artifacts/benchmark.csv", "11", "Resultados del benchmark"),
     ("artifacts/mejor_modelo.pkl", "11", "Mejor modelo serializado"),
     ("reports/semana11_adr.md", "11", "Registro de decisión (ADR)"),
+    ("artifacts/base_conocimiento.db", "15", "Base SQLite de conocimiento empresarial"),
 ]
 REQUISITOS_MODULOS = {
     "Semana 03)": ["reports/semana03.md"],
@@ -516,6 +521,7 @@ REQUISITOS_MODULOS = {
     "Semana 08)": ["artifacts/modelo_mlp.pkl", "artifacts/soporte_evidencia.db", "artifacts/ontologia.graphml"],
     "Semana 09)": ["artifacts/semana09_vision.png"],
     "Semana 11)": ["artifacts/benchmark.csv", "artifacts/mejor_modelo.pkl", "reports/semana11_adr.md"],
+    "Semana 15)": ["artifacts/base_conocimiento.db"],
     "Motor de Auditor": ["artifacts/audit.log"],
 }
 ETAPAS_TICKET = [
@@ -523,6 +529,7 @@ ETAPAS_TICKET = [
     ("SISTEMA_HIBRIDO", "Híbrido"), ("REPRESENTACIONES", "Represent."), ("SEMANA_08", "Red neuronal"),
     ("SEMANA_09", "Visión"), ("SEMANA_10", "Texturas"), ("SEMANA_11_BENCHMARK", "Benchmark"),
     ("SEMANA_13_INFERENCIA", "Inferencia"), ("SEMANA_14_RED_SEMANTICA", "Red semántica"),
+    ("SEMANA_15_BASE_CONOCIMIENTO", "Base KB"), ("SEMANA_16_MOTOR_REFERENCIA", "Motor Ref"),
 ]
 
 def html_barras(etiquetas, valores):
@@ -625,6 +632,7 @@ def html_arquitectura():
                           ("Motor de inferencia", "Semana 13"), ("Red semántica", "Semana 14")]),
         ("Visión y modelos", [("Visión artificial", "Semana 09"), ("Texturas LBP", "Semana 10"),
                               ("Red neuronal MLP", "Semana 08"), ("Benchmark de modelos", "Semana 11")]),
+        ("Conocimiento y Motor", [("Base de conocimiento", "Semana 15 - SQLite"), ("Motor de referencia", "Semana 16 - Q&A")]),
         ("Persistencia y auditoría", [("audit.log", "trazas de cada etapa"), ("SQLite y ontología", "evidencia"),
                                       ("Modelos .pkl", "MLP y mejor modelo"), ("Informes .md", "reports/")]),
     ]
@@ -927,7 +935,9 @@ menu = st.sidebar.radio(
         "Histogramas y Texturas LBP (Semana 10)",
         "Benchmark y Decisiones de Modelos (Semana 11)",
         "Motor de Inferencia (Semana 13)",
-        "Redes Semánticas (Semana 14)", 
+        "Redes Semánticas (Semana 14)",
+        "Base de Conocimiento (Semana 15)",
+        "Motor de Referencia (Semana 16)",
         "Portal de Usuario",
         "Base de Conocimiento (KB)", 
         "Trazas de Auditoría",
@@ -1029,6 +1039,8 @@ if menu == "Resumen Ejecutivo":
                 ("Benchmark de Modelos y ADR (Semana 11)", "Evaluación y Serialización en artifacts/"),
                 ("Motor de Inferencia Avanzado (10 Reglas - Semana 13)", "Reglas Horn, Trazas y Explicabilidad"),
                 ("Redes Semánticas e Inferencia (Semana 14)", "Triples, es_un y Herencia con KB de 30 Casos"),
+                ("Base de Conocimiento Empresarial (Semana 15)", "SQLite, 5 Tablas, TRIGGERS y Validación"),
+                ("Motor de Referencia Inteligente (Semana 16)", "Búsqueda Confiable, Control de Calidad y Q&A"),
                 ("Motor de Auditoría y Trazas", "Registrando en artifacts/audit.log"),
             ]
             filas_estado = ""
@@ -1065,7 +1077,7 @@ if menu == "Resumen Ejecutivo":
     # --- 4) Arquitectura ---
     with tab_arquitectura:
         st.subheader("Cómo fluye un ticket por el sistema")
-        st.caption("Cinco capas: lo que entra, cómo se clasifica, cómo se razona, qué evidencia y modelos intervienen y qué queda registrado.")
+        st.caption("Capas lógicas: entrada, clasificación, razonamiento, visión/modelos, conocimiento/motor y persistencia/auditoría.")
         st.markdown(html_arquitectura(), unsafe_allow_html=True)
 
     # --- 5) Calidad: pruebas automáticas ---
@@ -1947,7 +1959,154 @@ elif menu == "Redes Semánticas (Semana 14)":
     else:
         st.error("El módulo de Redes Semánticas (`classifiers.red_semantica`) no está disponible.")
 
-# --- 12. Portal de Usuario ---
+# --- 12. Base de Conocimiento Empresarial (Semana 15) ---
+elif menu == "Base de Conocimiento (Semana 15)":
+    encabezado("Ingeniería del Conocimiento: Base de Conocimiento Empresarial (Semana 15)", "Gestión de dominios, aplicaciones, expertos y artículos técnicos con integridad en SQLite.")
+    
+    if MODULOS_CARGADOS:
+        try:
+            bc = BaseConocimiento()
+            if not bc.existe_base():
+                bc.crear_esquema(con_datos=True)
+            
+            resumen_bc = bc.resumen()
+            b1, b2, b3, b4, b5 = st.columns(5)
+            b1.metric("Dominios", resumen_bc["dominio"])
+            b2.metric("Aplicaciones", resumen_bc["aplicacion"])
+            b3.metric("Expertos", resumen_bc["experto"])
+            b4.metric("Artículos Validados", resumen_bc["validados"])
+            b5.metric("Artículos Borradores", resumen_bc["borradores"])
+            st.markdown("")
+
+            tab_art, tab_dom, tab_exp, tab_rev = st.tabs([
+                "Artículos Publicados", "Dominios y Catálogos", "Expertos Responsables", "Cola de Revisión (Borradores)"
+            ])
+
+            with tab_art:
+                st.subheader("Artículos Validados en la Base de Conocimiento")
+                st.caption("Solo los artículos en estado VALIDADO son accesibles para las consultas generales del asistente.")
+                pub = bc.listar_publicados()
+                if pub:
+                    filas_art = [{
+                        "ID": a["id_articulo"],
+                        "Título": a["titulo"],
+                        "Dominio": a["dominio"],
+                        "Aplicación": a["aplicacion"],
+                        "Experto": a["experto"],
+                        "Fuente": a["fuente"]
+                    } for a in pub]
+                    st.dataframe(pd.DataFrame(filas_art), width="stretch", hide_index=True)
+                else:
+                    st.info("No hay artículos validados disponibles.")
+
+            with tab_dom:
+                st.subheader("Dominios y Módulos Asociados")
+                dominios = bc.listar_dominios()
+                for d in dominios:
+                    with st.expander(f"📁 {d['nombre']} ({d['descripcion']})"):
+                        apps = bc.listar_aplicaciones(d["id_dominio"])
+                        if apps:
+                            st.markdown("**Aplicaciones del dominio:**")
+                            for ap in apps:
+                                st.markdown(f"- **{ap['nombre']}** (`{ap['modulo']}`): {ap['descripcion']}")
+                        else:
+                            st.info("Sin aplicaciones asociadas.")
+
+            with tab_exp:
+                st.subheader("Expertos Responsables por Dominio")
+                expertos = bc.listar_expertos()
+                filas_exp = [{"Nombre": e["nombre"], "Cargo": e["cargo"], "Correo": e["correo"], "Especialidad": e["dominio"]} for e in expertos]
+                st.dataframe(pd.DataFrame(filas_exp), width="stretch", hide_index=True)
+
+            with tab_rev:
+                st.subheader("Artículos Pendientes de Validación (Estado: BORRADOR)")
+                st.caption("Los artículos nuevos nacen como BORRADOR y no aparecen en las consultas públicas hasta ser validados.")
+                borradores = bc.listar_borradores()
+                if borradores:
+                    for b in borradores:
+                        st.markdown(f"**[{b['id_articulo']}] {b['titulo']}**")
+                        st.text(f"Dominio: {b['dominio']} | Experto: {b['experto']} | Fuente: {b['fuente']}")
+                        st.markdown(f"> *{b['contenido'][:150]}...*")
+                        if st.button(f"Validar artículo #{b['id_articulo']}", key=f"btn_val_{b['id_articulo']}"):
+                            try:
+                                bc.validar_articulo(b['id_articulo'])
+                                st.success(f"¡Artículo #{b['id_articulo']} validado correctamente!")
+                                st.rerun()
+                            except Exception as ex:
+                                st.error(f"Error al validar: {ex}")
+                        st.markdown("---")
+                else:
+                    st.success("No hay borradores pendientes de revisión en este momento.")
+        except Exception as e:
+            st.error(f"Error cargando la base de conocimiento de la Semana 15: {e}")
+    else:
+        st.error("Los módulos de base de conocimiento no están disponibles.")
+
+# --- 13. Motor de Referencia Inteligente (Semana 16) ---
+elif menu == "Motor de Referencia (Semana 16)":
+    encabezado("Diseño de Sistemas Inteligentes: Motor de Referencia (Semana 16)", "Consulta de información confiable basada exclusivamente en fuentes validadas de la Base de Conocimiento.")
+
+    if MODULOS_CARGADOS:
+        try:
+            bc = BaseConocimiento()
+            if not bc.existe_base():
+                bc.crear_esquema(con_datos=True)
+            motor = MotorReferencia(bc=bc)
+
+            st.markdown("### Asistente de Consulta Documental Confiable")
+            st.markdown("Escriba su pregunta sobre el funcionamiento del asistente, sus módulos o procesos técnicos. El motor recuperará únicamente información respaldada por fuentes aprobadas (`VALIDADO`).")
+
+            pregunta_usuario = st.text_input("Ingrese su pregunta:", "Cómo funciona el clasificador taxonómico de tickets", key="s16_pregunta")
+
+            if st.button("Consultar Motor de Referencia", type="primary", key="s16_btn"):
+                res = motor.consultar(pregunta_usuario)
+                
+                estado = res["estado"]
+                st.markdown("---")
+                st.markdown(f"#### Estado de la Consulta: `{estado}`")
+
+                if estado == "VACIA":
+                    st.warning(res["mensaje"])
+                elif estado == "SIN_REFERENCIA":
+                    st.error(res["mensaje"])
+                    st.info("Principio de diseño: El sistema se abstiene de responder y no inventa información cuando no existen fuentes aprobadas.")
+                elif estado == "ENCONTRADA":
+                    ref = res["referencia"]
+                    st.success(res["mensaje"])
+                    
+                    col_r1, col_r2 = st.columns([2, 1])
+                    with col_r1:
+                        st.markdown(f"**Identificador:** `{ref['id']}`")
+                        st.markdown(f"**Título:** {ref['titulo']}")
+                        st.markdown(f"**Dominio:** {ref['dominio']} | **Aplicación:** {ref['aplicacion']}")
+                        st.markdown(f"**Experto Responsable:** {ref['experto']}")
+                        st.markdown("##### Respuesta Recuperada:")
+                        st.markdown(f"> {ref['respuesta']}")
+                    with col_r2:
+                        st.markdown("#### Trazabilidad")
+                        st.markdown(f"**Fuente:** `{ref['fuente']}`")
+                        st.markdown(f"**Estado:** `{ref['estado']}`")
+                        st.markdown(f"**Puntaje de coincidencia:** `{ref['puntaje']} palabras`")
+
+                    if res.get("candidatos_alternativos"):
+                        with st.expander("Otras referencias validadas relacionadas"):
+                            for alt in res["candidatos_alternativos"]:
+                                st.markdown(f"- **{alt['id']}**: {alt['titulo']} (Coincidencias: {alt['puntaje']})")
+
+            st.markdown("---")
+            with st.expander("💡 Preguntas de prueba recomendadas"):
+                st.markdown(
+                    "- `Cómo funciona el clasificador taxonómico de tickets`\n"
+                    "- `Cuál es la función del motor de inferencia lógica`\n"
+                    "- `Explicación de la red semántica y herencia`\n"
+                    "- `Pregunta fuera de cobertura sobre recetas de cocina`"
+                )
+        except Exception as e:
+            st.error(f"Error ejecutando el motor de referencia de la Semana 16: {e}")
+    else:
+        st.error("Los módulos del motor de referencia no están disponibles.")
+
+# --- 14. Portal de Usuario ---
 elif menu == "Portal de Usuario":
     encabezado("Portal / Cliente Final", "Interfaz orientada al usuario final para la creación de solicitudes de soporte.")
     usuario_nombre = st.text_input("Nombre:", "Carlos Pérez")
@@ -1955,14 +2114,14 @@ elif menu == "Portal de Usuario":
     if st.button("Enviar Solicitud"):
         st.success(f"¡Ticket registrado con éxito para {usuario_nombre}!")
 
-# --- 13. Base de Conocimiento (KB) ---
+# --- 15. Base de Conocimiento (KB) ---
 elif menu == "Base de Conocimiento (KB)":
     encabezado("Base de Conocimiento Técnica (KB)", "Catálogo de los 30 procedimientos operativos estandarizados.")
     for proc in cargar_base_conocimiento()[:10]:
         with st.expander(f"#{proc['id']} - {proc['titulo']} [{proc['categoria']}]"):
             st.markdown(f"**Solución:** {proc['solucion']}")
 
-# --- 14. Trazas de Auditoría ---
+# --- 16. Trazas de Auditoría ---
 elif menu == "Trazas de Auditoría":
     encabezado("Registro de Auditoría del Sistema (audit.log)", "Monitoreo de eventos generados por el orquestador.")
     registros, raw_text = parsear_audit_log()
@@ -1972,9 +2131,9 @@ elif menu == "Trazas de Auditoría":
         st.warning("No se encontró `artifacts/audit.log`.")
 
 
-# --- 15. Preguntas Frecuentes (FAQ) ---
+# --- 17. Preguntas Frecuentes (FAQ) ---
 elif menu == "Preguntas Frecuentes (FAQ)":
-    encabezado("Preguntas Frecuentes del Proyecto (Semana 02 a Semana 14)",
+    encabezado("Preguntas Frecuentes del Proyecto (Semana 02 a Semana 16)",
                "Consulta las dudas más comunes sobre cada semana implementada. Escribe tu pregunta y el asistente recupera las respuestas más parecidas con TF-IDF y similitud coseno, el mismo enfoque del Sistema Híbrido de la Semana 05.")
 
     if FAQ_DISPONIBLE:
@@ -1989,7 +2148,7 @@ elif menu == "Preguntas Frecuentes (FAQ)":
 
         m1, m2, m3, m4 = st.columns(4)
         m1.metric("Preguntas registradas", len(asistente_faq.faqs), "Catálogo del proyecto", delta_color="off")
-        m2.metric("Semanas cubiertas", len(semanas_faq), "De la 02 a la 14", delta_color="off")
+        m2.metric("Semanas cubiertas", len(semanas_faq), "De la 02 a la 16", delta_color="off")
         m3.metric("Método de búsqueda", "TF-IDF", "Similitud coseno", delta_color="off")
         m4.metric("Umbral de confianza", "0.15", "Mínimo para responder", delta_color="off")
         st.markdown("")
@@ -2043,4 +2202,4 @@ elif menu == "Preguntas Frecuentes (FAQ)":
         st.error("El módulo de preguntas frecuentes (`classifiers/faq_semanas.py`) no está disponible. Cópialo a `src/classifiers/`.")
 
 # --- Pie de página común ---
-st.markdown('<div class="app-footer">Asistente de Soporte TI Híbrido · Inteligencia Artificial · ETITC · Semana 02 a Semana 14</div>', unsafe_allow_html=True)
+st.markdown('<div class="app-footer">Asistente de Soporte TI Híbrido · Inteligencia Artificial · ETITC · Semana 02 a Semana 16</div>', unsafe_allow_html=True)
